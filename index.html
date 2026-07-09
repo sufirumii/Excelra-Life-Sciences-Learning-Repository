@@ -127,10 +127,13 @@
             min-height: 100vh;
             width: 100%;
             background-color: #ffffff;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
         }
 
         .page.active {
             display: flex;
+            opacity: 1;
         }
 
         /* ============================================
@@ -313,6 +316,16 @@
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
+            animation: dashboardFadeIn 2.5s ease-out;
+        }
+
+        @keyframes dashboardFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         .header {
@@ -399,10 +412,21 @@
             cursor: pointer;
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-            animation: fadeIn 0.6s ease-out;
+            animation: courseCardSlideIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
             overflow: hidden;
             backdrop-filter: blur(5px);
+        }
+
+        @keyframes courseCardSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .course-card::before {
@@ -659,31 +683,31 @@
            COURSE CARD ANIMATION STAGGER
            ============================================ */
         .course-card:nth-child(1) {
-            animation-delay: 0.05s;
+            animation-delay: 0.6s;
         }
 
         .course-card:nth-child(2) {
-            animation-delay: 0.1s;
+            animation-delay: 0.75s;
         }
 
         .course-card:nth-child(3) {
-            animation-delay: 0.15s;
+            animation-delay: 0.9s;
         }
 
         .course-card:nth-child(4) {
-            animation-delay: 0.2s;
+            animation-delay: 1.05s;
         }
 
         .course-card:nth-child(5) {
-            animation-delay: 0.25s;
+            animation-delay: 1.2s;
         }
 
         .course-card:nth-child(6) {
-            animation-delay: 0.3s;
+            animation-delay: 1.35s;
         }
 
         .course-card:nth-child(7) {
-            animation-delay: 0.35s;
+            animation-delay: 1.5s;
         }
 
         /* ============================================
@@ -887,14 +911,35 @@
         function selectRole(role) {
             currentUserRole = role;
             
-            // Set background image for dashboard and course detail pages
-            const backgroundImageUrl = 'url("https://raw.githubusercontent.com/sufirumii/Excelra-Life-Sciences-Learning-Repository/main/Main%20UI%20Background.jpg")';
+            // Preload and set background image for dashboard and course detail pages
+            const backgroundImageUrl = 'https://raw.githubusercontent.com/sufirumii/Excelra-Life-Sciences-Learning-Repository/main/Main%20UI%20Background.jpg';
             
-            const dashboardPage = document.getElementById('dashboardPage');
-            dashboardPage.style.backgroundImage = backgroundImageUrl;
+            // Preload image to ensure smooth loading
+            const img = new Image();
+            img.onload = function() {
+                const dashboardPage = document.getElementById('dashboardPage');
+                dashboardPage.style.backgroundImage = 'url("' + backgroundImageUrl + '")';
+                
+                const courseDetailPage = document.getElementById('courseDetailPage');
+                courseDetailPage.style.backgroundImage = 'url("' + backgroundImageUrl + '")';
+                
+                // Trigger page transition after image loads
+                showPage('dashboardPage');
+            };
+            img.src = backgroundImageUrl;
             
-            const courseDetailPage = document.getElementById('courseDetailPage');
-            courseDetailPage.style.backgroundImage = backgroundImageUrl;
+            // Fallback if image takes too long (3 seconds)
+            setTimeout(function() {
+                if (!document.getElementById('dashboardPage').style.backgroundImage) {
+                    const dashboardPage = document.getElementById('dashboardPage');
+                    dashboardPage.style.backgroundImage = 'url("' + backgroundImageUrl + '")';
+                    
+                    const courseDetailPage = document.getElementById('courseDetailPage');
+                    courseDetailPage.style.backgroundImage = 'url("' + backgroundImageUrl + '")';
+                    
+                    showPage('dashboardPage');
+                }
+            }, 3000);
 
             // Update user badge based on role
             const userBadge = document.getElementById('userBadge');
@@ -907,8 +952,6 @@
                 userBadge.textContent = 'User';
                 userRole.textContent = 'Learner';
             }
-
-            showPage('dashboardPage');
         }
 
         // ========================================

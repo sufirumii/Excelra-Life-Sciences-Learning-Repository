@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excelra Life Sciences Learning Repository – Fresher Edition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            color: #000000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ============================================
+           SCROLLBAR STYLING
+           ============================================ */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f5f5f5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cccccc;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #999999;
+        }
+
+        /* ============================================
+           UTILITY CLASSES & ANIMATIONS
+           ============================================ */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .slide-in-left {
+            animation: slideInFromLeft 0.6s ease-out;
+        }
+
+        .slide-in-right {
+            animation: slideInFromRight 0.6s ease-out;
+        }
+
+        .scale-in {
+            animation: scaleIn 0.4s ease-out;
+        }
+
+        /* ============================================
+           PAGE STRUCTURE
+           ============================================ */
+        .page {
+            display: none;
+            min-height: 100vh;
+            width: 100%;
+            background-color: #ffffff;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        /* ============================================
+           LOGIN PAGE STYLING
+           ============================================ */
+        #loginPage {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
+            padding: 40px 20px;
+        }
+
+        .login-container {
+            text-align: center;
+            max-width: 600px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .logo-section {
+            margin-bottom: 50px;
+        }
+
+        .logo-section h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-section .company-name {
+            font-size: 1.1rem;
+            color: #666666;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            font-size: 0.95rem;
+            color: #888888;
+            margin-top: 15px;
+            font-style: italic;
+            margin-bottom: 60px;
+        }
+
+        .login-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .login-card {
+            background-color: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 40px 30px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            animation: scaleIn 0.6s ease-out;
+        }
+
+        .login-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .login-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .login-card:hover {
+            border-color: #000000;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .login-card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .login-card h3 {
+            font-size: 1.4rem;
+            color: #000000;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .login-card p {
+            font-size: 0.9rem;
+            color: #777777;
+            line-height: 1.5;
+        }
+
+        /* ============================================
+           DASHBOARD PAGE STYLING
+           ============================================ */
+        #dashboardPage {
+            flex-direction: column;
+            background-color: #ffffff;
+        }
+
+        .header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 20px 0;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .header-content h1 {
+            font-size: 1.8rem;
+            color: #000000;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .user-badge {
+            background-color: #f0f0f0;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #555555;
+            font-weight: 500;
+        }
+
+        .user-role {
+            font-size: 0.85rem;
+            color: #999999;
+            margin-top: 3px;
+        }
+
+        .logout-btn {
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #333333;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-subtitle {
+            font-size: 1rem;
+            color: #777777;
+            font-weight: 400;
+            margin-left: 0;
+        }
+
+        /* ============================================
+           COURSES SECTION
+           ============================================ */
+        .courses-section {
+            padding: 0 20px 60px 20px;
+            flex: 1;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 28px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .course-card {
+            background-color: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 32px;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            animation: fadeIn 0.6s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: #000000;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .course-card:hover {
+            border-color: #000000;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+            transform: translateY(-8px);
+        }
+
+        .course-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .course-icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        .course-card h3 {
+            font-size: 1.3rem;
+            color: #000000;
+            margin-bottom: 12px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .course-card p {
+            font-size: 0.85rem;
+            color: #888888;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .course-link {
+            display: inline-block;
+            color: #000000;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .course-link::after {
+            content: '→';
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .course-card:hover .course-link::after {
+            transform: translateX(4px);
+        }
+
+        /* ============================================
+           COURSE DETAIL PAGE STYLING
+           ============================================ */
+        #courseDetailPage {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+        }
+
+        .detail-header {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn {
+            background-color: transparent;
+            border: 2px solid #000000;
+            color: #000000;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        .detail-content {
+            text-align: center;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .detail-content h2 {
+            font-size: 2rem;
+            color: #000000;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .detail-content p {
+            font-size: 1rem;
+            color: #888888;
+            max-width: 500px;
+            line-height: 1.8;
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+        @media (max-width: 768px) {
+            .logo-section h1 {
+                font-size: 2rem;
+            }
+
+            .login-options {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .login-card {
+                padding: 30px 20px;
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .course-card {
+                padding: 24px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .detail-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .header-content h1 {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* ============================================
+           COURSE CARD ANIMATION STAGGER
+           ============================================ */
+        .course-card:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .course-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .course-card:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .course-card:nth-child(4) {
+            animation-delay: 0.2s;
+        }
+
+        .course-card:nth-child(5) {
+            animation-delay: 0.25s;
+        }
+
+        .course-card:nth-child(6) {
+            animation-delay: 0.3s;
+        }
+
+        .course-card:nth-child(7) {
+            animation-delay: 0.35s;
+        }
+
+        /* ============================================
+           FOCUS & ACCESSIBILITY
+           ============================================ */
+        button:focus,
+        a:focus,
+        .course-card:focus {
+            outline: 2px solid #000000;
+            outline-offset: 2px;
+        }
+
+        /* ============================================
+           SMOOTH PAGE TRANSITIONS
+           ============================================ */
+        .page {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- ========================================
+         LOGIN PAGE
+         ======================================== -->
+    <div id="loginPage" class="page active">
+        <div class="login-container">
+            <div class="logo-section">
+                <h1>🔬 Excelra</h1>
+                <p class="company-name">LIFE SCIENCES LEARNING REPOSITORY</p>
+                <p class="tagline">Fresher Edition | Comprehensive Knowledge Hub</p>
+            </div>
+
+            <p style="font-size: 1.1rem; color: #444444; margin-bottom: 40px; font-weight: 500;">
+                Select Your Role to Continue
+            </p>
+
+            <div class="login-options">
+                <div class="login-card" onclick="selectRole('admin')">
+                    <div class="login-card-icon">👨‍💼</div>
+                    <h3>Login as Admin</h3>
+                    <p>Access administrative controls and course management tools</p>
+                </div>
+
+                <div class="login-card" onclick="selectRole('user')">
+                    <div class="login-card-icon">👨‍🎓</div>
+                    <h3>Login as User</h3>
+                    <p>Explore and enroll in available courses</p>
+                </div>
+            </div>
+
+            <p style="font-size: 0.85rem; color: #aaaaaa; margin-top: 40px;">
+                Excelra Life Sciences Learning Repository © 2024
+            </p>
+        </div>
+    </div>
+
+    <!-- ========================================
+         DASHBOARD PAGE
+         ======================================== -->
+    <div id="dashboardPage" class="page">
+        <div class="header">
+            <div class="container">
+                <div class="header-content">
+                    <div>
+                        <h1>Excelra Life Sciences Learning Repository</h1>
+                        <p class="header-subtitle">Fresher Edition – Explore Our Comprehensive Course Catalog</p>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <div style="text-align: right;">
+                            <div class="user-badge" id="userBadge">User</div>
+                            <div class="user-role" id="userRole">Learner</div>
+                        </div>
+                        <button class="logout-btn" onclick="logout()">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="courses-section">
+            <div class="container">
+                <div class="courses-grid">
+                    <!-- Course 1: Drug Discovery -->
+                    <div class="course-card" onclick="openCourse('Drug Discovery')">
+                        <div class="course-icon">💊</div>
+                        <h3>Drug Discovery</h3>
+                        <p>Learn the fundamental principles and methodologies behind identifying and developing new pharmaceutical compounds</p>
+                        <a href="javascript:void(0);" class="course-link">Explore Course</a>
+                    </div>
+
+                    <!-- Course 2: Drug Development Lifecycle -->
+                    <div class="course-card" onclick="openCourse('Drug Development Lifecycle')">
+                        <div class="course-icon">🔬</div>
+                        <h3>Drug Development Lifecycle</h3>
+                        <p>Understand the complete journey of a drug from initial concept through regulatory approval and commercialization</p>
+                        <a href="javascript:void(0);" class="course-link">Explore Course</a>
+                    </div>
+
+                    <!-- Course 3: Clinical Trials -->
+                    <div class="course-card" onclick="openCourse('Clinical Trials')">
+                        <div class="course-icon">🏥</div>
+                        <h3>Clinical Trials</h3>
+                        <p>Explore the essential components of conducting ethical and scientifically rigorous clinical trials in human subjects</p>
+                        <a href="javascript:void(0);" class="course-link">Explore Course</a>
+                    </div>
+
+                    <!-- Course 4: Clinical Data Management -->
+                    <div class="course-card" onclick="openCourse('Clinical Data Management')">
+                        <div class="course-icon">📊</div>
+                        <h3>Clinical Data Management</h3>
+                        <p>Master the processes of collecting, validating, and managing clinical trial data for regulatory compliance</p>
+                        <a href="javascript:void(0);" class="course-link">Explore Course</a>
+                    </div>
+
+                    <!-- Course 5: Pharmacovigilance -->
+                    <div class="course-card" onclick="openCourse('Pharmacovigilance')">
+                        <div class="course-icon">⚠️</div>
+                        <h3>Pharmacovigilance</h3>
+                        <p>Learn to identify, assess, and respond to adverse drug reactions and safety concerns post-market</p>
+                        <a href="javascript:void(0);" class="course-link">Explore Course</a>
+                    </div>
+
+                    <!-- Course 6: Healthcare Data Standards -->
+                    <div class="course-card" onclick="openCourse('Healthcare Data Standards')">
+                        <div class="course-icon">📋</div>
+                        <h3>Healthcare Data Standards</h3>
+                        <p>Understand industry-standard data formats and protocols that ensure interoperability in healthcare systems</p>
+                        <a href="javascript:void(0);" class="course-link">Explore Course</a>
+                    </div>
+
+                    <!-- Course 7: Data Integrity & Digital Transformation -->
+                    <div class="course-card" onclick="openCourse('Data Integrity & Digital Transformation')">
+                        <div class="course-icon">🔐</div>
+                        <h3>Data Integrity & Digital Transformation</h3>
+                        <p>Explore data governance, security practices, and the digital evolution reshaping life sciences organizations</p>
+                        <a href="javascript:void(0);" class="course-link">Explore Course</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================
+         COURSE DETAIL PAGE
+         ======================================== -->
+    <div id="courseDetailPage" class="page">
+        <div class="detail-header">
+            <button class="back-btn" onclick="backToDashboard()">← Back to Courses</button>
+        </div>
+
+        <div class="detail-content">
+            <h2 id="courseTitle">Course Title</h2>
+            <p id="courseMessage">This course content area is currently being prepared. Check back soon for exciting learning materials!</p>
+        </div>
+    </div>
+
+    <!-- ============================================
+         JAVASCRIPT FUNCTIONALITY
+         ============================================ -->
+    <script>
+        // ========================================
+        // STATE MANAGEMENT
+        // ========================================
+        let currentUserRole = null;
+        let currentCourse = null;
+
+        // ========================================
+        // PAGE NAVIGATION FUNCTIONS
+        // ========================================
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show the specified page
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+        }
+
+        // ========================================
+        // LOGIN FUNCTIONALITY
+        // ========================================
+        function selectRole(role) {
+            currentUserRole = role;
+            
+            // Update user badge display
+            const userBadge = document.getElementById('userBadge');
+            const userRole = document.getElementById('userRole');
+            
+            if (role === 'admin') {
+                userBadge.textContent = 'Admin';
+                userRole.textContent = 'Administrator';
+            } else {
+                userBadge.textContent = 'User';
+                userRole.textContent = 'Learner';
+            }
+
+            // Transition to dashboard
+            showPage('dashboardPage');
+        }
+
+        // ========================================
+        // COURSE NAVIGATION
+        // ========================================
+        function openCourse(courseName) {
+            currentCourse = courseName;
+            
+            // Update course detail page
+            document.getElementById('courseTitle').textContent = courseName;
+            document.getElementById('courseMessage').textContent = 
+                `Welcome to ${courseName}. This learning module is designed to provide comprehensive knowledge and practical insights. Course content, materials, and interactive modules are being prepared for optimal learning experience.`;
+            
+            // Show course detail page
+            showPage('courseDetailPage');
+        }
+
+        function backToDashboard() {
+            currentCourse = null;
+            showPage('dashboardPage');
+        }
+
+        // ========================================
+        // LOGOUT FUNCTIONALITY
+        // ========================================
+        function logout() {
+            currentUserRole = null;
+            currentCourse = null;
+            
+            // Reset to login page
+            showPage('loginPage');
+        }
+
+        // ========================================
+        // KEYBOARD SHORTCUTS
+        // ========================================
+        document.addEventListener('keydown', function(event) {
+            // Escape key to go back
+            if (event.key === 'Escape') {
+                if (document.getElementById('courseDetailPage').classList.contains('active')) {
+                    backToDashboard();
+                }
+            }
+            
+            // Alt + L to logout
+            if (event.altKey && event.key === 'l') {
+                if (document.getElementById('dashboardPage').classList.contains('active')) {
+                    logout();
+                }
+            }
+        });
+
+        // ========================================
+        // INITIALIZATION
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Excelra Life Sciences Learning Repository initialized');
+            console.log('System: Fresher Edition');
+        });
+    </script>
+</body>
+</html>

@@ -64,7 +64,7 @@
         @keyframes slideInFromLeft {
             from {
                 opacity: 0;
-                transform: translateX(-30px);
+                transform: translateX(-50px);
             }
             to {
                 opacity: 1;
@@ -75,7 +75,7 @@
         @keyframes slideInFromRight {
             from {
                 opacity: 0;
-                transform: translateX(30px);
+                transform: translateX(50px);
             }
             to {
                 opacity: 1;
@@ -94,16 +94,25 @@
             }
         }
 
+        @keyframes floatUpDown {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
         .fade-in {
             animation: fadeIn 0.6s ease-out;
         }
 
         .slide-in-left {
-            animation: slideInFromLeft 0.6s ease-out;
+            animation: slideInFromLeft 0.7s ease-out;
         }
 
         .slide-in-right {
-            animation: slideInFromRight 0.6s ease-out;
+            animation: slideInFromRight 0.7s ease-out;
         }
 
         .scale-in {
@@ -128,62 +137,122 @@
            LOGIN PAGE STYLING
            ============================================ */
         #loginPage {
-            flex-direction: column;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: stretch;
+            background-color: #ffffff;
+            padding: 0;
+        }
+
+        .login-wallpaper-side {
+            flex: 1;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
-            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        .wallpaper-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        #loginPage:hover .wallpaper-image {
+            animation: floatUpDown 3s ease-in-out infinite;
+        }
+
+        .login-form-side {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 40px;
+            background-color: #ffffff;
+            animation: slideInFromRight 0.7s ease-out;
         }
 
         .login-container {
             text-align: center;
-            max-width: 600px;
-            animation: fadeIn 0.8s ease-out;
+            max-width: 400px;
+            width: 100%;
         }
 
         .logo-section {
-            margin-bottom: 50px;
+            margin-bottom: 35px;
+        }
+
+        .logo-container {
+            width: 100%;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            background-color: #f8f8f8;
+            padding: 12px;
+            overflow: hidden;
+        }
+
+        .logo-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
         }
 
         .logo-section h1 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 700;
             color: #000000;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             letter-spacing: -0.5px;
         }
 
         .logo-section .company-name {
-            font-size: 1.1rem;
+            font-size: 0.92rem;
             color: #666666;
             font-weight: 500;
-            letter-spacing: 1px;
+            letter-spacing: 1.1px;
         }
 
         .tagline {
-            font-size: 0.95rem;
+            font-size: 0.88rem;
             color: #888888;
-            margin-top: 15px;
-            font-style: italic;
-            margin-bottom: 60px;
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+
+        .login-subtitle {
+            font-size: 1rem;
+            color: #444444;
+            margin-bottom: 30px;
+            font-weight: 500;
         }
 
         .login-options {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-bottom: 25px;
         }
 
         .login-card {
             background-color: #ffffff;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 40px 30px;
+            border: 2px solid #d5d5d5;
+            border-radius: 9px;
+            padding: 24px;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
             animation: scaleIn 0.6s ease-out;
+            text-align: left;
         }
 
         .login-card:nth-child(1) {
@@ -196,27 +265,46 @@
 
         .login-card:hover {
             border-color: #000000;
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .login-card-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 14px;
         }
 
         .login-card-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            display: inline-block;
+            font-size: 1.8rem;
+            min-width: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            width: 45px;
+            height: 45px;
+            color: #000000;
+            font-weight: bold;
         }
 
-        .login-card h3 {
-            font-size: 1.4rem;
+        .login-card-info h3 {
+            font-size: 1rem;
             color: #000000;
-            margin-bottom: 10px;
+            margin-bottom: 3px;
             font-weight: 600;
         }
 
-        .login-card p {
-            font-size: 0.9rem;
+        .login-card-info p {
+            font-size: 0.8rem;
             color: #777777;
-            line-height: 1.5;
+            line-height: 1.4;
+        }
+
+        .footer-text {
+            font-size: 0.78rem;
+            color: #aaaaaa;
         }
 
         /* ============================================
@@ -224,29 +312,38 @@
            ============================================ */
         #dashboardPage {
             flex-direction: column;
-            background-color: #ffffff;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
         .header {
-            background-color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.93);
             border-bottom: 1px solid #e0e0e0;
-            padding: 20px 0;
-            margin-bottom: 50px;
-            position: relative;
+            padding: 22px 0;
+            margin-bottom: 45px;
+            backdrop-filter: blur(8px);
         }
 
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .header-content h1 {
-            font-size: 1.8rem;
+            font-size: 1.55rem;
             color: #000000;
             font-weight: 700;
             letter-spacing: -0.5px;
+        }
+
+        .header-subtitle {
+            font-size: 0.93rem;
+            color: #777777;
+            font-weight: 400;
         }
 
         .user-badge {
@@ -268,24 +365,17 @@
             background-color: #000000;
             color: #ffffff;
             border: none;
-            padding: 8px 24px;
+            padding: 10px 24px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 0.9rem;
-            font-weight: 500;
+            font-weight: 600;
             transition: all 0.3s ease;
         }
 
         .logout-btn:hover {
             background-color: #333333;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .header-subtitle {
-            font-size: 1rem;
-            color: #777777;
-            font-weight: 400;
-            margin-left: 0;
         }
 
         /* ============================================
@@ -298,23 +388,24 @@
 
         .courses-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 28px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 26px;
             max-width: 1400px;
             margin: 0 auto;
         }
 
         .course-card {
-            background-color: #ffffff;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 32px;
+            background-color: rgba(255, 255, 255, 0.94);
+            border: 2px solid #ddd;
+            border-radius: 11px;
+            padding: 30px;
             cursor: pointer;
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
             animation: fadeIn 0.6s ease-out;
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(5px);
         }
 
         .course-card::before {
@@ -332,33 +423,42 @@
 
         .course-card:hover {
             border-color: #000000;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
-            transform: translateY(-8px);
+            box-shadow: 0 14px 42px rgba(0, 0, 0, 0.13);
+            transform: translateY(-7px);
+            background-color: #ffffff;
         }
 
         .course-card:hover::before {
             transform: scaleX(1);
         }
 
-        .course-icon {
-            font-size: 2.5rem;
-            margin-bottom: 16px;
-            display: inline-block;
+        .course-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 12px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 48px;
+            height: 48px;
+            background-color: #f5f5f5;
+            border-radius: 8px;
         }
 
         .course-card h3 {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: #000000;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             font-weight: 700;
             line-height: 1.4;
         }
 
         .course-card p {
-            font-size: 0.85rem;
+            font-size: 0.84rem;
             color: #888888;
             line-height: 1.6;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .course-link {
@@ -366,7 +466,7 @@
             color: #000000;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.94rem;
             position: relative;
             transition: all 0.3s ease;
         }
@@ -388,94 +488,173 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: #ffffff;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
         .detail-header {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            top: 30px;
+            left: 30px;
+            z-index: 100;
         }
 
         .back-btn {
-            background-color: transparent;
+            background-color: #000000;
             border: 2px solid #000000;
-            color: #000000;
-            padding: 10px 20px;
+            color: #ffffff;
+            padding: 10px 22px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 0.94rem;
             font-weight: 600;
             transition: all 0.3s ease;
         }
 
         .back-btn:hover {
-            background-color: #000000;
-            color: #ffffff;
+            background-color: #ffffff;
+            color: #000000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .detail-content {
             text-align: center;
             animation: fadeIn 0.6s ease-out;
+            background-color: rgba(255, 255, 255, 0.94);
+            padding: 55px 40px;
+            border-radius: 11px;
+            max-width: 580px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(8px);
         }
 
         .detail-content h2 {
-            font-size: 2rem;
+            font-size: 1.9rem;
             color: #000000;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             font-weight: 700;
         }
 
         .detail-content p {
-            font-size: 1rem;
+            font-size: 0.98rem;
             color: #888888;
-            max-width: 500px;
-            line-height: 1.8;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .placeholder-text {
+            color: #aaaaaa;
+            font-size: 0.9rem;
         }
 
         /* ============================================
            RESPONSIVE DESIGN
            ============================================ */
-        @media (max-width: 768px) {
-            .logo-section h1 {
-                font-size: 2rem;
+        @media (max-width: 1024px) {
+            #loginPage {
+                flex-direction: column;
             }
 
-            .login-options {
-                grid-template-columns: 1fr;
-                gap: 20px;
+            .login-wallpaper-side {
+                min-height: 280px;
+                flex: 0 0 auto;
+            }
+
+            .login-form-side {
+                flex: 1;
+                padding: 40px 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo-section h1 {
+                font-size: 1.6rem;
+            }
+
+            .login-form-side {
+                padding: 35px 20px;
             }
 
             .login-card {
-                padding: 30px 20px;
+                padding: 18px;
+            }
+
+            .login-card-wrapper {
+                gap: 12px;
+            }
+
+            .login-card-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.6rem;
             }
 
             .courses-grid {
                 grid-template-columns: 1fr;
-                gap: 20px;
+                gap: 18px;
             }
 
             .course-card {
-                padding: 24px;
+                padding: 22px;
             }
 
             .header-content {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 15px;
+                gap: 12px;
+            }
+
+            .header-content h1 {
+                font-size: 1.3rem;
+            }
+
+            .detail-content {
+                padding: 40px 25px;
+                margin: 20px;
+                max-width: 90%;
             }
 
             .detail-content h2 {
                 font-size: 1.5rem;
             }
 
-            .header-content h1 {
+            .detail-header {
+                top: 15px;
+                left: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-section h1 {
                 font-size: 1.4rem;
+            }
+
+            .logo-container {
+                height: 100px;
+                margin-bottom: 18px;
+            }
+
+            .login-container {
+                max-width: 100%;
+            }
+
+            .login-form-side {
+                padding: 25px 15px;
+            }
+
+            .courses-grid {
+                gap: 14px;
+            }
+
+            .course-card {
+                padding: 16px;
+            }
+
+            .detail-content {
+                padding: 30px 15px;
+                margin: 15px;
             }
         }
 
@@ -533,34 +712,57 @@
          LOGIN PAGE
          ======================================== -->
     <div id="loginPage" class="page active">
-        <div class="login-container">
-            <div class="logo-section">
-                <h1>🔬 Excelra</h1>
-                <p class="company-name">LIFE SCIENCES LEARNING REPOSITORY</p>
-                <p class="tagline">Fresher Edition | Comprehensive Knowledge Hub</p>
-            </div>
+        <div class="login-wallpaper-side slide-in-left">
+            <img 
+                src="https://raw.githubusercontent.com/sufirumii/Excelra-Life-Sciences-Learning-Repository/main/Login%20Background.webp" 
+                alt="Login Background Wallpaper" 
+                class="wallpaper-image"
+                onerror="this.style.background='#f5f5f5'"
+            >
+        </div>
 
-            <p style="font-size: 1.1rem; color: #444444; margin-bottom: 40px; font-weight: 500;">
-                Select Your Role to Continue
-            </p>
+        <div class="login-form-side">
+            <div class="login-container">
+                <div class="logo-section">
+                    <div class="logo-container">
+                        <img 
+                            src="https://raw.githubusercontent.com/sufirumii/Excelra-Life-Sciences-Learning-Repository/main/About%20Logo.jpg" 
+                            alt="Excelra Logo"
+                            onerror="this.parentElement.style.backgroundColor='#e8e8e8'; this.style.display='none'"
+                        >
+                    </div>
 
-            <div class="login-options">
-                <div class="login-card" onclick="selectRole('admin')">
-                    <div class="login-card-icon">👨‍💼</div>
-                    <h3>Login as Admin</h3>
-                    <p>Access administrative controls and course management tools</p>
+                    <h1>Excelra</h1>
+                    <p class="company-name">LIFE SCIENCES LEARNING REPOSITORY</p>
+                    <p class="tagline">Fresher Edition | Knowledge Hub</p>
                 </div>
 
-                <div class="login-card" onclick="selectRole('user')">
-                    <div class="login-card-icon">👨‍🎓</div>
-                    <h3>Login as User</h3>
-                    <p>Explore and enroll in available courses</p>
-                </div>
-            </div>
+                <p class="login-subtitle">Select Your Role to Continue</p>
 
-            <p style="font-size: 0.85rem; color: #aaaaaa; margin-top: 40px;">
-                Excelra Life Sciences Learning Repository © 2024
-            </p>
+                <div class="login-options">
+                    <div class="login-card" onclick="selectRole('admin')">
+                        <div class="login-card-wrapper">
+                            <div class="login-card-icon">A</div>
+                            <div class="login-card-info">
+                                <h3>Login as Admin</h3>
+                                <p>Access administrative controls and manage courses</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="login-card" onclick="selectRole('user')">
+                        <div class="login-card-wrapper">
+                            <div class="login-card-icon">U</div>
+                            <div class="login-card-info">
+                                <h3>Login as User</h3>
+                                <p>Explore and enroll in available courses</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="footer-text">Excelra Life Sciences Learning Repository © 2024</p>
+            </div>
         </div>
     </div>
 
@@ -591,57 +793,57 @@
                 <div class="courses-grid">
                     <!-- Course 1: Drug Discovery -->
                     <div class="course-card" onclick="openCourse('Drug Discovery')">
-                        <div class="course-icon">💊</div>
+                        <div class="course-number">1</div>
                         <h3>Drug Discovery</h3>
-                        <p>Learn the fundamental principles and methodologies behind identifying and developing new pharmaceutical compounds</p>
+                        <p>Learn the fundamental principles and methodologies behind identifying and developing new pharmaceutical compounds.</p>
                         <a href="javascript:void(0);" class="course-link">Explore Course</a>
                     </div>
 
                     <!-- Course 2: Drug Development Lifecycle -->
                     <div class="course-card" onclick="openCourse('Drug Development Lifecycle')">
-                        <div class="course-icon">🔬</div>
+                        <div class="course-number">2</div>
                         <h3>Drug Development Lifecycle</h3>
-                        <p>Understand the complete journey of a drug from initial concept through regulatory approval and commercialization</p>
+                        <p>Understand the complete journey of a drug from initial concept through regulatory approval and commercialization.</p>
                         <a href="javascript:void(0);" class="course-link">Explore Course</a>
                     </div>
 
                     <!-- Course 3: Clinical Trials -->
                     <div class="course-card" onclick="openCourse('Clinical Trials')">
-                        <div class="course-icon">🏥</div>
+                        <div class="course-number">3</div>
                         <h3>Clinical Trials</h3>
-                        <p>Explore the essential components of conducting ethical and scientifically rigorous clinical trials in human subjects</p>
+                        <p>Explore the essential components of conducting ethical and scientifically rigorous clinical trials in human subjects.</p>
                         <a href="javascript:void(0);" class="course-link">Explore Course</a>
                     </div>
 
                     <!-- Course 4: Clinical Data Management -->
                     <div class="course-card" onclick="openCourse('Clinical Data Management')">
-                        <div class="course-icon">📊</div>
+                        <div class="course-number">4</div>
                         <h3>Clinical Data Management</h3>
-                        <p>Master the processes of collecting, validating, and managing clinical trial data for regulatory compliance</p>
+                        <p>Master the processes of collecting, validating, and managing clinical trial data for regulatory compliance.</p>
                         <a href="javascript:void(0);" class="course-link">Explore Course</a>
                     </div>
 
                     <!-- Course 5: Pharmacovigilance -->
                     <div class="course-card" onclick="openCourse('Pharmacovigilance')">
-                        <div class="course-icon">⚠️</div>
+                        <div class="course-number">5</div>
                         <h3>Pharmacovigilance</h3>
-                        <p>Learn to identify, assess, and respond to adverse drug reactions and safety concerns post-market</p>
+                        <p>Learn to identify, assess, and respond to adverse drug reactions and safety concerns post-market.</p>
                         <a href="javascript:void(0);" class="course-link">Explore Course</a>
                     </div>
 
                     <!-- Course 6: Healthcare Data Standards -->
                     <div class="course-card" onclick="openCourse('Healthcare Data Standards')">
-                        <div class="course-icon">📋</div>
+                        <div class="course-number">6</div>
                         <h3>Healthcare Data Standards</h3>
-                        <p>Understand industry-standard data formats and protocols that ensure interoperability in healthcare systems</p>
+                        <p>Understand industry-standard data formats and protocols that ensure interoperability in healthcare systems.</p>
                         <a href="javascript:void(0);" class="course-link">Explore Course</a>
                     </div>
 
                     <!-- Course 7: Data Integrity & Digital Transformation -->
                     <div class="course-card" onclick="openCourse('Data Integrity & Digital Transformation')">
-                        <div class="course-icon">🔐</div>
+                        <div class="course-number">7</div>
                         <h3>Data Integrity & Digital Transformation</h3>
-                        <p>Explore data governance, security practices, and the digital evolution reshaping life sciences organizations</p>
+                        <p>Explore data governance, security practices, and the digital evolution reshaping life sciences organizations.</p>
                         <a href="javascript:void(0);" class="course-link">Explore Course</a>
                     </div>
                 </div>
@@ -654,12 +856,13 @@
          ======================================== -->
     <div id="courseDetailPage" class="page">
         <div class="detail-header">
-            <button class="back-btn" onclick="backToDashboard()">← Back to Courses</button>
+            <button class="back-btn" onclick="goBackToDashboard()">Back to Courses</button>
         </div>
 
         <div class="detail-content">
-            <h2 id="courseTitle">Course Title</h2>
-            <p id="courseMessage">This course content area is currently being prepared. Check back soon for exciting learning materials!</p>
+            <h2 id="courseDetailTitle">Course Title</h2>
+            <p id="courseDetailDescription">This is the course detail page. Content will be populated here when course development is complete.</p>
+            <p class="placeholder-text">Additional course materials and resources coming soon.</p>
         </div>
     </div>
 
@@ -671,23 +874,14 @@
         // STATE MANAGEMENT
         // ========================================
         let currentUserRole = null;
-        let currentCourse = null;
 
         // ========================================
-        // PAGE NAVIGATION FUNCTIONS
+        // PAGE NAVIGATION
         // ========================================
         function showPage(pageId) {
-            // Hide all pages
             const pages = document.querySelectorAll('.page');
-            pages.forEach(page => {
-                page.classList.remove('active');
-            });
-
-            // Show the specified page
-            const targetPage = document.getElementById(pageId);
-            if (targetPage) {
-                targetPage.classList.add('active');
-            }
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
         }
 
         // ========================================
@@ -696,7 +890,16 @@
         function selectRole(role) {
             currentUserRole = role;
             
-            // Update user badge display
+            // Set background image for dashboard and course detail pages
+            const backgroundImageUrl = 'url("https://raw.githubusercontent.com/sufirumii/Excelra-Life-Sciences-Learning-Repository/main/Main%20UI%20Background.jpg")';
+            
+            const dashboardPage = document.getElementById('dashboardPage');
+            dashboardPage.style.backgroundImage = backgroundImageUrl;
+            
+            const courseDetailPage = document.getElementById('courseDetailPage');
+            courseDetailPage.style.backgroundImage = backgroundImageUrl;
+
+            // Update user badge based on role
             const userBadge = document.getElementById('userBadge');
             const userRole = document.getElementById('userRole');
             
@@ -708,27 +911,19 @@
                 userRole.textContent = 'Learner';
             }
 
-            // Transition to dashboard
             showPage('dashboardPage');
         }
 
         // ========================================
-        // COURSE NAVIGATION
+        // COURSE MANAGEMENT
         // ========================================
         function openCourse(courseName) {
-            currentCourse = courseName;
-            
-            // Update course detail page
-            document.getElementById('courseTitle').textContent = courseName;
-            document.getElementById('courseMessage').textContent = 
-                `Welcome to ${courseName}. This learning module is designed to provide comprehensive knowledge and practical insights. Course content, materials, and interactive modules are being prepared for optimal learning experience.`;
-            
-            // Show course detail page
+            document.getElementById('courseDetailTitle').textContent = courseName;
+            document.getElementById('courseDetailDescription').textContent = 'Explore the comprehensive learning content for ' + courseName + '.';
             showPage('courseDetailPage');
         }
 
-        function backToDashboard() {
-            currentCourse = null;
+        function goBackToDashboard() {
             showPage('dashboardPage');
         }
 
@@ -737,9 +932,6 @@
         // ========================================
         function logout() {
             currentUserRole = null;
-            currentCourse = null;
-            
-            // Reset to login page
             showPage('loginPage');
         }
 
@@ -749,14 +941,10 @@
         document.addEventListener('keydown', function(event) {
             // Escape key to go back
             if (event.key === 'Escape') {
-                if (document.getElementById('courseDetailPage').classList.contains('active')) {
-                    backToDashboard();
-                }
-            }
-            
-            // Alt + L to logout
-            if (event.altKey && event.key === 'l') {
-                if (document.getElementById('dashboardPage').classList.contains('active')) {
+                const activePage = document.querySelector('.page.active').id;
+                if (activePage === 'courseDetailPage') {
+                    goBackToDashboard();
+                } else if (activePage === 'dashboardPage') {
                     logout();
                 }
             }
@@ -766,8 +954,7 @@
         // INITIALIZATION
         // ========================================
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Excelra Life Sciences Learning Repository initialized');
-            console.log('System: Fresher Edition');
+            console.log('[v0] Excelra Life Sciences Learning Repository initialized successfully');
         });
     </script>
 </body>

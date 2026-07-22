@@ -135,13 +135,6 @@ button{font-family:var(--font-body); cursor:pointer;}
 .login-error{
   font-size:.8rem; color:var(--danger); margin:-6px 0 14px; display:flex; align-items:center; gap:6px;
 }
-.login-side-art{
-  position:fixed; left:-70px; top:50%; transform:translateY(-50%);
-  width:min(46vw, 620px); max-height:88vh; z-index:1; pointer-events:none;
-  filter: drop-shadow(0 0 70px rgba(94,234,212,.22));
-}
-.login-side-art img{ width:100%; height:auto; display:block; }
-
 /* ============ TOP NAV ============ */
 #topnav{
   position:sticky; top:0; z-index:30;
@@ -227,6 +220,12 @@ button{font-family:var(--font-body); cursor:pointer;}
 .home-course-row .htext{ flex-grow:1; }
 .home-course-row .htext h4{ font-size:1.05rem; margin-bottom:5px; }
 .home-course-row .htext p{ font-size:.92rem; color:var(--ink-dim); line-height:1.6; margin:0; }
+.home-course-row .hfact{
+  margin-top:12px; font-size:.85rem; color:var(--ink); line-height:1.5;
+  background:rgba(255,255,255,.04); border-radius:10px; padding:10px 14px;
+  display:flex; align-items:flex-start; gap:8px;
+}
+.home-course-row .hfact-ic{ flex-shrink:0; }
 
 /* COURSE GRID */
 .course-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:20px; }
@@ -293,7 +292,40 @@ th{ font-family:var(--font-mono); font-size:.7rem; text-transform:uppercase; let
 tr:last-child td{ border-bottom:none; }
 .mini-bar{ width:100px; height:6px; border-radius:999px; background:rgba(255,255,255,.08); overflow:hidden; display:inline-block; vertical-align:middle; margin-right:8px;}
 .mini-bar span{ display:block; height:100%; background:var(--grad); }
-.admin-note{ font-size:.78rem; color:var(--muted); margin-top:12px; }
+.admin-note{ font-size:.78rem; color:var(--muted); margin-top:20px; }
+
+.admin-accordion{ display:flex; flex-direction:column; gap:14px; }
+.admin-course-item{ border:1px solid var(--line); border-radius:16px; overflow:hidden; background:rgba(255,255,255,.015); }
+.admin-course-head{
+  display:flex; align-items:center; gap:16px; padding:20px 22px; cursor:pointer; transition:background .15s;
+}
+.admin-course-head:hover{ background:rgba(255,255,255,.03); }
+.admin-course-head .ac-icon{
+  width:42px; height:42px; border-radius:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  background:color-mix(in srgb, var(--accent-color, var(--mint)) 16%, transparent); color:var(--accent-color, var(--mint));
+}
+.admin-course-head .ac-icon svg{ width:22px; height:22px; }
+.admin-course-head .ac-title{ flex-grow:1; }
+.admin-course-head .ac-title h3{ font-size:1.02rem; margin-bottom:3px; }
+.admin-course-head .ac-title .ac-sub{ font-size:.78rem; color:var(--muted); font-family:var(--font-mono); }
+.admin-course-head .ac-avg{ font-family:var(--font-mono); font-size:.85rem; color:var(--ink-dim); white-space:nowrap; }
+.admin-course-head .ac-chev{ color:var(--ink-dim); transition:transform .2s; flex-shrink:0; }
+.admin-course-item.expanded .ac-chev{ transform:rotate(90deg); }
+.admin-course-body{ padding:0 22px 24px; border-top:1px solid var(--line-soft); }
+.admin-course-body h4{ font-size:.78rem; font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:22px 0 14px; }
+.module-dots{ display:flex; gap:3px; flex-wrap:wrap; max-width:150px; }
+.module-dots .dot{ width:8px; height:8px; border-radius:2px; background:rgba(255,255,255,.12); }
+.module-dots .dot.done{ background:var(--accent-color, var(--mint)); }
+.status-chip{ font-family:var(--font-mono); font-size:.72rem; padding:4px 10px; border-radius:999px; white-space:nowrap; }
+.status-chip.completed{ background:rgba(74,222,128,.14); color:var(--good); }
+.status-chip.progress{ background:rgba(167,139,250,.14); color:var(--violet); }
+.status-chip.notstarted{ background:rgba(255,255,255,.06); color:var(--muted); }
+.time-chart{ display:flex; flex-direction:column; gap:12px; }
+.time-row{ display:flex; align-items:center; gap:14px; font-size:.85rem; }
+.time-row .tname{ width:150px; flex-shrink:0; color:var(--ink-dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.time-bar-track{ flex-grow:1; height:10px; border-radius:999px; background:rgba(255,255,255,.06); overflow:hidden; }
+.time-bar-fill{ height:100%; background:var(--grad); border-radius:999px; transition:width .4s ease; }
+.time-val{ width:60px; text-align:right; flex-shrink:0; font-family:var(--font-mono); font-size:.78rem; color:var(--muted); }
 
 footer{ text-align:center; padding:40px 20px 60px; color:var(--muted); font-size:.78rem; font-family:var(--font-mono); }
 
@@ -314,37 +346,24 @@ footer{ text-align:center; padding:40px 20px 60px; color:var(--muted); font-size
 .back-btn:hover{ border-color:var(--mint); color:var(--mint); }
 .player-title{ flex-grow:1; }
 .player-title h2{ font-size:1.15rem; }
-.player-title .tag{ font-size:.76rem; color:var(--ink-dim); font-family:var(--font-mono); }
-.player-progress-wrap{ width:180px; }
-.player-progress-track{ height:6px; border-radius:999px; background:rgba(255,255,255,.08); overflow:hidden; }
-.player-progress-fill{ height:100%; background:var(--grad); transition:width .4s ease; }
-.player-progress-label{ font-size:.68rem; color:var(--muted); font-family:var(--font-mono); margin-top:5px; text-align:right;}
-.player-points{ font-family:var(--font-mono); font-size:.8rem; color:var(--mint); white-space:nowrap; }
 
 .player-body{ flex-grow:1; display:flex; overflow:hidden; }
-.player-sidebar{
-  width:270px; flex-shrink:0; border-right:1px solid var(--line); padding:18px 12px; overflow-y:auto;
-  background:rgba(255,255,255,.015);
-}
-.sb-item{
-  display:flex; align-items:center; gap:10px; padding:11px 12px; border-radius:10px; margin-bottom:4px;
-  cursor:pointer; font-size:.86rem; color:var(--ink-dim); border:1px solid transparent; transition:all .16s;
-}
-.sb-item:hover:not(.sb-locked){ background:rgba(255,255,255,.04); }
-.sb-item.active{ background:rgba(94,234,212,.1); border-color:rgba(94,234,212,.3); color:var(--ink); }
-.sb-item.sb-locked{ opacity:.4; cursor:not-allowed; }
-.sb-index{
-  width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center;
-  font-family:var(--font-mono); font-size:.68rem; border:1px solid var(--line); flex-shrink:0;
-}
-.sb-item.done .sb-index{ background:var(--good); color:#04150a; border-color:var(--good); }
-.sb-assess{ margin-top:10px; padding-top:14px; border-top:1px solid var(--line-soft); }
-
 .player-main{ flex-grow:1; overflow-y:auto; padding:40px 56px; max-width:920px; }
+.player-main--centered{
+  display:flex; align-items:center; justify-content:center; max-width:none; text-align:center;
+}
 .mod-eyebrow{ font-family:var(--font-mono); font-size:.72rem; color:var(--mint); text-transform:uppercase; letter-spacing:.1em; margin-bottom:10px;}
 .player-main h2{ font-size:1.7rem; margin-bottom:20px; }
 .player-main .body-text{ color:var(--ink-dim); font-size:1rem; line-height:1.75; margin-bottom:16px; }
 .objectives-list{ margin:18px 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px;}
+.coming-soon-block{ max-width:480px; }
+.coming-soon-block .cs-icon{
+  width:64px; height:64px; margin:0 auto 24px; border-radius:16px; display:flex; align-items:center; justify-content:center;
+  background:color-mix(in srgb, var(--accent-color, var(--mint)) 16%, transparent); color:var(--accent-color, var(--mint));
+}
+.coming-soon-block .cs-icon svg{ width:32px; height:32px; }
+.coming-soon-block h2{ font-size:1.6rem; margin-bottom:12px; }
+.coming-soon-block p{ color:var(--ink-dim); font-size:1rem; line-height:1.6; }
 .objectives-list li{ display:flex; gap:10px; font-size:.94rem; color:var(--ink-dim); line-height:1.5;}
 .objectives-list li::before{ content:'—'; color:var(--mint); flex-shrink:0; }
 
@@ -487,7 +506,6 @@ footer{ text-align:center; padding:40px 20px 60px; color:var(--muted); font-size
   #topnav{ padding:14px 18px; }
   .section{ padding:60px 20px; }
   .role-row{ grid-template-columns:1fr; }
-  .login-side-art{ display:none; }
 }
 @media (prefers-reduced-motion: reduce){
   *{ animation-duration:.001s !important; transition-duration:.001s !important; }
@@ -503,7 +521,6 @@ footer{ text-align:center; padding:40px 20px 60px; color:var(--muted); font-size
 
   <!-- ============ LOGIN SCREEN ============ -->
   <section id="screen-login" class="screen">
-    <div class="login-side-art"><img src="Login%20Background.webp" alt="" aria-hidden="true"></div>
     <div class="login-card">
       <div class="login-logo-strip"><img src="About%20Logo.jpg" alt="Excelra"></div>
       <div class="login-card-body">
@@ -635,15 +652,11 @@ footer{ text-align:center; padding:40px 20px 60px; color:var(--muted); font-size
       <div class="section-head">
         <div class="eyebrow-row"><span class="line"></span><span class="eyebrow" style="margin:0;">Admin view</span></div>
         <h2>Batch progress overview.</h2>
-        <p>Illustrative view of how the fresher batch is progressing through the repository. Your own progress (shown in Courses) is real and stored in this browser.</p>
+        <p>Expand any course to see exactly who's enrolled, how far each learner has gotten through its 12 modules, and how much time they've logged. Learners can be enrolled in more than one course at a time.</p>
       </div>
-      <div class="admin-table-wrap">
-        <table>
-          <thead><tr><th>Learner</th><th>Assigned topic</th><th>Progress</th><th>Status</th></tr></thead>
-          <tbody id="admin-tbody"></tbody>
-        </table>
-      </div>
-      <p class="admin-note">Note: this table shows illustrative demo data for the batch. Your own learner row reflects your real progress from this browser.</p>
+      <div class="stat-strip" id="admin-stat-strip" style="margin-top:0; margin-bottom:44px;"></div>
+      <div class="admin-accordion" id="admin-accordion"></div>
+      <p class="admin-note">Note: all figures on this page are illustrative demo data for the batch, shown for demonstration purposes.</p>
     </section>
 
     <footer>EXCELRA LIFE SCIENCES LEARNING REPOSITORY — FRESHER EDITION · INTERNAL USE · CONFIDENTIAL</footer>
@@ -652,20 +665,13 @@ footer{ text-align:center; padding:40px 20px 60px; color:var(--muted); font-size
   <!-- ============ COURSE PLAYER ============ -->
   <div id="course-player" class="overlay hidden">
     <header class="player-header">
-      <button class="back-btn" id="btn-back-dash">← Back to repository</button>
+      <button class="back-btn" id="btn-back-dash">← Back to Courses</button>
       <div class="player-title">
         <h2 id="player-course-title">Course title</h2>
-        <div class="tag" id="player-course-tag">tagline</div>
       </div>
-      <div class="player-progress-wrap">
-        <div class="player-progress-track"><div class="player-progress-fill" id="player-progress-fill" style="width:0%"></div></div>
-        <div class="player-progress-label" id="player-progress-label">0 / 8 modules</div>
-      </div>
-      <div class="player-points" id="player-points">0 pts</div>
     </header>
     <div class="player-body">
-      <aside class="player-sidebar" id="player-sidebar"></aside>
-      <main class="player-main" id="player-main"></main>
+      <main class="player-main player-main--centered" id="player-main"></main>
     </div>
   </div>
 
@@ -2235,44 +2241,51 @@ function toast(msg, icon){
 /* ---------------------------------------------------------------------
    4. THREE.JS — DNA HELIX BACKGROUND
    --------------------------------------------------------------------- */
-let dnaScene, dnaCamera, dnaRenderer, dnaGroup, dnaMouse = {x:0,y:0}, dnaTargetRotY=0, dnaTargetRotX=0;
+let dnaScene, dnaCamera, dnaRenderer, dnaGroup, dnaTiltWrapper, dnaMouse = {x:0,y:0}, dnaTargetRotY=0, dnaTargetRotX=0;
 const REDUCE_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function initDNA(){
   const canvas = document.getElementById('bg-canvas');
   dnaScene = new THREE.Scene();
-  dnaScene.fog = new THREE.FogExp2(0x070a0f, 0.045);
+  dnaScene.fog = new THREE.FogExp2(0x070a0f, 0.026);
 
-  dnaCamera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 0.1, 100);
-  dnaCamera.position.set(0, 0, 26);
+  dnaCamera = new THREE.PerspectiveCamera(56, window.innerWidth/window.innerHeight, 0.1, 120);
+  dnaCamera.position.set(0, 0, 36);
 
   dnaRenderer = new THREE.WebGLRenderer({ canvas:canvas, antialias:true, alpha:true });
   dnaRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   dnaRenderer.setSize(window.innerWidth, window.innerHeight);
 
-  const ambient = new THREE.AmbientLight(0x223333, 1.1);
+  const ambient = new THREE.AmbientLight(0x223333, 1.15);
   dnaScene.add(ambient);
-  const pl1 = new THREE.PointLight(0x5EEAD4, 2.2, 60);
-  pl1.position.set(10, 14, 16);
+  const pl1 = new THREE.PointLight(0x5EEAD4, 2.6, 90);
+  pl1.position.set(14, 18, 20);
   dnaScene.add(pl1);
-  const pl2 = new THREE.PointLight(0xf472b6, 2.0, 60);
-  pl2.position.set(-12, -10, 14);
+  const pl2 = new THREE.PointLight(0xf472b6, 2.3, 90);
+  pl2.position.set(-16, -14, 18);
   dnaScene.add(pl2);
-  const pl3 = new THREE.PointLight(0xa78bfa, 1.4, 60);
-  pl3.position.set(0, 0, -10);
+  const pl3 = new THREE.PointLight(0xa78bfa, 1.7, 90);
+  pl3.position.set(0, 0, -14);
   dnaScene.add(pl3);
 
-  dnaGroup = new THREE.Group();
-  dnaScene.add(dnaGroup);
+  /* Tilt wrapper gives the helix a diagonal orientation across the viewport;
+     the inner group keeps spinning on its own local axis inside that tilt. */
+  dnaTiltWrapper = new THREE.Group();
+  dnaTiltWrapper.rotation.z = -0.58;
+  dnaTiltWrapper.rotation.x = 0.26;
+  dnaScene.add(dnaTiltWrapper);
 
-  const PAIRS = 44;
-  const RADIUS = 4.4;
-  const HEIGHT = 30;
-  const TURNS = 3.4;
+  dnaGroup = new THREE.Group();
+  dnaTiltWrapper.add(dnaGroup);
+
+  const PAIRS = 60;
+  const RADIUS = 5.6;
+  const HEIGHT = 48;
+  const TURNS = 4.4;
   const colorA = new THREE.Color(0x5EEAD4);
   const colorB = new THREE.Color(0xf472b6);
-  const sphereGeo = new THREE.SphereGeometry(0.34, 16, 16);
-  const rungGeo = new THREE.CylinderGeometry(0.055, 0.055, RADIUS*2, 8);
+  const sphereGeo = new THREE.SphereGeometry(0.4, 16, 16);
+  const rungGeo = new THREE.CylinderGeometry(0.06, 0.06, RADIUS*2, 8);
 
   for(let i=0;i<PAIRS;i++){
     const t = i/(PAIRS-1);
@@ -2300,7 +2313,6 @@ function initDNA(){
       const dir = new THREE.Vector3(x2-x1, 0, z2-z1);
       rung.rotation.z = Math.PI/2;
       rung.rotation.y = Math.atan2(dir.z, dir.x);
-      rung.scale.set(1, RADIUS*2/ (RADIUS*2), 1);
       dnaGroup.add(rung);
     }
   }
@@ -2327,8 +2339,8 @@ function animateDNA(){
   dnaGroup.rotation.y += spin;
   dnaGroup.rotation.y += (dnaTargetRotY - 0)*0.0015;
   dnaGroup.rotation.x += (dnaTargetRotX - dnaGroup.rotation.x)*0.03;
-  dnaCamera.position.x += ((dnaMouse.x*2) - dnaCamera.position.x)*0.01;
-  dnaCamera.position.y += ((-dnaMouse.y*1.2) - dnaCamera.position.y)*0.01;
+  dnaCamera.position.x += ((dnaMouse.x*3) - dnaCamera.position.x)*0.01;
+  dnaCamera.position.y += ((-dnaMouse.y*1.8) - dnaCamera.position.y)*0.01;
   dnaCamera.lookAt(0,0,0);
   dnaRenderer.render(dnaScene, dnaCamera);
 }
@@ -2354,7 +2366,7 @@ function doLogin(role, name){
   document.getElementById('stat-modules').textContent = totalModules;
   if(role === 'admin'){
     document.getElementById('nav-admin-link').classList.remove('hidden');
-    renderAdminTable();
+    renderAdminPanel();
   }
   renderCourseGrid();
   renderHomeCourseList();
@@ -2440,26 +2452,49 @@ function updateGamificationPills(){
 
 /* -------- home page: general orientation on what each domain means -------- */
 const DOMAIN_EXPLAINERS = {
-  'drug-discovery': "The earliest stage of medicine-making — scientists search for and test molecules that might act on a disease target, long before anything is tried in humans.",
-  'drug-lifecycle': "The long regulatory and clinical journey a molecule goes through — from early safety testing to full approval — before it can be sold as a medicine.",
-  'clinical-trials': "Structured, ethical studies in real patients that generate the evidence regulators need to decide whether a treatment is safe and effective.",
-  'clinical-data-management': "The behind-the-scenes discipline of cleaning, checking and standardizing everything a clinical trial collects, so the data can be trusted for analysis.",
-  'pharmacovigilance': "Ongoing monitoring of a medicine's safety after it reaches the market — catching rare side effects that a trial of a few thousand patients could never reveal.",
-  'healthcare-data-standards': "The shared formats and terminologies — like HL7, CDISC, and SNOMED CT — that let different health systems and databases understand each other's data.",
-  'data-integrity': "The practice of keeping data trustworthy end-to-end, while modernizing the legacy tools and manual processes life sciences organizations still rely on."
+  'drug-discovery': {
+    text: "The earliest stage of medicine-making. Scientists identify a biological target — often a protein involved in a disease — and search enormous libraries of chemical compounds, both in the lab and in computer simulations, to find one that acts on it. Almost none of this happens in humans yet; it's years of cellular and computational work before a single candidate is judged ready for the next stage.",
+    fact: "Roughly 9 out of 10 discovery candidates never make it past this stage — that's expected, not a failure."
+  },
+  'drug-lifecycle': {
+    text: "The long regulatory and clinical journey a molecule takes after discovery — through preclinical safety testing, three phases of human trials, and formal review by health authorities like the FDA or EMA — before it can legally be sold as a medicine. It's the throughline that connects almost every other course in this repository into one pipeline.",
+    fact: "The full journey typically takes 10–15 years and can cost well over $1 billion per approved drug."
+  },
+  'clinical-trials': {
+    text: "Structured, tightly regulated studies conducted in real patients or volunteers, designed to answer one question: does this treatment work, and is it safe enough? Every trial runs under a written protocol, independent ethical review, and strict informed consent — with randomization and blinding used to keep the results trustworthy.",
+    fact: "A single Phase III trial can enroll thousands of patients across dozens of countries at once."
+  },
+  'clinical-data-management': {
+    text: "The quality-control layer sitting between a trial site and a statistician. Every data point a trial collects — visit notes, lab results, adverse events — gets checked, queried, coded against medical dictionaries, and standardized here before anyone can trust it enough to analyze or submit to a regulator.",
+    fact: "A single mid-size trial can generate hundreds of thousands of individual data points to clean and lock."
+  },
+  'pharmacovigilance': {
+    text: "The ongoing safety watch that continues for as long as a medicine stays on the market. Clinical trials only ever involve a limited number of patients — pharmacovigilance is how rare side effects that only surface once millions of people take a drug get detected, assessed, and acted on, using everything from spontaneous reports to medical literature.",
+    fact: "Safety teams monitor case reports, published literature, and even social media for early warning signals."
+  },
+  'healthcare-data-standards': {
+    text: "The shared vocabulary that lets a lab system, a hospital record, and a clinical trial database all describe the same medical concept in exactly the same way. Without standards like these, healthcare data becomes a tower of incompatible dialects that can't be compared, combined, or trusted across systems.",
+    fact: "Common examples include HL7/FHIR for care records, CDISC for trial submissions, and SNOMED CT for clinical terms."
+  },
+  'data-integrity': {
+    text: "The discipline of keeping data attributable, accurate, and trustworthy across its entire lifecycle — while modernizing the legacy, often manual, systems life sciences organizations have relied on for decades. Every other course in this repository quietly depends on this one working well.",
+    fact: "Regulators can — and do — reject entire submissions if the underlying data can't be shown to be reliable."
+  }
 };
 
 function renderHomeCourseList(){
   const list = document.getElementById('home-course-list');
   list.innerHTML = '';
   COURSES.forEach(function(course){
+    const info = DOMAIN_EXPLAINERS[course.id];
     const row = document.createElement('div');
     row.className = 'home-course-row';
     row.style.setProperty('--accent-color', ACCENTS[course.accent]);
     row.innerHTML =
       '<span class="hnum mono">'+course.num+'</span>'+
       '<div class="hicon">'+course.icon+'</div>'+
-      '<div class="htext"><h4>'+course.title+'</h4><p>'+DOMAIN_EXPLAINERS[course.id]+'</p></div>';
+      '<div class="htext"><h4>'+course.title+'</h4><p>'+info.text+'</p>'+
+      '<div class="hfact"><span class="hfact-ic">💡</span>'+info.fact+'</div></div>';
     list.appendChild(row);
   });
 }
@@ -2487,37 +2522,127 @@ function renderCourseGrid(){
 }
 
 /* ---------------------------------------------------------------------
-   7. ADMIN TABLE (illustrative demo data)
+   7. ADMIN — PER-COURSE BATCH PROGRESS (illustrative demo data)
    --------------------------------------------------------------------- */
-const DEMO_BATCH = [
-  {name:'Ishaan Verma', topicIdx:0, pct:100, status:'Completed'},
-  {name:'Priya Nair', topicIdx:1, pct:80, status:'In progress'},
-  {name:'Rohan Gupta', topicIdx:2, pct:60, status:'In progress'},
-  {name:'Sneha Kulkarni', topicIdx:3, pct:100, status:'Completed'},
-  {name:'Aarav Shah', topicIdx:4, pct:30, status:'In progress'},
-  {name:'Meera Iyer', topicIdx:5, pct:0, status:'Not started'},
-  {name:'Kabir Malhotra', topicIdx:6, pct:90, status:'In progress'}
-];
-function renderAdminTable(){
-  const tbody = document.getElementById('admin-tbody');
-  tbody.innerHTML = '';
-  DEMO_BATCH.forEach(function(row){
-    const course = COURSES[row.topicIdx];
-    const tr = document.createElement('tr');
-    tr.innerHTML =
-      '<td>'+row.name+'</td>'+
-      '<td>'+course.title+'</td>'+
-      '<td><span class="mini-bar"><span style="width:'+row.pct+'%"></span></span>'+row.pct+'%</td>'+
-      '<td>'+row.status+'</td>';
-    tbody.appendChild(tr);
+// Learners can be enrolled in more than one course — names deliberately repeat across courses below.
+const ENROLLMENTS = {
+  'drug-discovery': [
+    {name:'Ishaan Verma', modulesDone:12, timeMin:145},
+    {name:'Priya Nair', modulesDone:5, timeMin:62},
+    {name:'Divya Menon', modulesDone:12, timeMin:130}
+  ],
+  'drug-lifecycle': [
+    {name:'Priya Nair', modulesDone:9, timeMin:98},
+    {name:'Rohan Gupta', modulesDone:3, timeMin:40}
+  ],
+  'clinical-trials': [
+    {name:'Rohan Gupta', modulesDone:7, timeMin:81},
+    {name:'Kabir Malhotra', modulesDone:12, timeMin:150},
+    {name:'Yusuf Khan', modulesDone:2, timeMin:22}
+  ],
+  'clinical-data-management': [
+    {name:'Sneha Kulkarni', modulesDone:12, timeMin:160},
+    {name:'Ishaan Verma', modulesDone:4, timeMin:45}
+  ],
+  'pharmacovigilance': [
+    {name:'Aarav Shah', modulesDone:4, timeMin:38},
+    {name:'Divya Menon', modulesDone:8, timeMin:90}
+  ],
+  'healthcare-data-standards': [
+    {name:'Meera Iyer', modulesDone:0, timeMin:0},
+    {name:'Yusuf Khan', modulesDone:6, timeMin:70}
+  ],
+  'data-integrity': [
+    {name:'Kabir Malhotra', modulesDone:11, timeMin:120},
+    {name:'Sneha Kulkarni', modulesDone:2, timeMin:20},
+    {name:'Aarav Shah', modulesDone:12, timeMin:140}
+  ]
+};
+
+function learnerStatus(modulesDone, total){
+  if(modulesDone <= 0) return {label:'Not started', cls:'notstarted'};
+  if(modulesDone >= total) return {label:'Completed', cls:'completed'};
+  return {label:'In progress', cls:'progress'};
+}
+
+function renderAdminStats(){
+  const strip = document.getElementById('admin-stat-strip');
+  const allNames = new Set();
+  let totalEnrollments = 0, sumPct = 0;
+  COURSES.forEach(function(c){
+    (ENROLLMENTS[c.id]||[]).forEach(function(e){
+      allNames.add(e.name);
+      totalEnrollments++;
+      sumPct += e.modulesDone / c.modules.length;
+    });
   });
-  const you = document.createElement('tr');
-  const completedCount = COURSES.filter(function(c){ return progress[c.id] && progress[c.id].completed; }).length;
-  const pctYou = Math.round((completedCount/COURSES.length)*100);
-  you.innerHTML = '<td>'+session.name+' (you)</td><td>All 7 courses</td>'+
-    '<td><span class="mini-bar"><span style="width:'+pctYou+'%"></span></span>'+pctYou+'%</td>'+
-    '<td>'+(pctYou===100?'Completed':'Not started')+'</td>';
-  tbody.appendChild(you);
+  const avgPct = totalEnrollments ? Math.round((sumPct/totalEnrollments)*100) : 0;
+  strip.innerHTML =
+    '<div class="stat-cell"><span class="num">'+COURSES.length+'</span><span class="lab">COURSES TRACKED</span></div>'+
+    '<div class="stat-cell"><span class="num">'+allNames.size+'</span><span class="lab">LEARNERS IN BATCH</span></div>'+
+    '<div class="stat-cell"><span class="num">'+totalEnrollments+'</span><span class="lab">TOTAL ENROLLMENTS</span></div>'+
+    '<div class="stat-cell"><span class="num">'+avgPct+'%</span><span class="lab">AVG. COMPLETION ACROSS BATCH</span></div>';
+}
+
+function renderAdminAccordion(){
+  const wrap = document.getElementById('admin-accordion');
+  wrap.innerHTML = '';
+  COURSES.forEach(function(course){
+    const enrolled = ENROLLMENTS[course.id] || [];
+    const total = course.modules.length;
+    const avg = enrolled.length ? Math.round(enrolled.reduce(function(s,e){ return s+e.modulesDone/total; },0)/enrolled.length*100) : 0;
+    const maxTime = Math.max(1, Math.max.apply(null, enrolled.map(function(e){ return e.timeMin; }).concat([1])));
+
+    const item = document.createElement('div');
+    item.className = 'admin-course-item';
+    item.style.setProperty('--accent-color', ACCENTS[course.accent]);
+
+    const learnerRowsHtml = enrolled.length ? enrolled.map(function(e){
+      const st = learnerStatus(e.modulesDone, total);
+      let dots = '';
+      for(let i=0;i<total;i++){ dots += '<span class="dot'+(i<e.modulesDone?' done':'')+'"></span>'; }
+      return '<tr><td>'+e.name+'</td>'+
+        '<td><div class="module-dots">'+dots+'</div></td>'+
+        '<td class="mono">'+e.modulesDone+' / '+total+'</td>'+
+        '<td><span class="status-chip '+st.cls+'">'+st.label+'</span></td></tr>';
+    }).join('') : '<tr><td colspan="4" style="color:var(--muted);">No learners enrolled in this course yet.</td></tr>';
+
+    const timeRowsHtml = enrolled.length ? enrolled.map(function(e){
+      const pct = Math.round((e.timeMin/maxTime)*100);
+      return '<div class="time-row"><span class="tname">'+e.name+'</span>'+
+        '<div class="time-bar-track"><div class="time-bar-fill" style="width:'+pct+'%"></div></div>'+
+        '<span class="time-val">'+e.timeMin+' min</span></div>';
+    }).join('') : '';
+
+    item.innerHTML =
+      '<div class="admin-course-head">'+
+        '<div class="ac-icon">'+course.icon+'</div>'+
+        '<div class="ac-title"><h3>'+course.num+' · '+course.title+'</h3><div class="ac-sub">'+total+' MODULES</div></div>'+
+        '<div class="ac-avg">'+enrolled.length+' learner'+(enrolled.length===1?'':'s')+' · '+avg+'% avg</div>'+
+        '<span class="ac-chev">▸</span>'+
+      '</div>'+
+      '<div class="admin-course-body hidden">'+
+        '<h4>Learner progress</h4>'+
+        '<div class="admin-table-wrap"><table><thead><tr><th>Learner</th><th>Modules</th><th>Completed</th><th>Status</th></tr></thead>'+
+        '<tbody>'+learnerRowsHtml+'</tbody></table></div>'+
+        (timeRowsHtml ? '<h4>Time spent on this course</h4><div class="time-chart">'+timeRowsHtml+'</div>' : '')+
+      '</div>';
+
+    const head = item.querySelector('.admin-course-head');
+    const body = item.querySelector('.admin-course-body');
+    head.addEventListener('click', function(){
+      const isOpen = !body.classList.contains('hidden');
+      body.classList.toggle('hidden', isOpen);
+      item.classList.toggle('expanded', !isOpen);
+    });
+
+    wrap.appendChild(item);
+  });
+}
+
+function renderAdminPanel(){
+  renderAdminStats();
+  renderAdminAccordion();
 }
 
 /* ---------------------------------------------------------------------
@@ -2534,13 +2659,10 @@ function openCourse(id, pushHash){
   if(pushHash !== false) location.hash = '#/course/'+id;
 
   document.getElementById('player-course-title').textContent = course.title;
-  document.getElementById('player-course-tag').textContent = course.tagline;
   document.getElementById('course-player').classList.remove('hidden');
   document.getElementById('course-player').style.setProperty('--accent-color', ACCENTS[course.accent]);
 
-  renderSidebar(course);
-  renderModule(course, 0);
-  updatePlayerHeader(course);
+  renderComingSoon(course);
 }
 
 function closeCoursePlayer(clearHash){
@@ -2551,36 +2673,17 @@ function closeCoursePlayer(clearHash){
 }
 document.getElementById('btn-back-dash').addEventListener('click', function(){ closeCoursePlayer(); });
 
-function updatePlayerHeader(course){
-  document.getElementById('player-progress-fill').style.width = '0%';
-  document.getElementById('player-progress-label').textContent = course.modules.length+' modules';
-  document.getElementById('player-points').textContent = 'Content coming soon';
+function renderComingSoon(course){
+  const main = document.getElementById('player-main');
+  main.innerHTML =
+    '<div class="coming-soon-block">'+
+      '<div class="cs-icon">'+course.icon+'</div>'+
+      '<h2>'+course.title+'</h2>'+
+      '<p>The interface for this course will be added soon.</p>'+
+    '</div>';
 }
 
-function renderSidebar(course){
-  const sb = document.getElementById('player-sidebar');
-  sb.innerHTML = '';
-  const intro = document.createElement('div');
-  intro.className = 'sidebar-intro';
-  intro.innerHTML = '<div class="tagline">'+course.tagline+'</div>'+
-    '<ul>'+course.objectives.map(function(o){ return '<li>'+o+'</li>'; }).join('')+'</ul>';
-  sb.appendChild(intro);
-  course.modules.forEach(function(mod, i){
-    const item = document.createElement('div');
-    item.className = 'sb-item';
-    item.innerHTML = '<span class="sb-index">'+(i+1)+'</span><span>'+mod.title+'</span>';
-    item.addEventListener('click', function(){ renderModule(course, i); });
-    sb.appendChild(item);
-  });
-}
-
-function markActiveSidebar(index){
-  document.querySelectorAll('#player-sidebar .sb-item').forEach(function(el, i){
-    el.classList.toggle('active', i===index);
-  });
-}
-
-/* -------- module body renderers -------- */
+/* -------- module body renderers (kept for future use, currently unused) -------- */
 function renderModuleBody(course, mod){
   let html = '';
   if(mod.kind === 'text'){
@@ -2632,33 +2735,6 @@ function renderModuleBody(course, mod){
     html += '<div class="summary-box"><h4>Recommended Further Reading & References</h4><ul class="objectives-list">'+mod.items.map(function(r){return '<li>'+r+'</li>';}).join('')+'</ul></div>';
   }
   return html;
-}
-
-function renderModule(course, index){
-  markActiveSidebar(index);
-  const mod = course.modules[index];
-  const main = document.getElementById('player-main');
-  let html = '<div class="mod-eyebrow">MODULE '+(index+1)+' OF '+course.modules.length+'</div>';
-  html += '<h2>'+mod.title+'</h2>';
-  html += '<div class="placeholder-card">'+
-    '<div class="ic">🔗</div>'+
-    '<p>Course content for this module is coming soon.</p>'+
-    '<p class="sub">This space will hold the full lesson — and a link to the complete '+course.title+' material — once it\'s added.</p>'+
-  '</div>';
-  html += '<div class="module-actions">'+
-    '<button class="nav-arrow-btn" id="mod-prev" '+(index===0?'disabled':'')+'>← Previous</button>'+
-    '<button class="nav-arrow-btn" id="mod-next" '+(index===course.modules.length-1?'disabled':'')+'>Next →</button>'+
-  '</div>';
-
-  main.innerHTML = html;
-  main.scrollTop = 0;
-
-  if(index>0){
-    document.getElementById('mod-prev').addEventListener('click', function(){ renderModule(course, index-1); });
-  }
-  if(index<course.modules.length-1){
-    document.getElementById('mod-next').addEventListener('click', function(){ renderModule(course, index+1); });
-  }
 }
 
 /* ---------------------------------------------------------------------

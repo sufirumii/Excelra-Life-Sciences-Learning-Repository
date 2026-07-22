@@ -1,934 +1,2830 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excelra Life Sciences Learning Repository – Fresher Edition</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html, body {
-            width: 100%;
-            height: 100%;
-            background-color: #ffffff;
-            color: #000000;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow-x: hidden;
-        }
-
-        /* ============================================
-           SCROLLBAR STYLING
-           ============================================ */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f5f5f5;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #cccccc;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #999999;
-        }
-
-        /* ============================================
-           UTILITY CLASSES & ANIMATIONS
-           ============================================ */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInFromLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideInFromRight {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes floatUpDown {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-12px);
-            }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        .slide-in-left {
-            animation: slideInFromLeft 0.7s ease-out;
-        }
-
-        .slide-in-right {
-            animation: slideInFromRight 0.7s ease-out;
-        }
-
-        .scale-in {
-            animation: scaleIn 0.4s ease-out;
-        }
-
-        /* ============================================
-           PAGE STRUCTURE
-           ============================================ */
-        .page {
-            display: none;
-            min-height: 100vh;
-            width: 100%;
-            background-color: #ffffff;
-            opacity: 0;
-            transition: opacity 0.6s ease-in-out;
-        }
-
-        .page.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        /* ============================================
-           LOGIN PAGE STYLING
-           ============================================ */
-        #loginPage {
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: stretch;
-            background-color: #ffffff;
-            padding: 0;
-        }
-
-        .login-wallpaper-side {
-            flex: 1;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            min-height: 100vh;
-        }
-
-        .wallpaper-image {
-            width: 85%;
-            height: 85%;
-            object-fit: contain;
-            transition: none;
-        }
-
-        .login-form-side {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 60px 40px;
-            background-color: #ffffff;
-        }
-
-        .login-container {
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
-        }
-
-        .logo-section {
-            margin-bottom: 35px;
-        }
-
-        .logo-container {
-            width: 100%;
-            height: 90px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-            border-radius: 0;
-            background-color: transparent;
-            padding: 0;
-            overflow: visible;
-        }
-
-        .logo-container img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .logo-section h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #000000;
-            margin-bottom: 6px;
-            letter-spacing: -0.5px;
-            display: none;
-        }
-
-        .logo-section .company-name {
-            font-size: 0.92rem;
-            color: #666666;
-            font-weight: 500;
-            letter-spacing: 1.1px;
-        }
-
-        .tagline {
-            font-size: 0.88rem;
-            color: #888888;
-            margin-top: 10px;
-            margin-bottom: 30px;
-        }
-
-        .login-subtitle {
-            font-size: 1rem;
-            color: #444444;
-            margin-bottom: 30px;
-            font-weight: 500;
-        }
-
-        .login-options {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-            margin-bottom: 25px;
-        }
-
-        .login-card {
-            background-color: #ffffff;
-            border: 2px solid #d5d5d5;
-            border-radius: 9px;
-            padding: 24px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            text-align: left;
-        }
-
-        .login-card:hover {
-            border-color: #000000;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .login-card-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .login-card-icon {
-            font-size: 1.8rem;
-            min-width: 45px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f5f5f5;
-            border-radius: 8px;
-            width: 45px;
-            height: 45px;
-            color: #000000;
-            font-weight: bold;
-        }
-
-        .login-card-info h3 {
-            font-size: 1rem;
-            color: #000000;
-            margin-bottom: 3px;
-            font-weight: 600;
-        }
-
-        .login-card-info p {
-            font-size: 0.8rem;
-            color: #777777;
-            line-height: 1.4;
-        }
-
-        .footer-text {
-            font-size: 0.78rem;
-            color: #aaaaaa;
-        }
-
-        /* ============================================
-           DASHBOARD PAGE STYLING
-           ============================================ */
-        #dashboardPage {
-            flex-direction: column;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
-
-        .header {
-            background-color: rgba(255, 255, 255, 0.93);
-            border-bottom: 1px solid #e0e0e0;
-            padding: 22px 0;
-            margin-bottom: 45px;
-            backdrop-filter: blur(8px);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .header-content h1 {
-            font-size: 1.55rem;
-            color: #000000;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-
-        .header-subtitle {
-            font-size: 0.93rem;
-            color: #777777;
-            font-weight: 400;
-        }
-
-        .user-badge {
-            background-color: #f0f0f0;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            color: #555555;
-            font-weight: 500;
-        }
-
-        .user-role {
-            font-size: 0.85rem;
-            color: #999999;
-            margin-top: 3px;
-        }
-
-        .logout-btn {
-            background-color: #000000;
-            color: #ffffff;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .logout-btn:hover {
-            background-color: #333333;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        /* ============================================
-           COURSES SECTION
-           ============================================ */
-        .courses-section {
-            padding: 0 20px 60px 20px;
-            flex: 1;
-        }
-
-        .courses-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 26px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .course-card {
-            background-color: rgba(255, 255, 255, 0.94);
-            border: 2px solid #ddd;
-            border-radius: 11px;
-            padding: 30px;
-            cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(5px);
-        }
-
-        .course-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background-color: #000000;
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-
-        .course-card:hover {
-            border-color: #000000;
-            box-shadow: 0 14px 42px rgba(0, 0, 0, 0.13);
-            transform: translateY(-7px);
-            background-color: #ffffff;
-        }
-
-        .course-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .course-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #000000;
-            margin-bottom: 12px;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            width: 48px;
-            height: 48px;
-            background-color: #f5f5f5;
-            border-radius: 8px;
-        }
-
-        .course-card h3 {
-            font-size: 1.2rem;
-            color: #000000;
-            margin-bottom: 10px;
-            font-weight: 700;
-            line-height: 1.4;
-        }
-
-        .course-card p {
-            font-size: 0.84rem;
-            color: #888888;
-            line-height: 1.6;
-            margin-bottom: 18px;
-        }
-
-        .course-link {
-            display: inline-block;
-            color: #000000;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.94rem;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .course-link::after {
-            content: '→';
-            margin-left: 8px;
-            transition: transform 0.3s ease;
-        }
-
-        .course-card:hover .course-link::after {
-            transform: translateX(4px);
-        }
-
-        /* ============================================
-           COURSE DETAIL PAGE STYLING
-           ============================================ */
-        #courseDetailPage {
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
-
-        .detail-header {
-            position: absolute;
-            top: 30px;
-            left: 30px;
-            z-index: 100;
-        }
-
-        .back-btn {
-            background-color: #000000;
-            border: 2px solid #000000;
-            color: #ffffff;
-            padding: 10px 22px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.94rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .back-btn:hover {
-            background-color: #ffffff;
-            color: #000000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .detail-content {
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.94);
-            padding: 55px 40px;
-            border-radius: 11px;
-            max-width: 580px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(8px);
-        }
-
-        .detail-content h2 {
-            font-size: 1.9rem;
-            color: #000000;
-            margin-bottom: 18px;
-            font-weight: 700;
-        }
-
-        .detail-content p {
-            font-size: 0.98rem;
-            color: #888888;
-            line-height: 1.7;
-            margin-bottom: 16px;
-        }
-
-        .placeholder-text {
-            color: #aaaaaa;
-            font-size: 0.9rem;
-        }
-
-        /* ============================================
-           RESPONSIVE DESIGN
-           ============================================ */
-        @media (max-width: 1024px) {
-            #loginPage {
-                flex-direction: column;
-            }
-
-            .login-wallpaper-side {
-                min-height: 280px;
-                flex: 0 0 auto;
-            }
-
-            .login-form-side {
-                flex: 1;
-                padding: 40px 30px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .logo-section h1 {
-                font-size: 1.6rem;
-            }
-
-            .login-form-side {
-                padding: 35px 20px;
-            }
-
-            .login-card {
-                padding: 18px;
-            }
-
-            .login-card-wrapper {
-                gap: 12px;
-            }
-
-            .login-card-icon {
-                width: 40px;
-                height: 40px;
-                font-size: 1.6rem;
-            }
-
-            .courses-grid {
-                grid-template-columns: 1fr;
-                gap: 18px;
-            }
-
-            .course-card {
-                padding: 22px;
-            }
-
-            .header-content {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 12px;
-            }
-
-            .header-content h1 {
-                font-size: 1.3rem;
-            }
-
-            .detail-content {
-                padding: 40px 25px;
-                margin: 20px;
-                max-width: 90%;
-            }
-
-            .detail-content h2 {
-                font-size: 1.5rem;
-            }
-
-            .detail-header {
-                top: 15px;
-                left: 15px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .logo-section h1 {
-                font-size: 1.4rem;
-            }
-
-            .logo-container {
-                height: 100px;
-                margin-bottom: 18px;
-            }
-
-            .login-container {
-                max-width: 100%;
-            }
-
-            .login-form-side {
-                padding: 25px 15px;
-            }
-
-            .courses-grid {
-                gap: 14px;
-            }
-
-            .course-card {
-                padding: 16px;
-            }
-
-            .detail-content {
-                padding: 30px 15px;
-                margin: 15px;
-            }
-        }
-
-
-
-        /* ============================================
-           FOCUS & ACCESSIBILITY
-           ============================================ */
-        button:focus,
-        a:focus,
-        .course-card:focus {
-            outline: 2px solid #000000;
-            outline-offset: 2px;
-        }
-
-
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Excelra Life Sciences Learning Repository — Fresher Edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --void:#070a0f;
+  --deep:#0c121a;
+  --panel:#111925;
+  --panel-2:#151f2c;
+  --line: rgba(255,255,255,.09);
+  --line-soft: rgba(255,255,255,.05);
+  --mint:#5EEAD4;
+  --mint-dim:#2fbfa8;
+  --pink:#f472b6;
+  --pink-dim:#ec4899;
+  --violet:#a78bfa;
+  --blue:#60a5fa;
+  --ink:#eef6f4;
+  --ink-dim:#aebcb9;
+  --muted:#71847f;
+  --danger:#f87171;
+  --good:#4ade80;
+  --font-display:'Space Grotesk', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --grad: linear-gradient(95deg, var(--mint) 0%, var(--pink) 55%, var(--violet) 100%);
+  --radius: 16px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--void);
+  color:var(--ink);
+  font-family:var(--font-body);
+  min-height:100vh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--font-display); margin:0; letter-spacing:-0.01em;}
+p{margin:0;}
+a{color:inherit;}
+button{font-family:var(--font-body); cursor:pointer;}
+::selection{background:var(--mint); color:#04140f;}
+:focus-visible{outline:2px solid var(--mint); outline-offset:2px; border-radius:6px;}
+.mono{font-family:var(--font-mono); letter-spacing:.02em;}
+.grad-text{
+  background:var(--grad);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.hidden{display:none !important;}
+::-webkit-scrollbar{width:10px; height:10px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--line); border-radius:8px;}
+
+/* ============ BACKGROUND 3D CANVAS ============ */
+#bg-wrap{
+  position:fixed; inset:0; z-index:0;
+  transition:opacity 1.1s ease, filter 1.1s ease;
+}
+#bg-wrap.dimmed{ opacity:.34; filter:blur(1px) saturate(1.15); }
+#bg-canvas{ width:100%; height:100%; display:block; }
+#bg-veil{
+  position:fixed; inset:0; z-index:1; pointer-events:none;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(7,10,15,0) 0%, rgba(7,10,15,.55) 60%, rgba(7,10,15,.92) 100%);
+  opacity:0; transition:opacity 1.1s ease;
+}
+#bg-veil.on{opacity:1;}
+
+/* ============ LAYOUT SHELLS ============ */
+#app{ position:relative; z-index:2; min-height:100vh; }
+.screen{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:32px 20px; }
+
+/* ============ LOGIN ============ */
+.login-card{
+  position:relative;
+  width:100%; max-width:460px;
+  background:linear-gradient(180deg, rgba(17,25,37,.72), rgba(12,18,26,.82));
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:0;
+  overflow:hidden;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 30px 80px -20px rgba(0,0,0,.6);
+  animation: rise .8s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes rise{ from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:translateY(0);} }
+.login-logo-strip{
+  background:#ffffff; padding:22px 36px; display:flex; align-items:center; justify-content:center;
+}
+.login-logo-strip img{ height:38px; width:auto; object-fit:contain; display:block; }
+.login-card-body{ padding:32px 36px 34px; }
+.eyebrow{
+  font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.14em;
+  color:var(--mint); margin-bottom:10px;
+}
+.login-card h1{ font-size:1.8rem; line-height:1.15; margin-bottom:10px; }
+.lede{ color:var(--ink-dim); font-size:.94rem; line-height:1.55; margin-bottom:26px; }
+.field-label{
+  display:block; font-size:.78rem; color:var(--ink-dim); margin-bottom:7px; font-family:var(--font-mono);
+}
+#learner-name, #admin-username, #admin-password{
+  width:100%; padding:12px 14px; border-radius:10px; border:1px solid var(--line);
+  background:rgba(255,255,255,.03); color:var(--ink); font-size:.95rem; margin-bottom:16px;
+  transition:border-color .2s ease;
+}
+#learner-name:focus, #admin-username:focus, #admin-password:focus{ border-color:var(--mint); }
+.role-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.role-btn{
+  border:1px solid var(--line); background:rgba(255,255,255,.03); color:var(--ink);
+  padding:18px 10px; border-radius:12px; font-size:.92rem; font-weight:600;
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  transition:transform .18s ease, border-color .18s ease, background .18s ease;
+}
+.role-btn small{ font-family:var(--font-mono); font-weight:400; color:var(--ink-dim); font-size:.7rem; }
+.role-btn:hover{ transform:translateY(-2px); border-color:var(--mint); background:rgba(94,234,212,.08); }
+.role-btn--admin:hover{ border-color:var(--pink); background:rgba(244,114,182,.08); }
+.login-step{ animation: fadein .3s ease both; }
+.step-back{
+  background:transparent; border:none; color:var(--ink-dim); font-size:.8rem; padding:0; margin-bottom:16px;
+  display:flex; align-items:center; gap:5px; transition:color .18s;
+}
+.step-back:hover{ color:var(--mint); }
+.login-error{
+  font-size:.8rem; color:var(--danger); margin:-6px 0 14px; display:flex; align-items:center; gap:6px;
+}
+.login-side-art{
+  position:fixed; left:0; top:50%; transform:translateY(-50%);
+  width:min(30vw, 380px); max-height:78vh; z-index:1; pointer-events:none;
+  opacity:.9;
+  -webkit-mask-image:linear-gradient(to right, black 60%, transparent 100%);
+  mask-image:linear-gradient(to right, black 60%, transparent 100%);
+}
+.login-side-art img{ width:100%; height:auto; display:block; }
+
+/* ============ TOP NAV ============ */
+#topnav{
+  position:sticky; top:0; z-index:30;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 32px; gap:20px;
+  background:rgba(7,10,15,.55); backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line-soft);
+}
+.nav-left{ display:flex; align-items:center; gap:28px; }
+.nav-logo-badge{
+  background:#ffffff; border-radius:9px; padding:6px 12px; display:flex; align-items:center;
+}
+.nav-logo-badge img{ height:20px; width:auto; display:block; }
+.nav-links{ display:flex; gap:22px; }
+.nav-links a{ font-size:.86rem; color:var(--ink-dim); text-decoration:none; font-weight:500; transition:color .18s; cursor:pointer;}
+.nav-links a:hover{ color:var(--mint); }
+.nav-right{ display:flex; align-items:center; gap:16px; }
+.pill{
+  font-family:var(--font-mono); font-size:.72rem; padding:6px 12px; border-radius:999px;
+  border:1px solid var(--line); color:var(--ink-dim); display:flex; align-items:center; gap:6px;
+}
+.pill b{color:var(--mint); font-weight:600;}
+.btn-ghost{
+  border:1px solid var(--line); background:transparent; color:var(--ink-dim);
+  padding:8px 14px; border-radius:9px; font-size:.82rem; transition:all .18s;
+}
+.btn-ghost:hover{ border-color:var(--pink); color:var(--pink); }
+
+/* ============ SECTIONS ============ */
+.view{ display:none; }
+.view.active{ display:block; animation: fadein .35s ease both; }
+.section{ padding:96px 32px; max-width:1180px; margin:0 auto; }
+.section-tight{ padding:64px 32px; }
+.page-back-row{ padding:20px 32px 0; max-width:1180px; margin:0 auto; }
+.page-back-btn{
+  display:inline-flex; align-items:center; gap:6px; background:transparent; border:1px solid var(--line);
+  color:var(--ink-dim); padding:9px 16px; border-radius:9px; font-size:.84rem; transition:all .18s;
+}
+.page-back-btn:hover{ border-color:var(--mint); color:var(--mint); }
+.eyebrow-row{ display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+.eyebrow-row .line{ width:26px; height:1px; background:var(--grad); }
+.section-head{ max-width:640px; margin-bottom:44px; }
+.section-head h2{ font-size:2.1rem; margin-bottom:12px; }
+.section-head p{ color:var(--ink-dim); font-size:1rem; line-height:1.6; }
+
+/* HERO */
+.hero{ padding-top:64px; }
+.hero-top{ display:flex; flex-direction:column; gap:22px; max-width:720px; }
+.hero-top .eyebrow{ margin-bottom:0;}
+.hero h1{ font-size:clamp(2.1rem, 4vw, 3.3rem); line-height:1.08; }
+.hero p.lede{ font-size:1.05rem; max-width:600px; margin-bottom:0;}
+.hero-cta{ display:flex; gap:14px; margin-top:8px; flex-wrap:wrap;}
+.btn-primary{
+  background:var(--grad); color:#06110d; border:none; font-weight:600;
+  padding:13px 22px; border-radius:11px; font-size:.92rem;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.btn-primary:hover{ transform:translateY(-2px); box-shadow:0 10px 26px -8px rgba(94,234,212,.5); }
+.stat-strip{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+  margin-top:60px; border:1px solid var(--line); border-radius:16px; overflow:hidden;
+  background:var(--line);
+}
+.stat-cell{
+  background:rgba(15,21,30,.7); padding:22px 20px; display:flex; flex-direction:column; gap:6px;
+}
+.stat-cell .num{ font-family:var(--font-display); font-size:1.9rem; font-weight:700; }
+.stat-cell .lab{ font-size:.76rem; color:var(--ink-dim); font-family:var(--font-mono); }
+
+/* HOME — WHAT'S INSIDE */
+.home-course-list{ display:flex; flex-direction:column; gap:2px; margin-top:20px; }
+.home-course-row{
+  display:flex; align-items:center; gap:20px; padding:20px 18px; border-radius:14px; cursor:pointer;
+  border:1px solid transparent; transition:background .18s, border-color .18s;
+}
+.home-course-row:hover{ background:rgba(255,255,255,.035); border-color:var(--line); }
+.home-course-row .hnum{ font-family:var(--font-mono); font-size:.78rem; color:var(--muted); width:26px; flex-shrink:0; }
+.home-course-row .hicon{
+  width:44px; height:44px; border-radius:11px; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; background:color-mix(in srgb, var(--accent-color, var(--mint)) 16%, transparent);
+  color:var(--accent-color, var(--mint));
+}
+.home-course-row .hicon svg{ width:22px; height:22px; }
+.home-course-row .htext{ flex-grow:1; }
+.home-course-row .htext h4{ font-size:1rem; margin-bottom:4px; }
+.home-course-row .htext p{ font-size:.85rem; color:var(--ink-dim); line-height:1.5; margin:0; }
+.home-course-row .harrow{ color:var(--ink-dim); flex-shrink:0; transition:transform .18s; }
+.home-course-row:hover .harrow{ transform:translateX(4px); color:var(--mint); }
+
+/* COURSE GRID */
+.course-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:20px; }
+.course-card{
+  position:relative; border:1px solid var(--line); border-radius:16px; padding:24px;
+  background:linear-gradient(160deg, rgba(255,255,255,.035), rgba(255,255,255,.01));
+  display:flex; flex-direction:column; gap:14px; cursor:pointer; overflow:hidden;
+  transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+.course-card:hover{ transform:translateY(-4px); box-shadow:0 20px 40px -20px rgba(0,0,0,.6); }
+.course-card::before{
+  content:''; position:absolute; top:-40%; right:-30%; width:200px; height:200px; border-radius:50%;
+  background:var(--accent-color, var(--mint)); opacity:.10; filter:blur(30px); pointer-events:none;
+}
+.course-card .num{ font-family:var(--font-mono); font-size:.72rem; color:var(--muted); }
+.course-icon{
+  width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+  background:color-mix(in srgb, var(--accent-color, var(--mint)) 16%, transparent);
+  color:var(--accent-color, var(--mint));
+}
+.course-icon svg{ width:24px; height:24px; }
+.course-card h3{ font-size:1.12rem; line-height:1.3; }
+.course-card .tagline{ color:var(--ink-dim); font-size:.86rem; line-height:1.5; flex-grow:1; }
+.course-meta{ display:flex; gap:14px; font-family:var(--font-mono); font-size:.7rem; color:var(--muted); }
+.course-progress-bar{ height:6px; border-radius:999px; background:rgba(255,255,255,.07); overflow:hidden; }
+.course-progress-fill{ height:100%; background:var(--accent-color, var(--mint)); border-radius:999px; transition:width .4s ease; }
+.course-cta{
+  display:flex; align-items:center; justify-content:space-between; font-size:.82rem; font-weight:600;
+  color:var(--accent-color, var(--mint));
+}
+.badge-complete{
+  font-family:var(--font-mono); font-size:.68rem; background:rgba(74,222,128,.13); color:var(--good);
+  padding:4px 9px; border-radius:999px; display:inline-flex; align-items:center; gap:5px;
+}
+
+/* ABOUT */
+.about-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:48px; align-items:start; }
+.about-grid p{ color:var(--ink-dim); line-height:1.75; font-size:.98rem; margin-bottom:16px; }
+.about-stats{ display:flex; flex-direction:column; gap:16px; }
+.about-stat{ border:1px solid var(--line); border-radius:14px; padding:18px 20px; background:rgba(255,255,255,.02); }
+.about-stat .num{ font-family:var(--font-display); font-size:1.7rem; font-weight:700; }
+.about-stat .num span{ background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.about-stat .lab{ font-size:.8rem; color:var(--ink-dim); margin-top:4px; }
+.loc-row{ display:flex; gap:8px; flex-wrap:wrap; margin-top:18px; }
+.loc-chip{
+  font-family:var(--font-mono); font-size:.72rem; border:1px solid var(--line); padding:6px 12px;
+  border-radius:999px; color:var(--ink-dim);
+}
+.values-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:36px; }
+.value-card{ border:1px solid var(--line); border-radius:14px; padding:18px; background:rgba(255,255,255,.02); }
+.value-card h4{ font-size:.95rem; margin-bottom:8px; color:var(--mint); }
+.value-card p{ font-size:.82rem; color:var(--ink-dim); margin:0; }
+
+/* ADMIN PANEL */
+.admin-table-wrap{ border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+table{ width:100%; border-collapse:collapse; font-size:.86rem; }
+th,td{ padding:12px 16px; text-align:left; border-bottom:1px solid var(--line-soft); }
+th{ font-family:var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); background:rgba(255,255,255,.02);}
+tr:last-child td{ border-bottom:none; }
+.mini-bar{ width:100px; height:6px; border-radius:999px; background:rgba(255,255,255,.08); overflow:hidden; display:inline-block; vertical-align:middle; margin-right:8px;}
+.mini-bar span{ display:block; height:100%; background:var(--grad); }
+.admin-note{ font-size:.78rem; color:var(--muted); margin-top:12px; }
+
+footer{ text-align:center; padding:40px 20px 60px; color:var(--muted); font-size:.78rem; font-family:var(--font-mono); }
+
+/* ============ COURSE PLAYER OVERLAY ============ */
+.overlay{
+  position:fixed; inset:0; z-index:50; background:var(--deep);
+  display:flex; flex-direction:column; animation:fadein .35s ease both;
+}
+@keyframes fadein{ from{opacity:0;} to{opacity:1;} }
+.player-header{
+  display:flex; align-items:center; gap:20px; padding:16px 28px;
+  border-bottom:1px solid var(--line); background:rgba(7,10,15,.75); backdrop-filter:blur(12px);
+}
+.back-btn{
+  display:flex; align-items:center; gap:6px; background:transparent; border:1px solid var(--line);
+  color:var(--ink-dim); padding:8px 14px; border-radius:9px; font-size:.82rem; transition:all .18s;
+}
+.back-btn:hover{ border-color:var(--mint); color:var(--mint); }
+.player-title{ flex-grow:1; }
+.player-title h2{ font-size:1.15rem; }
+.player-title .tag{ font-size:.76rem; color:var(--ink-dim); font-family:var(--font-mono); }
+.player-progress-wrap{ width:180px; }
+.player-progress-track{ height:6px; border-radius:999px; background:rgba(255,255,255,.08); overflow:hidden; }
+.player-progress-fill{ height:100%; background:var(--grad); transition:width .4s ease; }
+.player-progress-label{ font-size:.68rem; color:var(--muted); font-family:var(--font-mono); margin-top:5px; text-align:right;}
+.player-points{ font-family:var(--font-mono); font-size:.8rem; color:var(--mint); white-space:nowrap; }
+
+.player-body{ flex-grow:1; display:flex; overflow:hidden; }
+.player-sidebar{
+  width:270px; flex-shrink:0; border-right:1px solid var(--line); padding:18px 12px; overflow-y:auto;
+  background:rgba(255,255,255,.015);
+}
+.sb-item{
+  display:flex; align-items:center; gap:10px; padding:11px 12px; border-radius:10px; margin-bottom:4px;
+  cursor:pointer; font-size:.86rem; color:var(--ink-dim); border:1px solid transparent; transition:all .16s;
+}
+.sb-item:hover:not(.sb-locked){ background:rgba(255,255,255,.04); }
+.sb-item.active{ background:rgba(94,234,212,.1); border-color:rgba(94,234,212,.3); color:var(--ink); }
+.sb-item.sb-locked{ opacity:.4; cursor:not-allowed; }
+.sb-index{
+  width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-mono); font-size:.68rem; border:1px solid var(--line); flex-shrink:0;
+}
+.sb-item.done .sb-index{ background:var(--good); color:#04150a; border-color:var(--good); }
+.sb-assess{ margin-top:10px; padding-top:14px; border-top:1px solid var(--line-soft); }
+
+.player-main{ flex-grow:1; overflow-y:auto; padding:40px 56px; max-width:920px; }
+.mod-eyebrow{ font-family:var(--font-mono); font-size:.72rem; color:var(--mint); text-transform:uppercase; letter-spacing:.1em; margin-bottom:10px;}
+.player-main h2{ font-size:1.7rem; margin-bottom:20px; }
+.player-main .body-text{ color:var(--ink-dim); font-size:1rem; line-height:1.75; margin-bottom:16px; }
+.objectives-list{ margin:18px 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px;}
+.objectives-list li{ display:flex; gap:10px; font-size:.94rem; color:var(--ink-dim); line-height:1.5;}
+.objectives-list li::before{ content:'—'; color:var(--mint); flex-shrink:0; }
+
+.flow-row{ display:flex; align-items:center; gap:8px; overflow-x:auto; padding:18px 0 24px; }
+.flow-step{
+  flex-shrink:0; padding:10px 16px; border:1px solid var(--line); border-radius:10px; font-size:.82rem;
+  background:rgba(255,255,255,.03); white-space:nowrap; font-family:var(--font-mono);
+}
+.flow-arrow{ color:var(--muted); flex-shrink:0; }
+.io-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:6px;}
+.io-box{ border:1px solid var(--line); border-radius:12px; padding:16px; }
+.io-box .lab{ font-family:var(--font-mono); font-size:.68rem; color:var(--muted); text-transform:uppercase; margin-bottom:8px;}
+.io-box p{ font-size:.86rem; color:var(--ink-dim); line-height:1.5;}
+
+.glossary-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:8px; }
+.gloss-item{ border:1px solid var(--line); border-radius:12px; padding:14px 16px; }
+.gloss-item .term{ font-weight:600; font-size:.9rem; color:var(--ink); margin-bottom:5px; }
+.gloss-item .def{ font-size:.82rem; color:var(--ink-dim); line-height:1.5; }
+
+.people-list{ display:flex; flex-direction:column; gap:12px; margin-top:8px; }
+.people-item{ display:flex; gap:14px; align-items:flex-start; border:1px solid var(--line); border-radius:12px; padding:14px 16px;}
+.people-avatar{
+  width:34px; height:34px; border-radius:50%; background:var(--grad); flex-shrink:0; margin-top:2px;
+  display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:.72rem; color:#061109; font-weight:700;
+}
+.people-item .role{ font-weight:600; font-size:.9rem; margin-bottom:3px; }
+.people-item .desc{ font-size:.82rem; color:var(--ink-dim); line-height:1.5; }
+.consumer-note{ margin-top:16px; padding:12px 16px; border-left:2px solid var(--mint); background:rgba(94,234,212,.05); font-size:.84rem; color:var(--ink-dim); border-radius:0 10px 10px 0;}
+
+.tag-group{ margin-bottom:20px; }
+.tag-group .glab{ font-family:var(--font-mono); font-size:.72rem; color:var(--muted); text-transform:uppercase; margin-bottom:10px; }
+.tag-row{ display:flex; gap:8px; flex-wrap:wrap; }
+.tag-chip{
+  padding:7px 13px; border-radius:999px; border:1px solid var(--line); font-size:.8rem;
+  background:rgba(255,255,255,.03); color:var(--ink-dim);
+}
+
+.two-col{ display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:8px;}
+.two-col h4{ font-size:.86rem; color:var(--mint); font-family:var(--font-mono); text-transform:uppercase; margin-bottom:12px;}
+.two-col ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px;}
+.two-col li{ font-size:.88rem; color:var(--ink-dim); line-height:1.5; padding-left:16px; position:relative;}
+.two-col li::before{ content:''; position:absolute; left:0; top:8px; width:6px; height:6px; border-radius:50%; background:var(--pink);}
+.two-col.ai li::before{ background:var(--mint); }
+
+.summary-box{ border:1px solid var(--line); border-radius:14px; padding:20px 22px; margin-bottom:16px; background:rgba(255,255,255,.02);}
+.summary-box h4{ font-size:.85rem; font-family:var(--font-mono); text-transform:uppercase; color:var(--violet); margin-bottom:12px;}
+
+.check-box{
+  margin-top:28px; border:1px solid rgba(167,139,250,.35); background:rgba(167,139,250,.06);
+  border-radius:14px; padding:20px 22px;
+}
+.check-box .cb-label{ font-family:var(--font-mono); font-size:.7rem; color:var(--violet); text-transform:uppercase; margin-bottom:10px; letter-spacing:.08em;}
+.check-q{ font-size:.96rem; margin-bottom:14px; font-weight:500; }
+.opt-list{ display:flex; flex-direction:column; gap:8px; }
+.opt-btn{
+  text-align:left; border:1px solid var(--line); background:rgba(255,255,255,.02); color:var(--ink-dim);
+  padding:11px 14px; border-radius:9px; font-size:.86rem; transition:all .15s;
+}
+.opt-btn:hover{ border-color:var(--violet); }
+.opt-btn.correct{ border-color:var(--good); background:rgba(74,222,128,.1); color:var(--ink); }
+.opt-btn.wrong{ border-color:var(--danger); background:rgba(248,113,113,.1); color:var(--ink); }
+.opt-btn:disabled{ cursor:default; }
+.check-feedback{ margin-top:10px; font-size:.82rem; }
+.check-feedback.ok{ color:var(--good); }
+.check-feedback.no{ color:var(--danger); }
+
+.module-actions{ display:flex; justify-content:space-between; align-items:center; margin-top:36px; padding-top:24px; border-top:1px solid var(--line-soft); }
+.sidebar-intro{ padding:6px 12px 16px; margin-bottom:8px; border-bottom:1px solid var(--line-soft); }
+.sidebar-intro .tagline{ font-size:.82rem; color:var(--ink-dim); line-height:1.5; margin-bottom:10px; }
+.sidebar-intro ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:6px; }
+.sidebar-intro li{ font-size:.78rem; color:var(--ink-dim); line-height:1.4; padding-left:12px; position:relative; }
+.sidebar-intro li::before{ content:'—'; position:absolute; left:0; color:var(--mint); }
+.placeholder-card{
+  border:1px dashed var(--line); border-radius:16px; padding:48px 32px; text-align:center;
+  background:rgba(255,255,255,.015); margin-top:8px;
+}
+.placeholder-card .ic{ font-size:2rem; margin-bottom:14px; opacity:.8; }
+.placeholder-card p{ color:var(--ink-dim); font-size:.94rem; line-height:1.6; margin:0 auto; max-width:420px; }
+.placeholder-card p.sub{ font-size:.82rem; color:var(--muted); margin-top:8px; }
+.btn-complete{
+  background:var(--grad); color:#06110d; border:none; font-weight:600; padding:12px 22px; border-radius:10px; font-size:.88rem;
+  transition:transform .18s;
+}
+.btn-complete:hover{ transform:translateY(-2px); }
+.btn-complete:disabled{ opacity:.5; cursor:default; transform:none; background:var(--panel-2); color:var(--muted); }
+.nav-arrow-btn{ background:transparent; border:1px solid var(--line); color:var(--ink-dim); padding:10px 16px; border-radius:9px; font-size:.84rem; }
+.nav-arrow-btn:hover{ border-color:var(--mint); color:var(--mint); }
+
+.assess-cta{
+  margin-top:20px; border:1px dashed var(--line); border-radius:14px; padding:22px; text-align:center;
+}
+.assess-cta p{ color:var(--ink-dim); font-size:.88rem; margin-bottom:14px; }
+
+/* ============ MODALS ============ */
+.modal-backdrop{
+  position:fixed; inset:0; z-index:80; background:rgba(4,6,10,.78); backdrop-filter:blur(6px);
+  display:flex; align-items:center; justify-content:center; padding:24px; animation:fadein .25s ease both;
+}
+.modal-card{
+  background:var(--panel); border:1px solid var(--line); border-radius:20px; width:100%; max-width:640px;
+  max-height:88vh; overflow-y:auto; padding:32px 34px;
+}
+.modal-card h2{ font-size:1.4rem; margin-bottom:6px;}
+.modal-card .sub{ color:var(--ink-dim); font-size:.86rem; margin-bottom:22px;}
+.q-block{ margin-bottom:22px; }
+.q-num{ font-family:var(--font-mono); font-size:.7rem; color:var(--muted); margin-bottom:6px;}
+.q-text{ font-size:.94rem; font-weight:500; margin-bottom:10px; }
+.modal-actions{ display:flex; justify-content:flex-end; gap:12px; margin-top:14px; }
+.btn-secondary{ background:transparent; border:1px solid var(--line); color:var(--ink-dim); padding:11px 18px; border-radius:10px; font-size:.86rem;}
+.btn-secondary:hover{ border-color:var(--ink-dim); color:var(--ink); }
+.score-hero{ text-align:center; padding:20px 0 8px; }
+.score-hero .big{ font-family:var(--font-display); font-size:3rem; font-weight:700; }
+.score-hero .verdict{ font-size:1rem; margin-top:6px; }
+.verdict.pass{ color:var(--good); }
+.verdict.fail{ color:var(--danger); }
+
+#cert-canvas{ width:100%; border-radius:12px; border:1px solid var(--line); display:block; }
+
+/* ============ TOASTS ============ */
+#toast-container{ position:fixed; bottom:24px; right:24px; z-index:100; display:flex; flex-direction:column; gap:10px; }
+.toast{
+  background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:13px 18px;
+  font-size:.85rem; display:flex; align-items:center; gap:10px; box-shadow:0 12px 30px -10px rgba(0,0,0,.6);
+  animation:toastin .3s ease both;
+}
+@keyframes toastin{ from{opacity:0; transform:translateX(30px);} to{opacity:1; transform:translateX(0);} }
+.toast .ic{ font-size:1.1rem; }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 880px){
+  .about-grid{ grid-template-columns:1fr; }
+  .stat-strip{ grid-template-columns:1fr 1fr; }
+  .values-grid{ grid-template-columns:1fr; }
+  .player-sidebar{ display:none; }
+  .player-main{ padding:28px 20px; }
+  .two-col{ grid-template-columns:1fr; }
+  .glossary-grid{ grid-template-columns:1fr; }
+  .io-grid{ grid-template-columns:1fr; }
+  .nav-links{ display:none; }
+  #topnav{ padding:14px 18px; }
+  .section{ padding:60px 20px; }
+  .role-row{ grid-template-columns:1fr; }
+  .login-side-art{ display:none; }
+}
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:.001s !important; transition-duration:.001s !important; }
+}
+</style>
 </head>
 <body>
-    <!-- ========================================
-         LOGIN PAGE
-         ======================================== -->
-    <div id="loginPage" class="page active">
-        <div class="login-wallpaper-side slide-in-left">
-            <img 
-                src="https://raw.githubusercontent.com/sufirumii/Excelra-Life-Sciences-Learning-Repository/main/Login%20Background.webp" 
-                alt="Login Background Wallpaper" 
-                class="wallpaper-image"
-                onerror="this.style.background='#f5f5f5'"
-            >
+
+<div id="bg-wrap"><canvas id="bg-canvas"></canvas></div>
+<div id="bg-veil"></div>
+
+<div id="app">
+
+  <!-- ============ LOGIN SCREEN ============ -->
+  <section id="screen-login" class="screen">
+    <div class="login-side-art"><img src="Login%20Background.webp" alt="" aria-hidden="true"></div>
+    <div class="login-card">
+      <div class="login-logo-strip"><img src="About%20Logo.jpg" alt="Excelra"></div>
+      <div class="login-card-body">
+        <div class="eyebrow">Life Sciences Learning Repository — Fresher Edition</div>
+        <h1>Where data means <span class="grad-text">more.</span></h1>
+        <p class="lede">Seven interactive courses covering the life sciences data value chain — built for new joiners, reusable for every batch after them.</p>
+
+        <div id="login-step-role">
+          <div class="role-row">
+            <button id="btn-role-user" class="role-btn">
+              <span>Learner</span>
+              <small>Take the courses</small>
+            </button>
+            <button id="btn-role-admin" class="role-btn role-btn--admin">
+              <span>Admin</span>
+              <small>View batch progress</small>
+            </button>
+          </div>
         </div>
 
-        <div class="login-form-side">
-            <div class="login-container">
-                <div class="logo-section">
-                    <div class="logo-container">
-                        <img 
-                            src="https://raw.githubusercontent.com/sufirumii/Excelra-Life-Sciences-Learning-Repository/main/About%20Logo.jpg" 
-                            alt="Excelra Logo"
-                            onerror="this.parentElement.style.backgroundColor='#e8e8e8'; this.style.display='none'"
-                        >
-                    </div>
-
-                    <h1>Excelra</h1>
-                    <p class="company-name">LIFE SCIENCES LEARNING REPOSITORY</p>
-                    <p class="tagline">Fresher Edition | Knowledge Hub</p>
-                </div>
-
-                <p class="login-subtitle">Select Your Role to Continue</p>
-
-                <div class="login-options">
-                    <div class="login-card" onclick="selectRole('admin')">
-                        <div class="login-card-wrapper">
-                            <div class="login-card-icon">A</div>
-                            <div class="login-card-info">
-                                <h3>Login as Admin</h3>
-                                <p>Access administrative controls and manage courses</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="login-card" onclick="selectRole('user')">
-                        <div class="login-card-wrapper">
-                            <div class="login-card-icon">U</div>
-                            <div class="login-card-info">
-                                <h3>Login as User</h3>
-                                <p>Explore and enroll in available courses</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <p class="footer-text">Excelra Life Sciences Learning Repository © 2024</p>
-            </div>
+        <div id="login-step-user" class="login-step hidden">
+          <button class="step-back" id="user-step-back">← Back</button>
+          <label class="field-label" for="learner-name">Your name</label>
+          <input id="learner-name" type="text" placeholder="e.g. Ananya Rao" autocomplete="off">
+          <div class="login-error hidden" id="user-error">Please enter your name to continue.</div>
+          <button class="btn-primary" id="btn-user-continue" style="width:100%;">Continue as Learner →</button>
         </div>
+
+        <div id="login-step-admin" class="login-step hidden">
+          <button class="step-back" id="admin-step-back">← Back</button>
+          <label class="field-label" for="admin-username">Username</label>
+          <input id="admin-username" type="text" placeholder="Username" autocomplete="off">
+          <label class="field-label" for="admin-password">Password</label>
+          <input id="admin-password" type="password" placeholder="Password" autocomplete="off">
+          <div class="login-error hidden" id="admin-error">Incorrect username or password.</div>
+          <button class="btn-primary" id="btn-admin-continue" style="width:100%;">Sign in as Admin →</button>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <!-- ========================================
-         DASHBOARD PAGE
-         ======================================== -->
-    <div id="dashboardPage" class="page">
-        <div class="header">
-            <div class="container">
-                <div class="header-content">
-                    <div>
-                        <h1>Excelra Life Sciences Learning Repository</h1>
-                        <p class="header-subtitle">Fresher Edition – Explore Our Comprehensive Course Catalog</p>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div style="text-align: right;">
-                            <div class="user-badge" id="userBadge">User</div>
-                            <div class="user-role" id="userRole">Learner</div>
-                        </div>
-                        <button class="logout-btn" onclick="logout()">Logout</button>
-                    </div>
-                </div>
-            </div>
+  <!-- ============ APP SHELL ============ -->
+  <div id="app-shell" class="hidden">
+    <nav id="topnav">
+      <div class="nav-left">
+        <div class="nav-logo-badge"><img src="About%20Logo.jpg" alt="Excelra"></div>
+        <div class="nav-links">
+          <a data-route="home">Home</a>
+          <a data-route="courses">Courses</a>
+          <a data-route="about">About Excelra</a>
+          <a data-route="admin-panel" id="nav-admin-link" class="hidden">Batch Progress</a>
         </div>
+      </div>
+      <div class="nav-right">
+        <span class="pill" id="pill-role">— </span>
+        <button class="btn-ghost" id="btn-logout">Log out</button>
+      </div>
+    </nav>
 
-        <div class="courses-section">
-            <div class="container">
-                <div class="courses-grid">
-                    <!-- Course 1: Drug Discovery -->
-                    <div class="course-card" onclick="openCourse('Drug Discovery')">
-                        <div class="course-number">1</div>
-                        <h3>Drug Discovery</h3>
-                        <p>Learn the fundamental principles and methodologies behind identifying and developing new pharmaceutical compounds.</p>
-                        <a href="javascript:void(0);" class="course-link">Explore Course</a>
-                    </div>
-
-                    <!-- Course 2: Drug Development Lifecycle -->
-                    <div class="course-card" onclick="openCourse('Drug Development Lifecycle')">
-                        <div class="course-number">2</div>
-                        <h3>Drug Development Lifecycle</h3>
-                        <p>Understand the complete journey of a drug from initial concept through regulatory approval and commercialization.</p>
-                        <a href="javascript:void(0);" class="course-link">Explore Course</a>
-                    </div>
-
-                    <!-- Course 3: Clinical Trials -->
-                    <div class="course-card" onclick="openCourse('Clinical Trials')">
-                        <div class="course-number">3</div>
-                        <h3>Clinical Trials</h3>
-                        <p>Explore the essential components of conducting ethical and scientifically rigorous clinical trials in human subjects.</p>
-                        <a href="javascript:void(0);" class="course-link">Explore Course</a>
-                    </div>
-
-                    <!-- Course 4: Clinical Data Management -->
-                    <div class="course-card" onclick="openCourse('Clinical Data Management')">
-                        <div class="course-number">4</div>
-                        <h3>Clinical Data Management</h3>
-                        <p>Master the processes of collecting, validating, and managing clinical trial data for regulatory compliance.</p>
-                        <a href="javascript:void(0);" class="course-link">Explore Course</a>
-                    </div>
-
-                    <!-- Course 5: Pharmacovigilance -->
-                    <div class="course-card" onclick="openCourse('Pharmacovigilance')">
-                        <div class="course-number">5</div>
-                        <h3>Pharmacovigilance</h3>
-                        <p>Learn to identify, assess, and respond to adverse drug reactions and safety concerns post-market.</p>
-                        <a href="javascript:void(0);" class="course-link">Explore Course</a>
-                    </div>
-
-                    <!-- Course 6: Healthcare Data Standards -->
-                    <div class="course-card" onclick="openCourse('Healthcare Data Standards')">
-                        <div class="course-number">6</div>
-                        <h3>Healthcare Data Standards</h3>
-                        <p>Understand industry-standard data formats and protocols that ensure interoperability in healthcare systems.</p>
-                        <a href="javascript:void(0);" class="course-link">Explore Course</a>
-                    </div>
-
-                    <!-- Course 7: Data Integrity & Digital Transformation -->
-                    <div class="course-card" onclick="openCourse('Data Integrity & Digital Transformation')">
-                        <div class="course-number">7</div>
-                        <h3>Data Integrity & Digital Transformation</h3>
-                        <p>Explore data governance, security practices, and the digital evolution reshaping life sciences organizations.</p>
-                        <a href="javascript:void(0);" class="course-link">Explore Course</a>
-                    </div>
-                </div>
-            </div>
+    <section id="home" class="section hero view active">
+      <div class="hero-top">
+        <div class="eyebrow">Fresher Edition · Learning Repository</div>
+        <h1>Welcome back, <span id="greet-name" class="grad-text">Learner</span>.</h1>
+        <p class="lede">This repository turns seven distinct life sciences functions into self-paced courses — each covering a different part of the value chain, from early drug discovery through post-launch safety and digital transformation — so anyone new to the domain can get up to speed independently.</p>
+        <div class="hero-cta">
+          <button class="btn-primary" data-route="courses">Browse the 7 courses →</button>
+          <button class="btn-ghost" data-route="about" style="border-color:var(--line);">About Excelra</button>
         </div>
+      </div>
+      <div class="stat-strip">
+        <div class="stat-cell"><span class="num">7</span><span class="lab">COURSES IN REPOSITORY</span></div>
+        <div class="stat-cell"><span class="num" id="stat-modules">84</span><span class="lab">LEARNING MODULES</span></div>
+        <div class="stat-cell"><span class="num">30–45</span><span class="lab">MIN PER COURSE</span></div>
+        <div class="stat-cell"><span class="num" id="stat-completed">0</span><span class="lab">COURSES COMPLETED BY YOU</span></div>
+      </div>
+
+      <div class="section-head" style="margin-top:80px;">
+        <div class="eyebrow-row"><span class="line"></span><span class="eyebrow" style="margin:0;">What's inside</span></div>
+        <h2>Seven courses, one value chain.</h2>
+        <p>Every course follows the same 12-module flow — introduction, process, terminology, stakeholders, standards, technology, challenges, and more — applied to a different part of the life sciences pipeline. Tap any of them to open it.</p>
+      </div>
+      <div class="home-course-list" id="home-course-list"></div>
+    </section>
+
+    <section id="courses" class="section view">
+      <div class="page-back-row" style="padding-left:0; padding-top:0; margin-bottom:12px;"><button class="page-back-btn" data-route="home">← Back to Home</button></div>
+      <div class="section-head">
+        <div class="eyebrow-row"><span class="line"></span><span class="eyebrow" style="margin:0;">The repository</span></div>
+        <h2>Seven functions, end to end.</h2>
+        <p>Each course covers the same ground: why the function exists, its end-to-end process, key terms, stakeholders, standards, technology, current challenges, and where AI fits in. Pick a topic and go.</p>
+      </div>
+      <div class="course-grid" id="course-grid"></div>
+    </section>
+
+    <section id="about" class="section view">
+      <div class="page-back-row" style="padding-left:0; padding-top:0; margin-bottom:12px;"><button class="page-back-btn" data-route="home">← Back to Home</button></div>
+      <div class="section-head">
+        <div class="eyebrow-row"><span class="line"></span><span class="eyebrow" style="margin:0;">About Excelra</span></div>
+        <h2>Where data means more.</h2>
+      </div>
+      <div class="about-grid">
+        <div>
+          <p>Excelra is an informatics company that provides data analytics and scientific informatics services to the global life sciences industry — helping pharmaceutical and biotech organizations turn raw, disparate data into decisions that move research forward.</p>
+          <p>The company blends deep domain expertise in chemistry, biology, and clinical science with hands-on data engineering — curating, structuring, and harmonizing everything from chemical and genomic data to clinical trial and safety records so it is trustworthy and ready for analysis.</p>
+          <p>Excelra works across the drug development value chain, from early discovery data curation through clinical and regulatory data services, and increasingly applies AI and cloud-based data engineering to help pharma teams work faster without compromising data quality or compliance.</p>
+          <div class="loc-row">
+            <span class="loc-chip">Boston</span>
+            <span class="loc-chip">San Francisco</span>
+            <span class="loc-chip">Gent</span>
+            <span class="loc-chip">Hyderabad</span>
+          </div>
+        </div>
+        <div class="about-stats">
+          <div class="about-stat"><div class="num"><span>20+</span> years</div><div class="lab">Working in life sciences data & informatics</div></div>
+          <div class="about-stat"><div class="num"><span>16/20</span> top pharma</div><div class="lab">Of the top 20 global pharma companies served</div></div>
+          <div class="about-stat"><div class="num"><span>90+</span> clients</div><div class="lab">Biopharma, biotech & diagnostics organizations partnered with</div></div>
+        </div>
+      </div>
+      <div class="values-grid">
+        <div class="value-card"><h4>Domain-first</h4><p>Scientists, chemists and clinicians sit alongside engineers — the data work is grounded in real biology, not just pipelines.</p></div>
+        <div class="value-card"><h4>Data as an asset</h4><p>Curation, standardization and FAIRification make data trustworthy enough to build discovery and regulatory decisions on.</p></div>
+        <div class="value-card"><h4>AI-accelerated</h4><p>Cloud platforms, automation and generative AI are used to speed up curation and analysis — without skipping human validation.</p></div>
+      </div>
+    </section>
+
+    <section id="admin-panel" class="section view">
+      <div class="page-back-row" style="padding-left:0; padding-top:0; margin-bottom:12px;"><button class="page-back-btn" data-route="home">← Back to Home</button></div>
+      <div class="section-head">
+        <div class="eyebrow-row"><span class="line"></span><span class="eyebrow" style="margin:0;">Admin view</span></div>
+        <h2>Batch progress overview.</h2>
+        <p>Illustrative view of how the fresher batch is progressing through the repository. Your own progress (shown in Courses) is real and stored in this browser.</p>
+      </div>
+      <div class="admin-table-wrap">
+        <table>
+          <thead><tr><th>Learner</th><th>Assigned topic</th><th>Progress</th><th>Status</th></tr></thead>
+          <tbody id="admin-tbody"></tbody>
+        </table>
+      </div>
+      <p class="admin-note">Note: this table shows illustrative demo data for the batch. Your own learner row reflects your real progress from this browser.</p>
+    </section>
+
+    <footer>EXCELRA LIFE SCIENCES LEARNING REPOSITORY — FRESHER EDITION · INTERNAL USE · CONFIDENTIAL</footer>
+  </div>
+
+  <!-- ============ COURSE PLAYER ============ -->
+  <div id="course-player" class="overlay hidden">
+    <header class="player-header">
+      <button class="back-btn" id="btn-back-dash">← Back to repository</button>
+      <div class="player-title">
+        <h2 id="player-course-title">Course title</h2>
+        <div class="tag" id="player-course-tag">tagline</div>
+      </div>
+      <div class="player-progress-wrap">
+        <div class="player-progress-track"><div class="player-progress-fill" id="player-progress-fill" style="width:0%"></div></div>
+        <div class="player-progress-label" id="player-progress-label">0 / 8 modules</div>
+      </div>
+      <div class="player-points" id="player-points">0 pts</div>
+    </header>
+    <div class="player-body">
+      <aside class="player-sidebar" id="player-sidebar"></aside>
+      <main class="player-main" id="player-main"></main>
     </div>
+  </div>
 
-    <!-- ========================================
-         COURSE DETAIL PAGE
-         ======================================== -->
-    <div id="courseDetailPage" class="page">
-        <div class="detail-header">
-            <button class="back-btn" onclick="goBackToDashboard()">Back to Courses</button>
-        </div>
+</div><!-- /#app -->
 
-        <div class="detail-content">
-            <h2 id="courseDetailTitle">Course Title</h2>
-            <p id="courseDetailDescription">This is the course detail page. Content will be populated here when course development is complete.</p>
-            <p class="placeholder-text">Additional course materials and resources coming soon.</p>
-        </div>
-    </div>
+<div id="toast-container"></div>
 
-    <!-- ============================================
-         JAVASCRIPT FUNCTIONALITY
-         ============================================ -->
-    <script>
-        // ========================================
-        // STATE MANAGEMENT
-        // ========================================
-        let currentUserRole = null;
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* =====================================================================
+   EXCELRA LIFE SCIENCES LEARNING REPOSITORY — FRESHER EDITION
+   Single-file interactive learning app.
+   ===================================================================== */
 
-        // ========================================
-        // PAGE NAVIGATION
-        // ========================================
-        function showPage(pageId) {
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => page.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-        }
+/* ---------------------------------------------------------------------
+   1. COURSE DATA
+   --------------------------------------------------------------------- */
+function G(terms){ return terms.map(function(t){ return {t:t[0], d:t[1]}; }); }
+function P(roles){ return roles.map(function(r){ return {role:r[0], desc:r[1]}; }); }
 
-        // ========================================
-        // LOGIN FUNCTIONALITY
-        // ========================================
-        function selectRole(role) {
-            currentUserRole = role;
-            
-            // Preload and set background image for dashboard and course detail pages
-            const backgroundImageUrl = 'https://raw.githubusercontent.com/sufirumii/Excelra-Life-Sciences-Learning-Repository/main/Main%20UI%20Background.jpg';
-            
-            // Preload image to ensure smooth loading
-            const img = new Image();
-            img.onload = function() {
-                const dashboardPage = document.getElementById('dashboardPage');
-                dashboardPage.style.backgroundImage = 'url("' + backgroundImageUrl + '")';
-                
-                const courseDetailPage = document.getElementById('courseDetailPage');
-                courseDetailPage.style.backgroundImage = 'url("' + backgroundImageUrl + '")';
-                
-                // Trigger page transition after image loads
-                showPage('dashboardPage');
-            };
-            img.src = backgroundImageUrl;
-            
-            // Fallback if image takes too long (3 seconds)
-            setTimeout(function() {
-                if (!document.getElementById('dashboardPage').style.backgroundImage) {
-                    const dashboardPage = document.getElementById('dashboardPage');
-                    dashboardPage.style.backgroundImage = 'url("' + backgroundImageUrl + '")';
-                    
-                    const courseDetailPage = document.getElementById('courseDetailPage');
-                    courseDetailPage.style.backgroundImage = 'url("' + backgroundImageUrl + '")';
-                    
-                    showPage('dashboardPage');
-                }
-            }, 3000);
+const ICONS = {
+  discovery: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="9" r="4"/><circle cx="9" cy="35" r="4"/><circle cx="39" cy="35" r="4"/><line x1="22" y1="13" x2="12" y2="31"/><line x1="26" y1="13" x2="36" y2="31"/><line x1="13" y1="35" x2="35" y2="35"/></svg>',
+  lifecycle: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="24" r="3.6"/><circle cx="19" cy="24" r="3.6"/><circle cx="30" cy="24" r="3.6"/><circle cx="41" cy="24" r="3.6"/><line x1="11.6" y1="24" x2="15.4" y2="24"/><line x1="22.6" y1="24" x2="26.4" y2="24"/><line x1="33.6" y1="24" x2="37.4" y2="24"/></svg>',
+  trials: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="6" width="28" height="37" rx="3"/><line x1="17" y1="16" x2="31" y2="16"/><line x1="17" y1="24" x2="31" y2="24"/><path d="M17 32 l4 4 9-9"/></svg>',
+  cdm: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="24" cy="10" rx="14" ry="5"/><path d="M10 10v10c0 2.8 6.3 5 14 5s14-2.2 14-5V10"/><path d="M10 20v9c0 2.8 6.3 5 14 5s14-2.2 14-5v-9"/><path d="M10 29v8c0 2.8 6.3 5 14 5s14-2.2 14-5v-8"/></svg>',
+  pv: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M24 4 L41 11 V23 C41 35 33 41 24 45 C15 41 7 35 7 23 V11 Z"/><path d="M14 25 h6 l3 -6 4 10 3 -6 h6"/></svg>',
+  standards: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="15" height="15" rx="2.5"/><rect x="27" y="6" width="15" height="15" rx="2.5"/><rect x="6" y="27" width="15" height="15" rx="2.5"/><rect x="27" y="27" width="15" height="15" rx="2.5"/><line x1="21" y1="13.5" x2="27" y2="13.5"/><line x1="13.5" y1="21" x2="13.5" y2="27"/><line x1="34.5" y1="21" x2="34.5" y2="27"/><line x1="21" y1="34.5" x2="27" y2="34.5"/></svg>',
+  integrity: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M39 15a17 17 0 1 0 2.5 12"/><path d="M39 6v10h-10"/><path d="M17 24 l4.5 4.5 9-9"/></svg>'
+};
 
-            // Update user badge based on role
-            const userBadge = document.getElementById('userBadge');
-            const userRole = document.getElementById('userRole');
-            
-            if (role === 'admin') {
-                userBadge.textContent = 'Admin';
-                userRole.textContent = 'Administrator';
-            } else {
-                userBadge.textContent = 'User';
-                userRole.textContent = 'Learner';
-            }
-        }
+const COURSES = [
+{
+  id:'drug-discovery', num:'01', title:'Drug Discovery', tagline:'From biological target to lead molecule',
+  accent:'mint', icon:ICONS.discovery,
+  objectives:[
+    'Explain what drug discovery is and where it sits at the start of the pharmaceutical lifecycle',
+    'Describe the major stages from target identification through to lead optimization',
+    'Identify the people, data types and technologies that power modern discovery work'
+  ],
+  modules:[
+  {
+    "title": "Introduction",
+    "kind": "text",
+    "text": "Drug discovery is the earliest phase of turning a biological idea into a medicine. It sits right at the start of the pharmaceutical lifecycle, long before a molecule ever reaches a clinical trial. Every approved medicine — from painkillers to cancer immunotherapies — began as a hypothesis: \"if we can act on this target, we can change the course of a disease.\" Discovery scientists spend years testing that hypothesis in cells, animals and computers before a single candidate is judged fit for human testing. Get this stage right, and everything downstream — trials, approval, patients treated — becomes possible."
+  },
+  {
+    "title": "Business Overview",
+    "kind": "text",
+    "text": "The business function of drug discovery exists to generate a steady pipeline of promising molecules able to survive the far more expensive stages of development. Its objective is simple to state and hard to achieve: find a compound that is safe, effective, and different enough from what already exists to be patentable and commercially viable. Because roughly nine out of ten discovery candidates never become an approved drug, the real-world relevance of this function is about managing risk early — killing weak candidates cheaply in a lab, rather than expensively in a clinic years later."
+  },
+  {
+    "title": "End-to-End Process",
+    "kind": "process",
+    "text": "Discovery runs as a funnel: thousands of ideas narrow down to one nominated candidate.",
+    "stages": [
+      "Target Identification",
+      "Target Validation",
+      "Hit Discovery / Screening",
+      "Hit-to-Lead",
+      "Lead Optimization",
+      "Candidate Selection"
+    ],
+    "inputs": "Disease biology and genomic data, compound libraries, prior literature, and computational models of the target.",
+    "outputs": "A single validated lead compound plus a preclinical data package ready to hand to development.",
+    "checkIdx": 2
+  },
+  {
+    "title": "Key Terminologies",
+    "kind": "glossary",
+    "terms": [
+      {
+        "t": "Target",
+        "d": "The biological molecule — often a protein — that a drug is designed to act on."
+      },
+      {
+        "t": "Biomarker",
+        "d": "A measurable biological indicator used to track disease state or drug response."
+      },
+      {
+        "t": "Hit",
+        "d": "A compound that shows initial, promising activity against a target in a screen."
+      },
+      {
+        "t": "Lead Compound",
+        "d": "A hit that has been optimized enough to become the primary development candidate."
+      },
+      {
+        "t": "SAR",
+        "d": "Structure-Activity Relationship — how a molecule's chemical structure affects its biological activity."
+      },
+      {
+        "t": "HTS",
+        "d": "High-Throughput Screening — automated testing of huge compound libraries against a target."
+      },
+      {
+        "t": "ADMET",
+        "d": "A compound's Absorption, Distribution, Metabolism, Excretion and Toxicity profile."
+      },
+      {
+        "t": "In Vitro / In Vivo",
+        "d": "Testing in a lab dish or system (in vitro) versus in a living organism (in vivo)."
+      },
+      {
+        "t": "IND",
+        "d": "Investigational New Drug — the filing required before testing a candidate in humans."
+      },
+      {
+        "t": "Pharmacophore",
+        "d": "The specific 3D arrangement of features a molecule needs to bind its target."
+      }
+    ]
+  },
+  {
+    "title": "Stakeholders",
+    "kind": "people",
+    "roles": [
+      {
+        "role": "Medicinal Chemist",
+        "desc": "Designs and synthesizes candidate molecules, refining structure for activity and safety."
+      },
+      {
+        "role": "Biologist / Pharmacologist",
+        "desc": "Tests how compounds behave in cells, tissues and model organisms."
+      },
+      {
+        "role": "Bioinformatician / Data Scientist",
+        "desc": "Mines genomic, chemical and literature data to find and validate targets."
+      },
+      {
+        "role": "Project Leader",
+        "desc": "Coordinates the cross-functional discovery team and timeline."
+      },
+      {
+        "role": "IP / Patent Specialist",
+        "desc": "Protects novel compounds and methods legally as they emerge."
+      }
+    ],
+    "consumers": "Preclinical development and regulatory affairs teams take the validated lead compound forward into formal development."
+  },
+  {
+    "title": "Data Landscape",
+    "kind": "data",
+    "text": "Discovery generates chemical structures, bioassay readouts, genomic and proteomic data, high-throughput screening results, and a constant stream of scientific literature and patent filings.",
+    "structured": "Plate-reader assay results, compound registries and sequence databases — clean, tabular, and ready for statistics.",
+    "unstructured": "Lab notebooks, microscopy images and PDF literature — rich in detail but hard to search or compare at scale.",
+    "formats": [
+      "SDF / MOL (chemical structures)",
+      "FASTA (sequences)",
+      "CSV / Excel (assay data)",
+      "PDF (literature & patents)"
+    ],
+    "challenges": [
+      "Inconsistent compound naming across systems",
+      "Batch-to-batch assay variability",
+      "Incomplete experimental metadata",
+      "Non-standardized units and concentrations"
+    ]
+  },
+  {
+    "title": "Industry Standards",
+    "kind": "tags",
+    "text": "Discovery is lightly regulated compared to later stages, but two principles still anchor good practice and keep early data trustworthy.",
+    "groups": [
+      {
+        "label": "Relevant Standards",
+        "items": [
+          "GLP (Good Laboratory Practice)",
+          "FAIR Data Principles"
+        ]
+      }
+    ],
+    "checkIdx": 6
+  },
+  {
+    "title": "Technology Ecosystem",
+    "kind": "tags",
+    "text": "A modern discovery team leans heavily on cloud compute and specialist chemistry and biology software that talk to each other across the pipeline.",
+    "groups": [
+      {
+        "label": "Common Technology",
+        "items": [
+          "Compound & Chemical Databases",
+          "LIMS",
+          "Cloud Molecular Modeling",
+          "AI Virtual Screening",
+          "Cheminformatics Platforms"
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Current Industry Challenges",
+    "kind": "points",
+    "text": "Even with modern tools, discovery remains one of the highest-risk stages in the entire lifecycle.",
+    "items": [
+      "High attrition — most candidates fail before reaching patients",
+      "Target validation remains genuinely uncertain",
+      "Data stays siloed across chemistry and biology teams",
+      "Early results are often hard to reproduce"
+    ]
+  },
+  {
+    "title": "Role of Data Engineering & AI",
+    "kind": "points",
+    "text": "Modern data engineering and AI are compressing timelines that used to take years.",
+    "items": [
+      "Virtual screening of huge compound libraries in silico",
+      "Generative design of entirely novel candidate molecules",
+      "Predictive ADMET and toxicity modeling",
+      "Automated mining of scientific literature and prior art"
+    ]
+  },
+  {
+    "title": "Summary",
+    "kind": "summary",
+    "takeaways": [
+      "Discovery de-risks ideas cheaply before expensive human trials",
+      "Most candidates fail — that's the expected cost of the process, not a flaw in it",
+      "The pipeline runs Target → Hit → Lead → Candidate",
+      "AI is reshaping speed here, not replacing scientific judgment"
+    ]
+  },
+  {
+    "title": "References",
+    "kind": "references",
+    "items": [
+      "FDA — \"The Drug Development Process\" (public overview)",
+      "ChEMBL & PubChem — open compound and bioactivity databases",
+      "NIH National Center for Advancing Translational Sciences (NCATS)"
+    ]
+  }
+],
+  quiz:[
+    {q:'What is the primary goal of the drug discovery stage?', options:['Manufacture the approved drug at scale','Find and validate a promising lead compound before human testing','Monitor side effects after launch','Set the drug\'s market price'], a:1},
+    {q:'Which term describes a biological molecule that a drug is designed to act on?', options:['Lead compound','Biomarker','Target','Assay'], a:2},
+    {q:'HTS stands for:', options:['Human Trial Standard','High-Throughput Screening','Hit-to-Target Sequencing','Health Technology Submission'], a:1},
+    {q:'SAR studies help scientists understand:', options:['How a molecule\'s structure relates to its biological activity','How to price a drug','How to recruit trial patients','How to file regulatory paperwork'], a:0},
+    {q:'ADMET refers to a compound\'s:', options:['Absorption, Distribution, Metabolism, Excretion, Toxicity','Approval, Development, Manufacturing, Evaluation, Trial','Adverse-event Detection and Management Tool','None of the above'], a:0},
+    {q:'Roughly what share of discovery candidates fail before ever reaching approval?', options:['~10%','~50%','~90%','0%'], a:2},
+    {q:'Which professional is primarily responsible for designing and refining candidate molecules?', options:['Medicinal chemist','Regulatory affairs officer','Clinical research coordinator','Data entry clerk'], a:0},
+    {q:'A "hit" in a screening campaign is:', options:['A final approved drug','A compound showing initial promising activity against a target','A patient adverse event','A regulatory rejection'], a:1},
+    {q:'What comes immediately after Hit Discovery in the pipeline?', options:['Preclinical candidate nomination','Hit-to-Lead','Phase III trial','Regulatory filing'], a:1},
+    {q:'How is AI most commonly used in modern drug discovery?', options:['Filing tax paperwork','Virtual screening and generative molecule design','Running clinical trial logistics','Printing product labels'], a:1}
+  ]
+},
+{
+  id:'drug-lifecycle', num:'02', title:'Drug Development Lifecycle', tagline:'From candidate molecule to approved medicine',
+  accent:'violet', icon:ICONS.lifecycle,
+  objectives:[
+    'Describe the full pipeline from preclinical work through Phase I–III trials to approval',
+    'Explain why development takes so long and costs so much',
+    'Identify the regulators and functions that gate each stage'
+  ],
+  modules:[
+  {
+    "title": "Introduction",
+    "kind": "text",
+    "text": "The drug development lifecycle is the spine that connects early discovery to a marketed product patients can actually use. A candidate molecule that survives discovery still has to prove itself safe and effective in real people, get approved by regulators, and be manufactured reliably at scale. This full journey typically takes ten to fifteen years and can cost well over a billion dollars per approved drug — most of it spent in the stages covered in this course, not in discovery itself."
+  },
+  {
+    "title": "Business Overview",
+    "kind": "text",
+    "text": "This function exists to translate a promising molecule into a legally approved, manufacturable, reimbursable medicine. Its objective is to manage three kinds of risk at once: regulatory risk (will authorities approve it), safety risk (will it harm patients), and commercial risk (will it arrive in a market that still wants it). Because so much capital is committed before any revenue arrives, disciplined stage-gating — killing a failing program early — is one of the most valuable things this function does."
+  },
+  {
+    "title": "End-to-End Process",
+    "kind": "process",
+    "text": "Development runs as a strict sequence of gated stages, each answering a different question.",
+    "stages": [
+      "Preclinical",
+      "IND Filing",
+      "Phase I",
+      "Phase II",
+      "Phase III",
+      "NDA/BLA Filing",
+      "Approval",
+      "Phase IV"
+    ],
+    "inputs": "A nominated preclinical candidate, animal safety data, and a proposed clinical development plan.",
+    "outputs": "A regulator-approved medicine with an approved label, ready for the market — plus an ongoing post-market safety commitment.",
+    "checkIdx": 2
+  },
+  {
+    "title": "Key Terminologies",
+    "kind": "glossary",
+    "terms": [
+      {
+        "t": "IND",
+        "d": "The filing that allows human testing of a candidate drug to begin."
+      },
+      {
+        "t": "NDA / BLA",
+        "d": "New Drug Application / Biologics License Application — filed to seek marketing approval."
+      },
+      {
+        "t": "Phase I",
+        "d": "Early-stage trial testing safety and dosing, often in healthy volunteers."
+      },
+      {
+        "t": "Phase II",
+        "d": "Trial testing efficacy and optimal dosing in a small group of patients."
+      },
+      {
+        "t": "Phase III",
+        "d": "Large-scale confirmatory trial testing efficacy and safety before approval."
+      },
+      {
+        "t": "Phase IV",
+        "d": "Post-approval studies monitoring a drug in wide, real-world use."
+      },
+      {
+        "t": "Orphan Drug Designation",
+        "d": "Special status encouraging development of treatments for rare diseases."
+      },
+      {
+        "t": "Fast Track",
+        "d": "A regulatory pathway that speeds review of drugs addressing unmet medical needs."
+      },
+      {
+        "t": "Patent Cliff",
+        "d": "The steep revenue drop a drug faces once patent protection expires."
+      },
+      {
+        "t": "Label",
+        "d": "The regulator-approved document describing a drug's uses, dosing and risks."
+      }
+    ]
+  },
+  {
+    "title": "Stakeholders",
+    "kind": "people",
+    "roles": [
+      {
+        "role": "Regulatory Affairs",
+        "desc": "Manages submissions and the relationship with health authorities."
+      },
+      {
+        "role": "Clinical Operations",
+        "desc": "Runs the trials that generate the required safety and efficacy evidence."
+      },
+      {
+        "role": "Medical Affairs",
+        "desc": "Connects the science to prescribing physicians and patients."
+      },
+      {
+        "role": "CMC / Manufacturing",
+        "desc": "Ensures the drug can be produced reliably and consistently at scale."
+      },
+      {
+        "role": "Health Authorities (FDA, EMA, CDSCO)",
+        "desc": "Independently review evidence and grant or deny approval."
+      }
+    ],
+    "consumers": "Patients, prescribers and payers are the ultimate consumers of an approved, well-labeled medicine."
+  },
+  {
+    "title": "Data Landscape",
+    "kind": "data",
+    "text": "Development generates regulatory submission data, CMC and manufacturing batch records, nonclinical study reports, and program-level timelines and milestones.",
+    "structured": "eCTD submission metadata, structured batch records and milestone trackers — built for audit and reporting.",
+    "unstructured": "Regulatory correspondence, meeting minutes and scanned legacy documents — harder to search across a decade-long program.",
+    "formats": [
+      "eCTD XML",
+      "PDF (regulatory documents)",
+      "Word (reports)",
+      "Excel (program trackers)"
+    ],
+    "challenges": [
+      "Version control across very long timelines",
+      "Inconsistent terminology across global regions",
+      "Program data siloed across separate functions",
+      "Legacy paper records mixed with digital ones"
+    ]
+  },
+  {
+    "title": "Industry Standards",
+    "kind": "tags",
+    "text": "Development is one of the most heavily regulated functions in the entire lifecycle, and harmonized guidelines keep global filings consistent.",
+    "groups": [
+      {
+        "label": "Relevant Standards",
+        "items": [
+          "ICH Guidelines",
+          "GLP / GCP / GMP family"
+        ]
+      }
+    ],
+    "checkIdx": 6
+  },
+  {
+    "title": "Technology Ecosystem",
+    "kind": "tags",
+    "text": "Cross-functional platforms keep regulatory, clinical and manufacturing teams working from the same program timeline.",
+    "groups": [
+      {
+        "label": "Common Technology",
+        "items": [
+          "CTMS",
+          "eTMF",
+          "Regulatory Information Management Systems (RIMS)"
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Current Industry Challenges",
+    "kind": "points",
+    "text": "Cost and time remain the defining constraints of this entire stage.",
+    "items": [
+      "Ten-to-fifteen-year timelines from candidate to approval",
+      "Very high cost per approved drug",
+      "Attrition concentrated heavily in Phase II and III",
+      "Divergent regulatory requirements across global markets"
+    ]
+  },
+  {
+    "title": "Role of Data Engineering & AI",
+    "kind": "points",
+    "text": "AI is increasingly used to make development programs faster and better-informed, without cutting corners on evidence.",
+    "items": [
+      "Trial design optimization using historical outcome data",
+      "Real-world evidence analysis to support submissions",
+      "Adaptive trial simulation before enrollment even begins",
+      "AI-assisted drafting of regulatory documents"
+    ]
+  },
+  {
+    "title": "Summary",
+    "kind": "summary",
+    "takeaways": [
+      "Development turns one promising molecule into an approved, manufacturable medicine",
+      "Phases I through IV each answer a distinct question",
+      "ICH guidelines harmonize requirements across major regulatory regions",
+      "Cost and time are the defining constraints of this whole stage"
+    ]
+  },
+  {
+    "title": "References",
+    "kind": "references",
+    "items": [
+      "ICH — official harmonized guidelines (ich.org)",
+      "FDA and EMA public drug-approval process pages"
+    ]
+  }
+],
+  quiz:[
+    {q:'Approximately how long does the journey from candidate molecule to approval typically take?', options:['1–2 years','3–5 years','10–15 years','25+ years'], a:2},
+    {q:'Which filing allows a company to begin testing a drug in humans?', options:['NDA','IND','BLA','PSUR'], a:1},
+    {q:'Phase I trials primarily test:', options:['Large-scale efficacy in thousands of patients','Safety and dosing in a small group, often healthy volunteers','Post-market side effects','Manufacturing costs'], a:1},
+    {q:'Phase III trials are best described as:', options:['Small pilot safety studies','Large-scale confirmatory efficacy and safety studies','Studies conducted only after approval','Preclinical animal studies'], a:1},
+    {q:'What happens during Phase IV?', options:['Target identification','Post-market surveillance of an already-approved drug','Hit-to-lead optimization','IND filing'], a:1},
+    {q:'Which guidelines harmonize drug development requirements across regions?', options:['ICH guidelines','HTML standards','SNOMED CT','LOINC'], a:0},
+    {q:'GMP stands for:', options:['Good Manufacturing Practice','General Market Pricing','Global Medical Protocol','Government Mandated Process'], a:0},
+    {q:'A "patent cliff" refers to:', options:['A new discovery breakthrough','The revenue drop when a drug\'s patent protection expires','A clinical trial failure','A regulatory approval bonus'], a:1},
+    {q:'Which stage comes right after successful Phase III results?', options:['Preclinical testing','NDA/BLA regulatory filing','Target validation','Phase I'], a:1},
+    {q:'Why is drug development considered high-cost and high-risk?', options:['Because manufacturing is always cheap','Because most candidates fail during Phase II/III despite years of investment','Because patients pay upfront','Because there are no regulations'], a:1}
+  ]
+},
+{
+  id:'clinical-trials', num:'03', title:'Clinical Trials', tagline:'Testing safety and efficacy in real patients',
+  accent:'pink', icon:ICONS.trials,
+  objectives:[
+    'Explain why clinical trials exist and what evidence they are designed to produce',
+    'Describe the end-to-end trial process from protocol design to closeout',
+    'Identify the key roles, standards and technology involved in running a trial'
+  ],
+  modules:[
+  {
+    "title": "Introduction",
+    "kind": "text",
+    "text": "Clinical trials are the human-testing engine of medicine — the only accepted way regulators, physicians and patients can trust that a drug actually works and is safe enough to use. They sit directly inside the development lifecycle's Phase I through III, turning a promising candidate into evidence a regulator can act on. Without a well-run trial, even the most brilliant discovery never reaches a single patient."
+  },
+  {
+    "title": "Business Overview",
+    "kind": "text",
+    "text": "This function exists to generate statistically valid evidence of safety and efficacy, under controlled, ethical and fully auditable conditions. Its objective is to answer a precise scientific question — does this treatment work, for whom, and at what risk — in a way that will withstand regulatory scrutiny. Real-world relevance is high: a single poorly designed or poorly run trial can delay a medicine by years or invalidate years of prior investment."
+  },
+  {
+    "title": "End-to-End Process",
+    "kind": "process",
+    "text": "A trial moves from paper design to a locked, analyzable dataset.",
+    "stages": [
+      "Protocol Design",
+      "Site Selection & Startup",
+      "Recruitment & Consent",
+      "Randomization & Treatment",
+      "Data Collection & Monitoring",
+      "Trial Closeout",
+      "Statistical Analysis & CSR"
+    ],
+    "inputs": "A development plan, target patient population, and a scientific hypothesis to test.",
+    "outputs": "A completed, ethically-conducted trial with a Clinical Study Report ready for regulatory submission.",
+    "checkIdx": 2
+  },
+  {
+    "title": "Key Terminologies",
+    "kind": "glossary",
+    "terms": [
+      {
+        "t": "Protocol",
+        "d": "The formal document describing exactly how a trial will be conducted."
+      },
+      {
+        "t": "Informed Consent",
+        "d": "Ensuring participants understand and voluntarily agree to trial risks and procedures."
+      },
+      {
+        "t": "Randomization",
+        "d": "Assigning patients to treatment groups by chance to reduce bias."
+      },
+      {
+        "t": "Placebo",
+        "d": "An inactive treatment used as a comparison against the real drug."
+      },
+      {
+        "t": "Blinding",
+        "d": "Concealing treatment assignment from participants and/or investigators to reduce bias."
+      },
+      {
+        "t": "Endpoint",
+        "d": "The specific outcome measured to judge a trial's success — primary or secondary."
+      },
+      {
+        "t": "Adverse Event (AE)",
+        "d": "Any unwanted medical occurrence experienced by a trial participant."
+      },
+      {
+        "t": "Investigator",
+        "d": "The qualified individual responsible for conducting the trial at a site."
+      },
+      {
+        "t": "IRB / Ethics Committee",
+        "d": "The independent body that reviews and approves a trial for ethical soundness."
+      },
+      {
+        "t": "CSR",
+        "d": "Clinical Study Report — the comprehensive document reporting a trial's methods and results."
+      }
+    ]
+  },
+  {
+    "title": "Stakeholders",
+    "kind": "people",
+    "roles": [
+      {
+        "role": "Sponsor",
+        "desc": "The company funding and legally owning the trial."
+      },
+      {
+        "role": "CRO",
+        "desc": "A contracted organization running some or all trial operations."
+      },
+      {
+        "role": "Principal Investigator",
+        "desc": "The physician-scientist leading conduct of the trial at a site."
+      },
+      {
+        "role": "Clinical Research Coordinator",
+        "desc": "Manages day-to-day activities and patient visits at a site."
+      },
+      {
+        "role": "IRB / Ethics Committee",
+        "desc": "Approves and oversees the trial's ethical conduct."
+      },
+      {
+        "role": "Biostatistician",
+        "desc": "Designs the analysis plan and interprets the trial's results."
+      }
+    ],
+    "consumers": "Regulators and treating physicians rely directly on trial evidence to approve and prescribe a medicine."
+  },
+  {
+    "title": "Data Landscape",
+    "kind": "data",
+    "text": "Trials generate patient demographics, visit data, lab results, adverse event reports, and increasingly ePRO/eCOA data reported directly by patients.",
+    "structured": "eCRF fields and structured lab values — designed to be entered, checked and analyzed consistently.",
+    "unstructured": "Free-text adverse event narratives and site correspondence — essential context that resists simple tabulation.",
+    "formats": [
+      "SAS datasets (.sas7bdat)",
+      "CSV",
+      "HL7 messages",
+      "PDF (site documents)"
+    ],
+    "challenges": [
+      "Missing or delayed visit data",
+      "Protocol deviations at sites",
+      "Inconsistent site-level data entry habits",
+      "Transcription errors from paper source documents"
+    ]
+  },
+  {
+    "title": "Industry Standards",
+    "kind": "tags",
+    "text": "Trials run on a tightly regulated foundation of process and data standards that keep them ethical and comparable.",
+    "groups": [
+      {
+        "label": "Relevant Standards",
+        "items": [
+          "GCP (ICH-E6)",
+          "CDISC — SDTM & CDASH"
+        ]
+      }
+    ],
+    "checkIdx": 6
+  },
+  {
+    "title": "Technology Ecosystem",
+    "kind": "tags",
+    "text": "Purpose-built systems capture, randomize and monitor trial data in as close to real time as possible.",
+    "groups": [
+      {
+        "label": "Common Technology",
+        "items": [
+          "EDC (Electronic Data Capture)",
+          "CTMS",
+          "eConsent",
+          "IVRS / IWRS (randomization)"
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Current Industry Challenges",
+    "kind": "points",
+    "text": "Operational execution, not scientific design, is often the hardest part of running a trial.",
+    "items": [
+      "Patient recruitment and retention remain the biggest bottleneck",
+      "Protocol deviations at sites are common and costly",
+      "Running a trial places heavy operational burden on sites",
+      "Ensuring genuinely diverse trial populations is difficult"
+    ]
+  },
+  {
+    "title": "Role of Data Engineering & AI",
+    "kind": "points",
+    "text": "AI is being applied directly to the operational pain points sites and sponsors feel most.",
+    "items": [
+      "Predictive matching of patients to suitable trial sites",
+      "Risk-based monitoring that focuses attention where it matters most",
+      "Automated resolution of routine data queries",
+      "Early anomaly detection across incoming trial data"
+    ]
+  },
+  {
+    "title": "Summary",
+    "kind": "summary",
+    "takeaways": [
+      "Trials are the only accepted way to prove a drug works and is safe enough",
+      "Randomization and blinding are the core defenses against bias",
+      "GCP and CDISC keep trials ethical and comparable across sponsors",
+      "Recruitment remains the industry's single biggest operational challenge"
+    ]
+  },
+  {
+    "title": "References",
+    "kind": "references",
+    "items": [
+      "ICH-GCP (E6) guideline",
+      "ClinicalTrials.gov — public trial registry",
+      "CDISC.org standards library"
+    ]
+  }
+],
+  quiz:[
+    {q:'What is the purpose of informed consent?', options:['To collect payment from patients','To ensure participants understand and voluntarily agree to trial risks and procedures','To randomize treatment assignment','To close the database'], a:1},
+    {q:'In a double-blind trial:', options:['Only the patient knows the treatment','Only the investigator knows the treatment','Neither patient nor investigator knows the treatment assignment','Everyone knows the assignment'], a:2},
+    {q:'A "primary endpoint" is:', options:['The trial\'s main measure of success','The first patient enrolled','The final regulatory filing','The trial budget'], a:0},
+    {q:'Who reviews a trial protocol for ethical soundness before it starts?', options:['Biostatistician','IRB / Ethics Committee','Data entry clerk','Marketing team'], a:1},
+    {q:'GCP stands for:', options:['Good Clinical Practice','General Compound Profiling','Global Coding Protocol','Good Coding Process'], a:0},
+    {q:'CDISC standards like SDTM/CDASH exist mainly to:', options:['Standardize how clinical trial data is collected and submitted','Set drug prices','Design molecules','Track adverse events only'], a:0},
+    {q:'An EDC system is used to:', options:['Manufacture drugs','Electronically capture clinical trial data','Approve regulatory filings','Recruit ethics committee members'], a:1},
+    {q:'Randomization in a trial is used to:', options:['Reduce bias by assigning treatment by chance','Guarantee every patient gets the real drug','Speed up regulatory review','Replace informed consent'], a:0},
+    {q:'What is documented in a Clinical Study Report (CSR)?', options:['The full results and analysis of a completed trial','Only adverse events','Only the marketing plan','Only the patent filing'], a:0},
+    {q:'Which of these is a common current challenge in clinical trials?', options:['Too many volunteers','Patient recruitment and retention','Excess funding','Lack of any standards'], a:1}
+  ]
+},
+{
+  id:'clinical-data-management', num:'04', title:'Clinical Data Management', tagline:'Turning trial data into analysis-ready evidence',
+  accent:'blue', icon:ICONS.cdm,
+  objectives:[
+    'Explain the role clinical data management plays between data collection and statistical analysis',
+    'Describe how raw site data becomes a clean, locked, standardized dataset',
+    'Identify the standards and roles that keep trial data trustworthy'
+  ],
+  modules:[
+  {
+    "title": "Introduction",
+    "kind": "text",
+    "text": "Clinical Data Management (CDM) is the quality-control layer sitting between \"data collected at a site\" and \"data a statistician can actually trust.\" Every number that ends up in a clinical study report has passed through CDM's hands — checked, queried, coded and reconciled. It rarely gets the spotlight, but a trial with brilliant science and sloppy data management still produces evidence nobody can rely on."
+  },
+  {
+    "title": "Business Overview",
+    "kind": "text",
+    "text": "This function exists to ensure trial data is accurate, complete, consistent, and genuinely ready for statistical analysis and regulatory submission. Its objective is a clean, locked database delivered on time — because every downstream deadline, from analysis to filing, depends on it. Real-world relevance is direct: regulators can reject a submission if the underlying data isn't demonstrably trustworthy."
+  },
+  {
+    "title": "End-to-End Process",
+    "kind": "process",
+    "text": "CDM runs largely in parallel with the trial itself, closing out shortly after the last patient visit.",
+    "stages": [
+      "CRF / eCRF Design",
+      "Database Build & Validation",
+      "Data Entry / Capture",
+      "Data Cleaning & Queries",
+      "Medical Coding",
+      "SAE Reconciliation",
+      "Database Lock",
+      "Transfer for Analysis"
+    ],
+    "inputs": "Raw data entered from trial sites, lab results, and safety reports.",
+    "outputs": "A clean, standardized, locked dataset ready for biostatistics and regulatory submission.",
+    "checkIdx": 2
+  },
+  {
+    "title": "Key Terminologies",
+    "kind": "glossary",
+    "terms": [
+      {
+        "t": "CRF / eCRF",
+        "d": "The (electronic) Case Report Form used to collect patient data at each visit."
+      },
+      {
+        "t": "Query / DCF",
+        "d": "A Data Clarification Form raised when a discrepancy needs resolving with a site."
+      },
+      {
+        "t": "Edit Check",
+        "d": "An automated rule flagging inconsistent or out-of-range data during entry."
+      },
+      {
+        "t": "SAE Reconciliation",
+        "d": "Matching serious adverse event records between safety and clinical databases."
+      },
+      {
+        "t": "Medical Coding",
+        "d": "Translating reported terms into standardized dictionary codes, e.g. MedDRA."
+      },
+      {
+        "t": "Data Lock",
+        "d": "Freezing a clean database once it is finalized for statistical analysis."
+      },
+      {
+        "t": "SDTM",
+        "d": "A CDISC standard for structuring trial data for regulatory submission."
+      },
+      {
+        "t": "CDASH",
+        "d": "A CDISC standard for how data is collected on case report forms."
+      },
+      {
+        "t": "Source Data Verification (SDV)",
+        "d": "Confirming entered data matches the original source documents."
+      },
+      {
+        "t": "Audit Trail",
+        "d": "A time-stamped record of every change made to study data."
+      }
+    ]
+  },
+  {
+    "title": "Stakeholders",
+    "kind": "people",
+    "roles": [
+      {
+        "role": "Data Manager",
+        "desc": "Owns database design and drives the data-cleaning process."
+      },
+      {
+        "role": "CRA / Monitor",
+        "desc": "Verifies data quality and protocol compliance at trial sites."
+      },
+      {
+        "role": "Biostatistician",
+        "desc": "Consumes the locked, clean dataset to run the analysis."
+      },
+      {
+        "role": "Medical Coder",
+        "desc": "Standardizes reported terms into recognized medical dictionaries."
+      },
+      {
+        "role": "Statistical Programmer",
+        "desc": "Builds submission-ready datasets from the locked database."
+      }
+    ],
+    "consumers": "Biostatistics, regulatory submission teams and health authorities all depend on CDM's clean output."
+  },
+  {
+    "title": "Data Landscape",
+    "kind": "data",
+    "text": "CDM works with eCRF entries, query logs, coding dictionaries, automated edit-check outputs, and full audit trails of every change.",
+    "structured": "Coded fields and structured lab values — the backbone of a submission-ready dataset.",
+    "unstructured": "Free-text comments and query resolution notes — necessary context that has to be read, not just counted.",
+    "formats": [
+      "SDTM datasets",
+      "XML / ODM",
+      "CSV exports"
+    ],
+    "challenges": [
+      "Duplicate patient records",
+      "Late data entry from sites",
+      "Incomplete SAE reconciliation",
+      "Inconsistent medical coding decisions"
+    ]
+  },
+  {
+    "title": "Industry Standards",
+    "kind": "tags",
+    "text": "CDM lives at the intersection of clinical process and data engineering discipline, governed by standards that make data comparable across studies.",
+    "groups": [
+      {
+        "label": "Relevant Standards",
+        "items": [
+          "CDISC — CDASH & SDTM",
+          "MedDRA & WHO Drug Dictionary",
+          "21 CFR Part 11"
+        ]
+      }
+    ],
+    "checkIdx": 6
+  },
+  {
+    "title": "Technology Ecosystem",
+    "kind": "tags",
+    "text": "Purpose-built platforms handle capture, cleaning and coding at the scale a modern trial demands.",
+    "groups": [
+      {
+        "label": "Common Technology",
+        "items": [
+          "EDC Systems",
+          "Data Management Platforms",
+          "Coding Software"
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Current Industry Challenges",
+    "kind": "points",
+    "text": "Most CDM challenges come down to timing and reconciliation across disconnected systems.",
+    "items": [
+      "Late or missing data arriving from sites",
+      "Reconciling records across multiple disconnected systems",
+      "Backlogs in manual medical coding",
+      "Repetitive, manual query cycles with sites"
+    ]
+  },
+  {
+    "title": "Role of Data Engineering & AI",
+    "kind": "points",
+    "text": "AI is starting to take over the most repetitive parts of the cleaning cycle.",
+    "items": [
+      "Automated anomaly and outlier detection across incoming data",
+      "NLP-assisted medical coding of free-text terms",
+      "Intelligent, auto-generated data queries",
+      "Predictive prioritization of which data to clean first"
+    ]
+  },
+  {
+    "title": "Summary",
+    "kind": "summary",
+    "takeaways": [
+      "CDM is the quality gate between raw site data and trustworthy evidence",
+      "Queries and coding turn messy entries into clean, standardized data",
+      "SDTM and CDASH make trial data comparable across studies and sponsors",
+      "A locked database is the finish line for this whole function"
+    ]
+  },
+  {
+    "title": "References",
+    "kind": "references",
+    "items": [
+      "CDISC.org — standards library",
+      "MedDRA MSSO — coding dictionary resources"
+    ]
+  }
+],
+  quiz:[
+    {q:'What is the main goal of Clinical Data Management?', options:['Design new molecules','Ensure trial data is accurate, complete and analysis-ready','Approve drug pricing','Recruit patients'], a:1},
+    {q:'A query or DCF is issued when:', options:['A patient completes the trial','A data discrepancy needs clarification from the site','The database is locked','A drug is approved'], a:1},
+    {q:'Medical coding in CDM commonly uses:', options:['MedDRA and WHO Drug Dictionary','HTML and CSS','ICD-10 only','No coding standard'], a:0},
+    {q:'"Database lock" refers to:', options:['Encrypting a hospital\'s servers','Freezing the trial database once it\'s clean and ready for analysis','Blocking patient enrollment','A security breach'], a:1},
+    {q:'SDTM is a CDISC standard used for:', options:['Structuring data for regulatory submission','Manufacturing quality control','Marketing analytics','Employee onboarding'], a:0},
+    {q:'Source Data Verification (SDV) checks that:', options:['Entered data matches original source documents','A drug is safe','A patient consented','A molecule binds its target'], a:0},
+    {q:'CDASH standardizes:', options:['How data is collected on case report forms','How drugs are priced','How trials are advertised','How employees are trained'], a:0},
+    {q:'Which role typically resolves data discrepancies with trial sites?', options:['Data manager / CRA','Medicinal chemist','Patent attorney','Warehouse manager'], a:0},
+    {q:'21 CFR Part 11 relates to:', options:['Electronic records and signatures','Drug pricing rules','Patient recruitment quotas','Molecule screening'], a:0},
+    {q:'Why is an audit trail important in CDM systems?', options:['It tracks every change made to data for accountability','It speeds up manufacturing','It replaces informed consent','It sets the drug\'s label'], a:0}
+  ]
+},
+{
+  id:'pharmacovigilance', num:'05', title:'Pharmacovigilance', tagline:'Watching over medicines after they reach patients',
+  accent:'mint', icon:ICONS.pv,
+  objectives:[
+    'Explain why drug safety monitoring continues long after approval',
+    'Describe how an adverse event becomes a validated safety signal',
+    'Identify the key standards, roles and technology in modern PV'
+  ],
+  modules:[
+  {
+    "title": "Introduction",
+    "kind": "text",
+    "text": "Pharmacovigilance (PV) is the safety net that keeps watching a medicine for its entire life, long after clinical trials end. Trials of a few thousand patients can never reveal every rare side effect that only shows up once millions of people take a drug in the real world. PV is how the industry — and regulators — keep learning about a medicine's safety profile for as long as it stays on the market."
+  },
+  {
+    "title": "Business Overview",
+    "kind": "text",
+    "text": "This function exists to detect, assess, understand and prevent adverse effects of medicines — protecting patients while fulfilling a legal obligation companies owe to regulators everywhere their drug is sold. Its objective is simple to state: never miss a genuine new safety concern, and never overreact to noise. Real-world relevance is constant, since every marketed drug generates a continuous stream of new safety information to interpret."
+  },
+  {
+    "title": "End-to-End Process",
+    "kind": "process",
+    "text": "PV runs as a continuous cycle for as long as a drug remains on the market.",
+    "stages": [
+      "AE Intake",
+      "Case Triage & Entry",
+      "Medical Review & Coding",
+      "Causality Assessment",
+      "Regulatory Reporting",
+      "Signal Detection",
+      "RMP Updates"
+    ],
+    "inputs": "Spontaneous reports, literature, clinical trial data, and social/media monitoring of adverse events.",
+    "outputs": "Timely regulatory safety reports and an updated risk management plan for the medicine.",
+    "checkIdx": 2
+  },
+  {
+    "title": "Key Terminologies",
+    "kind": "glossary",
+    "terms": [
+      {
+        "t": "Adverse Event (AE)",
+        "d": "Any unfavorable medical occurrence in a patient taking a medicine."
+      },
+      {
+        "t": "Adverse Drug Reaction (ADR)",
+        "d": "A harmful reaction judged to be caused by the medicine itself."
+      },
+      {
+        "t": "Serious Adverse Event (SAE)",
+        "d": "An AE resulting in death, hospitalization, disability or similarly serious outcome."
+      },
+      {
+        "t": "Signal",
+        "d": "New information suggesting a possible new causal link between a drug and an event."
+      },
+      {
+        "t": "Causality Assessment",
+        "d": "A structured evaluation of how likely a drug caused a reported event."
+      },
+      {
+        "t": "ICSR",
+        "d": "An Individual Case Safety Report describing a single adverse event case."
+      },
+      {
+        "t": "PSUR / PBRER",
+        "d": "A periodic report summarizing a drug's evolving benefit-risk profile."
+      },
+      {
+        "t": "Risk Management Plan (RMP)",
+        "d": "A plan describing how a company will monitor and minimize a drug's risks."
+      },
+      {
+        "t": "MedDRA",
+        "d": "The standard medical dictionary used to code adverse event terms."
+      },
+      {
+        "t": "Literature Surveillance",
+        "d": "Systematically scanning published literature for new safety information."
+      }
+    ]
+  },
+  {
+    "title": "Stakeholders",
+    "kind": "people",
+    "roles": [
+      {
+        "role": "Safety Physician",
+        "desc": "Reviews and assesses case seriousness and causality."
+      },
+      {
+        "role": "Case Processor",
+        "desc": "Enters and triages incoming adverse event reports."
+      },
+      {
+        "role": "Signal Management Team",
+        "desc": "Analyzes patterns across cases to spot new risks."
+      },
+      {
+        "role": "QPPV",
+        "desc": "The Qualified Person for Pharmacovigilance — the accountable safety officer."
+      },
+      {
+        "role": "Regulatory Affairs",
+        "desc": "Files the required safety reports with health authorities."
+      }
+    ],
+    "consumers": "Health authorities and prescribing physicians act directly on new safety information PV produces."
+  },
+  {
+    "title": "Data Landscape",
+    "kind": "data",
+    "text": "PV works with individual case reports, published literature, social and media monitoring feeds, and spontaneous reports from patients and prescribers.",
+    "structured": "Coded MedDRA terms and structured case fields — built for aggregation and signal detection.",
+    "unstructured": "Free-text narratives, physician notes and literature abstracts — where the real clinical nuance often lives.",
+    "formats": [
+      "E2B(R3) XML",
+      "PDF (literature & case narratives)",
+      "CSV"
+    ],
+    "challenges": [
+      "Detecting duplicate cases across sources",
+      "Incomplete case narratives",
+      "Translation issues across regions and languages",
+      "Reporting delays from patients and prescribers"
+    ]
+  },
+  {
+    "title": "Industry Standards",
+    "kind": "tags",
+    "text": "PV is governed by some of the most globally harmonized standards in life sciences, keeping safety reporting consistent worldwide.",
+    "groups": [
+      {
+        "label": "Relevant Standards",
+        "items": [
+          "ICH-E2 series",
+          "GVP (Good Pharmacovigilance Practices)",
+          "E2B(R3) reporting format"
+        ]
+      }
+    ],
+    "checkIdx": 6
+  },
+  {
+    "title": "Technology Ecosystem",
+    "kind": "tags",
+    "text": "Dedicated safety systems capture, code and analyze case volumes that keep growing every year.",
+    "groups": [
+      {
+        "label": "Common Technology",
+        "items": [
+          "Safety Databases",
+          "Signal Detection Analytics",
+          "Literature-Monitoring Tools"
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Current Industry Challenges",
+    "kind": "points",
+    "text": "The core challenge in PV is separating a genuine new risk from ordinary background noise, at growing scale.",
+    "items": [
+      "Rapidly growing volumes of adverse event reports",
+      "Underreporting from patients and prescribers",
+      "Detecting duplicate cases across sources",
+      "Separating real safety signals from statistical noise"
+    ]
+  },
+  {
+    "title": "Role of Data Engineering & AI",
+    "kind": "points",
+    "text": "AI is being used to keep pace with case volumes that would overwhelm manual review alone.",
+    "items": [
+      "NLP-based case intake from literature and social channels",
+      "Automated case triage and initial coding",
+      "AI-assisted signal detection across very large datasets"
+    ]
+  },
+  {
+    "title": "Summary",
+    "kind": "summary",
+    "takeaways": [
+      "PV protects patients for the entire life of a medicine, not just during trials",
+      "Signals turn scattered reports into genuinely new safety knowledge",
+      "MedDRA and E2B(R3) keep global safety reporting consistent",
+      "AI is accelerating case intake and signal detection at scale"
+    ]
+  },
+  {
+    "title": "References",
+    "kind": "references",
+    "items": [
+      "WHO — Uppsala Monitoring Centre",
+      "ICH — E2 guideline series on pharmacovigilance"
+    ]
+  }
+],
+  quiz:[
+    {q:'What is the main purpose of pharmacovigilance?', options:['Discover new drug targets','Detect, assess and prevent adverse effects of marketed medicines','Negotiate drug prices','Design clinical trial protocols'], a:1},
+    {q:'An ICSR is:', options:['An Individual Case Safety Report describing a single adverse event','A manufacturing certificate','A patent filing','A trial recruitment form'], a:0},
+    {q:'A "signal" in PV refers to:', options:['A confirmed cure','New information suggesting a possible causal link between a drug and an adverse event','A marketing campaign','A regulatory approval'], a:1},
+    {q:'Serious Adverse Events (SAEs) typically require:', options:['No reporting','Expedited regulatory reporting','Only annual reporting','No medical review'], a:1},
+    {q:'A PSUR/PBRER is:', options:['A periodic safety report summarizing a drug\'s benefit-risk profile','A patent document','A manufacturing batch record','A clinical trial consent form'], a:0},
+    {q:'Which coding dictionary is standard in pharmacovigilance?', options:['MedDRA','HTML','SNOMED only','No dictionary is used'], a:0},
+    {q:'GVP stands for:', options:['Good (Pharmaco)vigilance Practices','Global Value Pricing','General Verification Protocol','Government Vaccine Program'], a:0},
+    {q:'Why can trials alone never catch every side effect?', options:['Trials are too long','Trials involve far fewer patients than the general population after launch','Trials don\'t use documentation','Trials only test healthy people'], a:1},
+    {q:'E2B(R3) is a standard for:', options:['Electronic exchange of adverse event case reports','Drug manufacturing','Clinical trial randomization','Employee training'], a:0},
+    {q:'How is AI increasingly used in pharmacovigilance?', options:['Manufacturing tablets','NLP-based case intake and signal detection from large data volumes','Setting drug prices','Designing lab equipment'], a:1}
+  ]
+},
+{
+  id:'healthcare-data-standards', num:'06', title:'Healthcare Data Standards', tagline:'The shared language that lets health data connect',
+  accent:'violet', icon:ICONS.standards,
+  objectives:[
+    'Explain why standardized data is essential for interoperability in life sciences',
+    'Distinguish which standard serves which purpose (clinical care vs. trials vs. coding)',
+    'Identify current adoption challenges and where AI can help'
+  ],
+  modules:[
+  {
+    "title": "Introduction",
+    "kind": "text",
+    "text": "Standards are the invisible plumbing that let a lab result, a claims record, and a clinical trial database all mean the same thing to every system that touches them. Without shared standards, healthcare data is a tower of incompatible dialects — a \"heart attack\" coded five different ways across five different systems is nearly impossible to analyze together. Standards are what make large-scale healthcare and research data actually usable."
+  },
+  {
+    "title": "Business Overview",
+    "kind": "text",
+    "text": "This function exists to make data interoperable, comparable and submission-ready across organizations, countries and systems. Its objective is fewer manual translations and faster, safer data exchange — whether that's a hospital sharing records with a specialist, or a pharma company submitting trial data to a regulator. Real-world relevance shows up every time two systems need to \"talk\" and actually understand each other."
+  },
+  {
+    "title": "End-to-End Process",
+    "kind": "process",
+    "text": "Unlike a linear R&D pipeline, standards work is about consistent mapping at every point data moves.",
+    "stages": [
+      "Data Origination",
+      "Terminology Mapping",
+      "Conformance Validation",
+      "Exchange / Integration",
+      "Downstream Analytics & Submission"
+    ],
+    "inputs": "Raw data from EHRs, lab systems, and clinical trial platforms in varied native formats.",
+    "outputs": "Standardized, interoperable data that any conforming system can consume and trust.",
+    "checkIdx": 2
+  },
+  {
+    "title": "Key Terminologies",
+    "kind": "glossary",
+    "terms": [
+      {
+        "t": "HL7",
+        "d": "A family of standards for exchanging clinical and administrative health data."
+      },
+      {
+        "t": "FHIR",
+        "d": "A modern HL7 standard for fast, web-friendly health data exchange."
+      },
+      {
+        "t": "EHR",
+        "d": "Electronic Health Record — a digital patient record maintained by a provider."
+      },
+      {
+        "t": "CDISC",
+        "d": "The standards body/format defining how clinical trial data is structured for submission."
+      },
+      {
+        "t": "MedDRA",
+        "d": "Standard terminology for coding adverse events and medical history."
+      },
+      {
+        "t": "LOINC",
+        "d": "A standard code set for identifying laboratory tests and observations."
+      },
+      {
+        "t": "SNOMED CT",
+        "d": "A comprehensive clinical terminology used to code diagnoses and findings."
+      },
+      {
+        "t": "ICD-10",
+        "d": "The standard code set used to classify diseases and diagnoses."
+      },
+      {
+        "t": "Interoperability",
+        "d": "The ability of different systems to exchange and meaningfully use data."
+      },
+      {
+        "t": "Ontology",
+        "d": "A structured, machine-readable model of concepts and relationships in a domain."
+      }
+    ]
+  },
+  {
+    "title": "Stakeholders",
+    "kind": "people",
+    "roles": [
+      {
+        "role": "Health IT / Informatics Team",
+        "desc": "Implements and maintains standards across systems."
+      },
+      {
+        "role": "Data Steward",
+        "desc": "Governs how terminologies and codes are applied consistently."
+      },
+      {
+        "role": "EHR Vendor",
+        "desc": "Builds systems that must conform to shared standards."
+      },
+      {
+        "role": "Regulatory Data Reviewer",
+        "desc": "Checks submissions for standard compliance."
+      },
+      {
+        "role": "Biopharma Data Team",
+        "desc": "Maps internal data to shared standards for exchange."
+      }
+    ],
+    "consumers": "Any downstream system or organization exchanging health data ultimately relies on this standardization."
+  },
+  {
+    "title": "Data Landscape",
+    "kind": "data",
+    "text": "This space spans EHR records, lab results, claims data, and clinical trial data that all need to be mapped into shared standards.",
+    "structured": "Coded diagnosis and lab fields — the parts of a record most ready for standardized exchange.",
+    "unstructured": "Physician notes and discharge summaries — clinically rich, but written in free text.",
+    "formats": [
+      "HL7 v2 messages",
+      "FHIR JSON / XML",
+      "CSV",
+      "CDISC datasets"
+    ],
+    "challenges": [
+      "Inconsistent code versions in use at once",
+      "Incomplete mapping between legacy and modern formats",
+      "Legacy format proliferation across old systems",
+      "Regional variation in which standards are adopted"
+    ]
+  },
+  {
+    "title": "Industry Standards",
+    "kind": "tags",
+    "text": "Different standards serve different jobs — knowing which one applies where is the core skill in this space.",
+    "groups": [
+      {
+        "label": "Key Standards",
+        "items": [
+          "HL7 / FHIR",
+          "CDISC (SDTM / ADaM)",
+          "LOINC",
+          "SNOMED CT",
+          "ICD-10"
+        ]
+      }
+    ],
+    "checkIdx": 6
+  },
+  {
+    "title": "Technology Ecosystem",
+    "kind": "tags",
+    "text": "Integration platforms and terminology services do the heavy lifting of keeping systems mutually understandable.",
+    "groups": [
+      {
+        "label": "Common Technology",
+        "items": [
+          "EHR Platforms",
+          "Terminology Servers",
+          "Data Integration Engines"
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Current Industry Challenges",
+    "kind": "points",
+    "text": "Adoption, not the existence of standards, is usually the harder problem.",
+    "items": [
+      "Deeply fragmented legacy systems",
+      "Inconsistent standard adoption across regions",
+      "Heavy manual effort required for mapping",
+      "Multiple standard versions in use simultaneously"
+    ]
+  },
+  {
+    "title": "Role of Data Engineering & AI",
+    "kind": "points",
+    "text": "AI is easing the burden of connecting old data to modern standards.",
+    "items": [
+      "Automated terminology mapping between systems",
+      "NLP extraction of codes from unstructured clinical notes",
+      "Ontology-assisted harmonization of disparate datasets"
+    ]
+  },
+  {
+    "title": "Summary",
+    "kind": "summary",
+    "takeaways": [
+      "Standards let disconnected systems finally speak the same language",
+      "Different standards serve different jobs — HL7/FHIR for care, CDISC for trials, LOINC/SNOMED/ICD for coding",
+      "Interoperability is a business enabler, not just an IT concern",
+      "AI is easing the burden of mapping legacy data to modern standards"
+    ]
+  },
+  {
+    "title": "References",
+    "kind": "references",
+    "items": [
+      "HL7.org",
+      "CDISC.org",
+      "U.S. National Library of Medicine terminology resources"
+    ]
+  }
+],
+  quiz:[
+    {q:'Why do healthcare data standards matter?', options:['They make data interoperable and comparable across systems','They set drug prices','They replace clinical trials','They are optional decoration'], a:0},
+    {q:'HL7/FHIR standards are mainly used for:', options:['Chemical structure drawing','Exchanging clinical healthcare data between systems','Patent filing','Molecule screening'], a:1},
+    {q:'SDTM and ADaM are CDISC standards used specifically for:', options:['Clinical trial data submission to regulators','Hospital billing only','Drug advertising','Employee records'], a:0},
+    {q:'LOINC is a standard primarily for:', options:['Coding laboratory test names and results','Coding diagnoses','Coding adverse events only','Coding patents'], a:0},
+    {q:'SNOMED CT is best described as:', options:['A comprehensive clinical terminology / ontology','A billing code set only','A manufacturing standard','A trial randomization method'], a:0},
+    {q:'ICD-10 is most commonly used to code:', options:['Diagnoses','Lab methods only','Chemical structures','Manufacturing batches'], a:0},
+    {q:'"Interoperability" means:', options:['Systems that cannot share data','The ability of different systems to exchange and use data meaningfully','A single vendor\'s proprietary format','A type of adverse event'], a:1},
+    {q:'Which standard family is most relevant to clinical trial regulatory submissions specifically?', options:['CDISC','HL7 FHIR only','SNOMED CT only','None'], a:0},
+    {q:'A common challenge in adopting healthcare data standards is:', options:['Too much standardization already','Fragmented legacy systems and inconsistent adoption','Lack of any data','Excess funding'], a:1},
+    {q:'How can AI help with healthcare data standards?', options:['Automating terminology mapping and extracting codes from unstructured notes','Replacing all standards entirely','Manufacturing drugs','Designing molecules'], a:0}
+  ]
+},
+{
+  id:'data-integrity', num:'07', title:'Data Integrity & Digital Transformation', tagline:'Trustworthy data, modern tools',
+  accent:'blue', icon:ICONS.integrity,
+  objectives:[
+    'Explain the ALCOA+ principles and why data integrity underpins every other function',
+    'Describe how organizations modernize legacy data processes responsibly',
+    'Identify where governance, AI and automation intersect in this space'
+  ],
+  modules:[
+  {
+    "title": "Introduction",
+    "kind": "text",
+    "text": "Every course in this repository quietly assumes the underlying data can be trusted. Data integrity is the discipline that actually earns that trust, and digital transformation is how life sciences organizations are modernizing the tools that protect it. Get this wrong, and every downstream decision — a discovery insight, a trial result, a safety signal — is built on sand."
+  },
+  {
+    "title": "Business Overview",
+    "kind": "text",
+    "text": "This function exists to guarantee that data is attributable, legible, contemporaneous, original and accurate — and complete, consistent, enduring and available — across its entire lifecycle, while modernizing legacy manual processes into connected digital ones. Its objective is simple: never let speed or new technology come at the cost of trustworthy data. Real-world relevance is constant, since regulators can — and do — reject submissions built on unreliable data."
+  },
+  {
+    "title": "End-to-End Process",
+    "kind": "process",
+    "text": "Data integrity is a lifecycle discipline layered underneath a modernization roadmap.",
+    "stages": [
+      "Data Creation",
+      "Processing",
+      "Review & QC",
+      "Storage / Archival",
+      "Retrieval / Reporting"
+    ],
+    "inputs": "Raw data generated across discovery, trials, safety and manufacturing systems.",
+    "outputs": "Trustworthy, audit-ready data — and, over time, a modernized digital operating model built on top of it.",
+    "checkIdx": 2
+  },
+  {
+    "title": "Key Terminologies",
+    "kind": "glossary",
+    "terms": [
+      {
+        "t": "ALCOA+",
+        "d": "Data must be Attributable, Legible, Contemporaneous, Original, Accurate, plus Complete, Consistent, Enduring, Available."
+      },
+      {
+        "t": "Audit Trail",
+        "d": "A record of who changed what data, and when."
+      },
+      {
+        "t": "21 CFR Part 11",
+        "d": "The FDA regulation governing electronic records and signatures."
+      },
+      {
+        "t": "Data Governance",
+        "d": "The policies and accountability structures that manage data as a trusted asset."
+      },
+      {
+        "t": "Data Lineage",
+        "d": "The traceable history of where data came from and how it was transformed."
+      },
+      {
+        "t": "Validation (CSV)",
+        "d": "Documented proof that a computer system reliably does what it's meant to do."
+      },
+      {
+        "t": "Chain of Custody",
+        "d": "A documented trail proving who handled data or samples, and when."
+      },
+      {
+        "t": "Metadata",
+        "d": "Data that describes other data, such as when or how it was captured."
+      },
+      {
+        "t": "Legacy System",
+        "d": "An older system still in use, often difficult to integrate with modern tools."
+      },
+      {
+        "t": "Digital Maturity",
+        "d": "How far an organization has moved from manual, siloed processes to connected digital ones."
+      }
+    ]
+  },
+  {
+    "title": "Stakeholders",
+    "kind": "people",
+    "roles": [
+      {
+        "role": "Quality Assurance",
+        "desc": "Audits data and processes against compliance requirements."
+      },
+      {
+        "role": "IT / Data Governance Team",
+        "desc": "Sets policy for how data is managed across the organization."
+      },
+      {
+        "role": "Compliance / Regulatory Affairs",
+        "desc": "Ensures regulatory expectations are actually being met."
+      },
+      {
+        "role": "Business Process Owner",
+        "desc": "Owns the specific workflow being digitized."
+      },
+      {
+        "role": "Executive Sponsor",
+        "desc": "Champions and funds the transformation effort."
+      }
+    ],
+    "consumers": "Every downstream function in this repository depends on the trustworthy data this work protects."
+  },
+  {
+    "title": "Data Landscape",
+    "kind": "data",
+    "text": "This function touches audit trails, validation documentation, system metadata, and logs generated across every other system in the organization.",
+    "structured": "Database records with rich metadata — built to prove exactly what happened, when, and by whom.",
+    "unstructured": "Scanned paper records, emails and meeting notes — common in organizations still mid-transformation.",
+    "formats": [
+      "PDF/A (archival)",
+      "CSV (exports)",
+      "Database exports",
+      "XML (metadata)"
+    ],
+    "challenges": [
+      "Legacy paper-based records still in active use",
+      "Incomplete metadata capture at the point of creation",
+      "Fragmented audit trails across disconnected systems",
+      "Version conflicts during system migration"
+    ]
+  },
+  {
+    "title": "Industry Standards",
+    "kind": "tags",
+    "text": "Governance and modern tooling have to move together, not in sequence, and these standards set the bar for both.",
+    "groups": [
+      {
+        "label": "Relevant Standards",
+        "items": [
+          "21 CFR Part 11 & Annex 11",
+          "ALCOA+",
+          "GxP"
+        ]
+      }
+    ],
+    "checkIdx": 6
+  },
+  {
+    "title": "Technology Ecosystem",
+    "kind": "tags",
+    "text": "Cloud and automation tools now do much of the heavy lifting that manual processes used to require.",
+    "groups": [
+      {
+        "label": "Common Technology",
+        "items": [
+          "Cloud Platforms (AWS / Azure / GCP)",
+          "Data Warehouses & Lakes",
+          "RPA",
+          "GenAI Copilots"
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Current Industry Challenges",
+    "kind": "points",
+    "text": "The hardest part of transformation is rarely the technology — it's everything around it.",
+    "items": [
+      "Deeply embedded legacy systems",
+      "Cultural resistance to changing established processes",
+      "Validation overhead for every new tool introduced",
+      "Balancing innovation speed with compliance requirements"
+    ]
+  },
+  {
+    "title": "Role of Data Engineering & AI",
+    "kind": "points",
+    "text": "AI and data engineering are becoming teammates in compliance work, not replacements for the humans who own it.",
+    "items": [
+      "Automating generation of validation evidence",
+      "Continuous, automated data-quality monitoring",
+      "GenAI-assisted documentation and reporting",
+      "Agentic automation of repetitive compliance tasks, under human review"
+    ]
+  },
+  {
+    "title": "Summary",
+    "kind": "summary",
+    "takeaways": [
+      "ALCOA+ is the test every trustworthy dataset should pass",
+      "Digital transformation only works if data integrity comes first",
+      "Governance and validation aren't red tape — they're what makes automation safe",
+      "GenAI and agentic tools are becoming teammates in compliance work, not replacements for it"
+    ]
+  },
+  {
+    "title": "References",
+    "kind": "references",
+    "items": [
+      "FDA — Data Integrity guidance for industry",
+      "ISPE GAMP 5 — guide for validating computerized systems"
+    ]
+  }
+],
+  quiz:[
+    {q:'ALCOA+ is a set of principles ensuring data is:', options:['Attributable, Legible, Contemporaneous, Original, Accurate (plus Complete, Consistent, Enduring, Available)','Cheap, Fast, Simple','Encrypted only','Marketing-ready'], a:0},
+    {q:'21 CFR Part 11 governs:', options:['Electronic records and electronic signatures','Drug pricing','Patient recruitment','Molecule screening'], a:0},
+    {q:'An audit trail primarily provides:', options:['A record of who changed what data and when','A marketing report','A manufacturing batch number','A patient consent form'], a:0},
+    {q:'Data lineage refers to:', options:['The origin and transformation history of a piece of data','A company\'s org chart','A drug\'s chemical structure','A patient\'s family history'], a:0},
+    {q:'Computer System Validation (CSV) exists to:', options:['Prove a system consistently does what it\'s intended to do','Speed up hiring','Replace clinical trials','Set drug prices'], a:0},
+    {q:'Digital transformation in life sciences often involves:', options:['Avoiding all new technology','Migrating legacy systems to cloud platforms and automating manual work','Removing all compliance checks','Ignoring data quality'], a:1},
+    {q:'Data governance is best described as:', options:['The policies and accountability structures that manage data as an asset','A type of adverse event','A clinical trial phase','A manufacturing certificate'], a:0},
+    {q:'RPA stands for:', options:['Robotic Process Automation','Regulatory Process Approval','Real Patient Analytics','Rapid Protocol Amendment'], a:0},
+    {q:'A key challenge in digital transformation projects is:', options:['Too little legacy technology','Balancing innovation speed with validation and compliance requirements','No data exists','Excess simplicity'], a:1},
+    {q:'How can GenAI/agentic AI best support data integrity work?', options:['By replacing all human oversight entirely','By automating documentation, quality monitoring and repetitive compliance tasks under human review','By eliminating audit trails','By removing the need for governance'], a:1}
+  ]
+}
+];
 
-        // ========================================
-        // COURSE MANAGEMENT
-        // ========================================
-        function openCourse(courseName) {
-            document.getElementById('courseDetailTitle').textContent = courseName;
-            document.getElementById('courseDetailDescription').textContent = 'Explore the comprehensive learning content for ' + courseName + '.';
-            showPage('courseDetailPage');
-        }
+const ACCENTS = { mint:'#5EEAD4', pink:'#f472b6', violet:'#a78bfa', blue:'#60a5fa' };
 
-        function goBackToDashboard() {
-            showPage('dashboardPage');
-        }
+/* ---------------------------------------------------------------------
+   2. STATE & PERSISTENCE
+   --------------------------------------------------------------------- */
+const STORAGE_KEY = 'excelra_lsr_progress_v1';
+let session = { name:'', role:'user' };
 
-        // ========================================
-        // LOGOUT FUNCTIONALITY
-        // ========================================
-        function logout() {
-            currentUserRole = null;
-            showPage('loginPage');
-        }
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  const p = {};
+  COURSES.forEach(function(c){ p[c.id] = { done:[], checks:{}, quizScore:null, completed:false, points:0 }; });
+  return p;
+}
+let progress = loadProgress();
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }catch(e){}
+}
+function totalPoints(){
+  let sum = 0;
+  COURSES.forEach(function(c){ sum += (progress[c.id] && progress[c.id].points) || 0; });
+  return sum;
+}
+function levelFor(pts){ return Math.floor(pts/50)+1; }
 
-        // ========================================
-        // KEYBOARD SHORTCUTS
-        // ========================================
-        document.addEventListener('keydown', function(event) {
-            // Escape key to go back
-            if (event.key === 'Escape') {
-                const activePage = document.querySelector('.page.active').id;
-                if (activePage === 'courseDetailPage') {
-                    goBackToDashboard();
-                } else if (activePage === 'dashboardPage') {
-                    logout();
-                }
-            }
-        });
+/* ---------------------------------------------------------------------
+   3. TOASTS
+   --------------------------------------------------------------------- */
+function toast(msg, icon){
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.innerHTML = '<span class="ic">'+(icon||'✨')+'</span><span>'+msg+'</span>';
+  document.getElementById('toast-container').appendChild(el);
+  setTimeout(function(){ el.style.transition='opacity .4s'; el.style.opacity='0'; setTimeout(function(){ el.remove(); }, 420); }, 2600);
+}
 
-        // ========================================
-        // INITIALIZATION
-        // ========================================
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('[v0] Excelra Life Sciences Learning Repository initialized successfully');
-        });
-    </script>
+/* ---------------------------------------------------------------------
+   4. THREE.JS — DNA HELIX BACKGROUND
+   --------------------------------------------------------------------- */
+let dnaScene, dnaCamera, dnaRenderer, dnaGroup, dnaMouse = {x:0,y:0}, dnaTargetRotY=0, dnaTargetRotX=0;
+const REDUCE_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function initDNA(){
+  const canvas = document.getElementById('bg-canvas');
+  dnaScene = new THREE.Scene();
+  dnaScene.fog = new THREE.FogExp2(0x070a0f, 0.045);
+
+  dnaCamera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 0.1, 100);
+  dnaCamera.position.set(0, 0, 26);
+
+  dnaRenderer = new THREE.WebGLRenderer({ canvas:canvas, antialias:true, alpha:true });
+  dnaRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  dnaRenderer.setSize(window.innerWidth, window.innerHeight);
+
+  const ambient = new THREE.AmbientLight(0x223333, 1.1);
+  dnaScene.add(ambient);
+  const pl1 = new THREE.PointLight(0x5EEAD4, 2.2, 60);
+  pl1.position.set(10, 14, 16);
+  dnaScene.add(pl1);
+  const pl2 = new THREE.PointLight(0xf472b6, 2.0, 60);
+  pl2.position.set(-12, -10, 14);
+  dnaScene.add(pl2);
+  const pl3 = new THREE.PointLight(0xa78bfa, 1.4, 60);
+  pl3.position.set(0, 0, -10);
+  dnaScene.add(pl3);
+
+  dnaGroup = new THREE.Group();
+  dnaScene.add(dnaGroup);
+
+  const PAIRS = 44;
+  const RADIUS = 4.4;
+  const HEIGHT = 30;
+  const TURNS = 3.4;
+  const colorA = new THREE.Color(0x5EEAD4);
+  const colorB = new THREE.Color(0xf472b6);
+  const sphereGeo = new THREE.SphereGeometry(0.34, 16, 16);
+  const rungGeo = new THREE.CylinderGeometry(0.055, 0.055, RADIUS*2, 8);
+
+  for(let i=0;i<PAIRS;i++){
+    const t = i/(PAIRS-1);
+    const angle = t*Math.PI*2*TURNS;
+    const y = (t-0.5)*HEIGHT;
+    const x1 = Math.cos(angle)*RADIUS, z1 = Math.sin(angle)*RADIUS;
+    const x2 = Math.cos(angle+Math.PI)*RADIUS, z2 = Math.sin(angle+Math.PI)*RADIUS;
+    const mixColor = colorA.clone().lerp(colorB, (Math.sin(t*Math.PI*4)+1)/2);
+
+    const mat1 = new THREE.MeshStandardMaterial({ color: colorA, emissive: colorA, emissiveIntensity:0.55, roughness:0.35, metalness:0.25 });
+    const mat2 = new THREE.MeshStandardMaterial({ color: colorB, emissive: colorB, emissiveIntensity:0.55, roughness:0.35, metalness:0.25 });
+
+    const s1 = new THREE.Mesh(sphereGeo, mat1);
+    s1.position.set(x1,y,z1);
+    dnaGroup.add(s1);
+
+    const s2 = new THREE.Mesh(sphereGeo, mat2);
+    s2.position.set(x2,y,z2);
+    dnaGroup.add(s2);
+
+    if(i % 2 === 0){
+      const rungMat = new THREE.MeshStandardMaterial({ color: mixColor, emissive: mixColor, emissiveIntensity:0.3, roughness:0.5, transparent:true, opacity:0.55 });
+      const rung = new THREE.Mesh(rungGeo, rungMat);
+      rung.position.set((x1+x2)/2, y, (z1+z2)/2);
+      const dir = new THREE.Vector3(x2-x1, 0, z2-z1);
+      rung.rotation.z = Math.PI/2;
+      rung.rotation.y = Math.atan2(dir.z, dir.x);
+      rung.scale.set(1, RADIUS*2/ (RADIUS*2), 1);
+      dnaGroup.add(rung);
+    }
+  }
+
+  window.addEventListener('resize', onDnaResize);
+  window.addEventListener('mousemove', onDnaMouseMove);
+  animateDNA();
+}
+
+function onDnaResize(){
+  dnaCamera.aspect = window.innerWidth/window.innerHeight;
+  dnaCamera.updateProjectionMatrix();
+  dnaRenderer.setSize(window.innerWidth, window.innerHeight);
+}
+function onDnaMouseMove(e){
+  dnaMouse.x = (e.clientX/window.innerWidth)*2-1;
+  dnaMouse.y = (e.clientY/window.innerHeight)*2-1;
+  dnaTargetRotY = dnaMouse.x*0.35;
+  dnaTargetRotX = dnaMouse.y*0.18;
+}
+function animateDNA(){
+  requestAnimationFrame(animateDNA);
+  const spin = REDUCE_MOTION ? 0.0004 : 0.0026;
+  dnaGroup.rotation.y += spin;
+  dnaGroup.rotation.y += (dnaTargetRotY - 0)*0.0015;
+  dnaGroup.rotation.x += (dnaTargetRotX - dnaGroup.rotation.x)*0.03;
+  dnaCamera.position.x += ((dnaMouse.x*2) - dnaCamera.position.x)*0.01;
+  dnaCamera.position.y += ((-dnaMouse.y*1.2) - dnaCamera.position.y)*0.01;
+  dnaCamera.lookAt(0,0,0);
+  dnaRenderer.render(dnaScene, dnaCamera);
+}
+
+/* ---------------------------------------------------------------------
+   5. LOGIN FLOW
+   --------------------------------------------------------------------- */
+const ADMIN_USERNAME = 'Admin';
+const ADMIN_PASSWORD = 'Admin12345';
+
+function doLogin(role, name){
+  session.name = name;
+  session.role = role;
+
+  document.getElementById('screen-login').classList.add('hidden');
+  document.getElementById('app-shell').classList.remove('hidden');
+  document.getElementById('bg-wrap').classList.add('dimmed');
+  document.getElementById('bg-veil').classList.add('on');
+
+  document.getElementById('greet-name').textContent = session.name;
+  document.getElementById('pill-role').textContent = role === 'admin' ? 'Admin' : 'Learner';
+  const totalModules = COURSES.reduce(function(sum,c){ return sum + c.modules.length; }, 0);
+  document.getElementById('stat-modules').textContent = totalModules;
+  if(role === 'admin'){
+    document.getElementById('nav-admin-link').classList.remove('hidden');
+    renderAdminTable();
+  }
+  renderCourseGrid();
+  renderHomeCourseList();
+  toast('Welcome, '+session.name+'.', '👋');
+  goToView('home');
+}
+
+/* -------- login step navigation -------- */
+function showLoginStep(step){
+  document.getElementById('login-step-role').classList.toggle('hidden', step!=='role');
+  document.getElementById('login-step-user').classList.toggle('hidden', step!=='user');
+  document.getElementById('login-step-admin').classList.toggle('hidden', step!=='admin');
+}
+document.getElementById('btn-role-user').addEventListener('click', function(){
+  showLoginStep('user');
+  document.getElementById('learner-name').focus();
+});
+document.getElementById('btn-role-admin').addEventListener('click', function(){
+  showLoginStep('admin');
+  document.getElementById('admin-username').focus();
+});
+document.getElementById('user-step-back').addEventListener('click', function(){ showLoginStep('role'); });
+document.getElementById('admin-step-back').addEventListener('click', function(){ showLoginStep('role'); document.getElementById('admin-error').classList.add('hidden'); });
+
+function submitLearner(){
+  const name = document.getElementById('learner-name').value.trim();
+  const err = document.getElementById('user-error');
+  if(!name){ err.classList.remove('hidden'); return; }
+  err.classList.add('hidden');
+  doLogin('user', name);
+}
+document.getElementById('btn-user-continue').addEventListener('click', submitLearner);
+document.getElementById('learner-name').addEventListener('keydown', function(e){ if(e.key==='Enter'){ submitLearner(); } });
+
+function submitAdmin(){
+  const u = document.getElementById('admin-username').value.trim();
+  const p = document.getElementById('admin-password').value;
+  const err = document.getElementById('admin-error');
+  if(u === ADMIN_USERNAME && p === ADMIN_PASSWORD){
+    err.classList.add('hidden');
+    doLogin('admin', 'Admin');
+  } else {
+    err.classList.remove('hidden');
+  }
+}
+document.getElementById('btn-admin-continue').addEventListener('click', submitAdmin);
+document.getElementById('admin-password').addEventListener('keydown', function(e){ if(e.key==='Enter'){ submitAdmin(); } });
+document.getElementById('admin-username').addEventListener('keydown', function(e){ if(e.key==='Enter'){ submitAdmin(); } });
+
+document.getElementById('btn-logout').addEventListener('click', function(){
+  document.getElementById('app-shell').classList.add('hidden');
+  document.getElementById('screen-login').classList.remove('hidden');
+  document.getElementById('bg-wrap').classList.remove('dimmed');
+  document.getElementById('bg-veil').classList.remove('on');
+  document.getElementById('nav-admin-link').classList.add('hidden');
+  document.getElementById('learner-name').value = '';
+  document.getElementById('admin-username').value = '';
+  document.getElementById('admin-password').value = '';
+  showLoginStep('role');
+  location.hash = '';
+});
+
+/* -------- page routing (Home / Courses / About / Admin) -------- */
+const VIEW_IDS = ['home','courses','about','admin-panel'];
+function goToView(id){
+  if(id === 'admin-panel' && session.role !== 'admin'){ id = 'home'; }
+  location.hash = '#/'+id;
+}
+function showView(id){
+  if(id === 'admin-panel' && session.role !== 'admin'){ id = 'home'; }
+  VIEW_IDS.forEach(function(v){ document.getElementById(v).classList.toggle('active', v===id); });
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('[data-route]').forEach(function(el){
+  el.addEventListener('click', function(){ goToView(el.getAttribute('data-route')); });
+});
+
+function updateGamificationPills(){
+  let completed = 0;
+  COURSES.forEach(function(c){ if(progress[c.id] && progress[c.id].completed) completed++; });
+  document.getElementById('stat-completed').textContent = completed;
+}
+
+/* -------- home page: what's inside list -------- */
+function renderHomeCourseList(){
+  const list = document.getElementById('home-course-list');
+  list.innerHTML = '';
+  COURSES.forEach(function(course){
+    const row = document.createElement('div');
+    row.className = 'home-course-row';
+    row.style.setProperty('--accent-color', ACCENTS[course.accent]);
+    row.innerHTML =
+      '<span class="hnum mono">'+course.num+'</span>'+
+      '<div class="hicon">'+course.icon+'</div>'+
+      '<div class="htext"><h4>'+course.title+'</h4><p>'+course.tagline+'</p></div>'+
+      '<span class="harrow">→</span>';
+    row.addEventListener('click', function(){ location.hash = '#/course/'+course.id; });
+    list.appendChild(row);
+  });
+}
+
+/* ---------------------------------------------------------------------
+   6. DASHBOARD — COURSE GRID
+   --------------------------------------------------------------------- */
+function renderCourseGrid(){
+  const grid = document.getElementById('course-grid');
+  grid.innerHTML = '';
+  COURSES.forEach(function(course){
+    const card = document.createElement('div');
+    card.className = 'course-card';
+    card.style.setProperty('--accent-color', ACCENTS[course.accent]);
+    card.innerHTML =
+      '<div class="num mono">'+course.num+' · '+course.modules.length+' MODULES</div>'+
+      '<div class="course-icon">'+course.icon+'</div>'+
+      '<h3>'+course.title+'</h3>'+
+      '<p class="tagline">'+course.tagline+'</p>'+
+      '<div class="course-meta"><span>30–45 MIN</span></div>'+
+      '<div class="course-cta"><span>View course</span><span>→</span></div>';
+    card.addEventListener('click', function(){ location.hash = '#/course/'+course.id; });
+    grid.appendChild(card);
+  });
+}
+
+/* ---------------------------------------------------------------------
+   7. ADMIN TABLE (illustrative demo data)
+   --------------------------------------------------------------------- */
+const DEMO_BATCH = [
+  {name:'Ishaan Verma', topicIdx:0, pct:100, status:'Completed'},
+  {name:'Priya Nair', topicIdx:1, pct:80, status:'In progress'},
+  {name:'Rohan Gupta', topicIdx:2, pct:60, status:'In progress'},
+  {name:'Sneha Kulkarni', topicIdx:3, pct:100, status:'Completed'},
+  {name:'Aarav Shah', topicIdx:4, pct:30, status:'In progress'},
+  {name:'Meera Iyer', topicIdx:5, pct:0, status:'Not started'},
+  {name:'Kabir Malhotra', topicIdx:6, pct:90, status:'In progress'}
+];
+function renderAdminTable(){
+  const tbody = document.getElementById('admin-tbody');
+  tbody.innerHTML = '';
+  DEMO_BATCH.forEach(function(row){
+    const course = COURSES[row.topicIdx];
+    const tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td>'+row.name+'</td>'+
+      '<td>'+course.title+'</td>'+
+      '<td><span class="mini-bar"><span style="width:'+row.pct+'%"></span></span>'+row.pct+'%</td>'+
+      '<td>'+row.status+'</td>';
+    tbody.appendChild(tr);
+  });
+  const you = document.createElement('tr');
+  const completedCount = COURSES.filter(function(c){ return progress[c.id] && progress[c.id].completed; }).length;
+  const pctYou = Math.round((completedCount/COURSES.length)*100);
+  you.innerHTML = '<td>'+session.name+' (you)</td><td>All 7 courses</td>'+
+    '<td><span class="mini-bar"><span style="width:'+pctYou+'%"></span></span>'+pctYou+'%</td>'+
+    '<td>'+(pctYou===100?'Completed':'Not started')+'</td>';
+  tbody.appendChild(you);
+}
+
+/* ---------------------------------------------------------------------
+   8. COURSE PLAYER
+   --------------------------------------------------------------------- */
+let currentCourseId = null;
+
+function findCourse(id){ return COURSES.find(function(c){ return c.id===id; }); }
+
+function openCourse(id, pushHash){
+  const course = findCourse(id);
+  if(!course) return;
+  currentCourseId = id;
+  if(pushHash !== false) location.hash = '#/course/'+id;
+
+  document.getElementById('player-course-title').textContent = course.title;
+  document.getElementById('player-course-tag').textContent = course.tagline;
+  document.getElementById('course-player').classList.remove('hidden');
+  document.getElementById('course-player').style.setProperty('--accent-color', ACCENTS[course.accent]);
+
+  renderSidebar(course);
+  renderModule(course, 0);
+  updatePlayerHeader(course);
+}
+
+function closeCoursePlayer(clearHash){
+  document.getElementById('course-player').classList.add('hidden');
+  currentCourseId = null;
+  if(clearHash !== false) goToView('courses');
+  renderCourseGrid();
+}
+document.getElementById('btn-back-dash').addEventListener('click', function(){ closeCoursePlayer(); });
+
+function updatePlayerHeader(course){
+  document.getElementById('player-progress-fill').style.width = '0%';
+  document.getElementById('player-progress-label').textContent = course.modules.length+' modules';
+  document.getElementById('player-points').textContent = 'Content coming soon';
+}
+
+function renderSidebar(course){
+  const sb = document.getElementById('player-sidebar');
+  sb.innerHTML = '';
+  const intro = document.createElement('div');
+  intro.className = 'sidebar-intro';
+  intro.innerHTML = '<div class="tagline">'+course.tagline+'</div>'+
+    '<ul>'+course.objectives.map(function(o){ return '<li>'+o+'</li>'; }).join('')+'</ul>';
+  sb.appendChild(intro);
+  course.modules.forEach(function(mod, i){
+    const item = document.createElement('div');
+    item.className = 'sb-item';
+    item.innerHTML = '<span class="sb-index">'+(i+1)+'</span><span>'+mod.title+'</span>';
+    item.addEventListener('click', function(){ renderModule(course, i); });
+    sb.appendChild(item);
+  });
+}
+
+function markActiveSidebar(index){
+  document.querySelectorAll('#player-sidebar .sb-item').forEach(function(el, i){
+    el.classList.toggle('active', i===index);
+  });
+}
+
+/* -------- module body renderers -------- */
+function renderModuleBody(course, mod){
+  let html = '';
+  if(mod.kind === 'text'){
+    html += '<div class="body-text">'+mod.text+'</div>';
+    if(mod.title === 'Introduction'){
+      html += '<ul class="objectives-list">'+course.objectives.map(function(o){ return '<li>'+o+'</li>'; }).join('')+'</ul>';
+    }
+  } else if(mod.kind === 'process'){
+    html += '<div class="body-text">'+mod.text+'</div>';
+    html += '<div class="flow-row">'+mod.stages.map(function(s,i){
+      return '<div class="flow-step">'+s+'</div>'+(i<mod.stages.length-1?'<span class="flow-arrow">→</span>':'');
+    }).join('')+'</div>';
+    html += '<div class="io-grid">'+
+      '<div class="io-box"><div class="lab">Inputs</div><p>'+mod.inputs+'</p></div>'+
+      '<div class="io-box"><div class="lab">Outputs</div><p>'+mod.outputs+'</p></div>'+
+    '</div>';
+  } else if(mod.kind === 'glossary'){
+    html += '<div class="glossary-grid">'+mod.terms.map(function(g){
+      return '<div class="gloss-item"><div class="term">'+g.t+'</div><div class="def">'+g.d+'</div></div>';
+    }).join('')+'</div>';
+  } else if(mod.kind === 'people'){
+    html += '<div class="people-list">'+mod.roles.map(function(r){
+      const initials = r.role.split(' ').map(function(w){return w[0];}).slice(0,2).join('');
+      return '<div class="people-item"><div class="people-avatar">'+initials+'</div><div><div class="role">'+r.role+'</div><div class="desc">'+r.desc+'</div></div></div>';
+    }).join('')+'</div>';
+    html += '<div class="consumer-note">'+mod.consumers+'</div>';
+  } else if(mod.kind === 'tags'){
+    html += '<div class="body-text">'+mod.text+'</div>';
+    html += mod.groups.map(function(g){
+      return '<div class="tag-group"><div class="glab">'+g.label+'</div><div class="tag-row">'+
+        g.items.map(function(it){ return '<span class="tag-chip">'+it+'</span>'; }).join('')+'</div></div>';
+    }).join('');
+  } else if(mod.kind === 'data'){
+    html += '<div class="body-text">'+mod.text+'</div>';
+    html += '<div class="io-grid">'+
+      '<div class="io-box"><div class="lab">Structured Data</div><p>'+mod.structured+'</p></div>'+
+      '<div class="io-box"><div class="lab">Unstructured Data</div><p>'+mod.unstructured+'</p></div>'+
+    '</div>';
+    html += '<div class="tag-group" style="margin-top:20px;"><div class="glab">Common File Formats</div><div class="tag-row">'+
+      mod.formats.map(function(it){ return '<span class="tag-chip">'+it+'</span>'; }).join('')+'</div></div>';
+    html += '<div class="two-col" style="grid-template-columns:1fr; margin-top:20px;"><div><h4>Typical Data Quality Challenges</h4><ul>'+
+      mod.challenges.map(function(c){return '<li>'+c+'</li>';}).join('')+'</ul></div></div>';
+  } else if(mod.kind === 'points'){
+    html += '<div class="body-text">'+mod.text+'</div>';
+    html += '<ul class="objectives-list">'+mod.items.map(function(it){ return '<li>'+it+'</li>'; }).join('')+'</ul>';
+  } else if(mod.kind === 'summary'){
+    html += '<div class="summary-box"><h4>Key Takeaways</h4><ul class="objectives-list">'+mod.takeaways.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></div>';
+  } else if(mod.kind === 'references'){
+    html += '<div class="summary-box"><h4>Recommended Further Reading & References</h4><ul class="objectives-list">'+mod.items.map(function(r){return '<li>'+r+'</li>';}).join('')+'</ul></div>';
+  }
+  return html;
+}
+
+function renderModule(course, index){
+  markActiveSidebar(index);
+  const mod = course.modules[index];
+  const main = document.getElementById('player-main');
+  let html = '<div class="mod-eyebrow">MODULE '+(index+1)+' OF '+course.modules.length+'</div>';
+  html += '<h2>'+mod.title+'</h2>';
+  html += '<div class="placeholder-card">'+
+    '<div class="ic">🔗</div>'+
+    '<p>Course content for this module is coming soon.</p>'+
+    '<p class="sub">This space will hold the full lesson — and a link to the complete '+course.title+' material — once it\'s added.</p>'+
+  '</div>';
+  html += '<div class="module-actions">'+
+    '<button class="nav-arrow-btn" id="mod-prev" '+(index===0?'disabled':'')+'>← Previous</button>'+
+    '<button class="nav-arrow-btn" id="mod-next" '+(index===course.modules.length-1?'disabled':'')+'>Next →</button>'+
+  '</div>';
+
+  main.innerHTML = html;
+  main.scrollTop = 0;
+
+  if(index>0){
+    document.getElementById('mod-prev').addEventListener('click', function(){ renderModule(course, index-1); });
+  }
+  if(index<course.modules.length-1){
+    document.getElementById('mod-next').addEventListener('click', function(){ renderModule(course, index+1); });
+  }
+}
+
+/* ---------------------------------------------------------------------
+   9. FINAL ASSESSMENT MODAL
+   --------------------------------------------------------------------- */
+function openAssessment(course){
+  const backdrop = document.createElement('div');
+  backdrop.className = 'modal-backdrop';
+  backdrop.id = 'assess-backdrop';
+  const answers = new Array(course.quiz.length).fill(null);
+
+  function buildForm(){
+    let html = '<div class="modal-card"><h2>'+course.title+' — Final Assessment</h2>'+
+      '<div class="sub">'+course.quiz.length+' questions · pass with 70% or higher</div>';
+    course.quiz.forEach(function(q, qi){
+      html += '<div class="q-block"><div class="q-num">QUESTION '+(qi+1)+'</div><div class="q-text">'+q.q+'</div>'+
+        '<div class="opt-list" data-qi="'+qi+'">'+q.options.map(function(o,oi){
+          return '<button class="opt-btn" data-qi="'+qi+'" data-oi="'+oi+'">'+o+'</button>';
+        }).join('')+'</div></div>';
+    });
+    html += '<div class="modal-actions"><button class="btn-secondary" id="assess-cancel">Cancel</button>'+
+      '<button class="btn-complete" id="assess-submit" disabled>Submit answers</button></div></div>';
+    backdrop.innerHTML = html;
+
+    backdrop.querySelectorAll('.opt-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        const qi = parseInt(btn.getAttribute('data-qi'));
+        const oi = parseInt(btn.getAttribute('data-oi'));
+        answers[qi] = oi;
+        backdrop.querySelectorAll('.opt-list[data-qi="'+qi+'"] .opt-btn').forEach(function(b){ b.style.borderColor = ''; b.style.background=''; });
+        btn.style.borderColor = 'var(--mint)';
+        btn.style.background = 'rgba(94,234,212,.12)';
+        const submitBtn = document.getElementById('assess-submit');
+        submitBtn.disabled = answers.some(function(a){ return a===null; });
+      });
+    });
+    document.getElementById('assess-cancel').addEventListener('click', function(){ backdrop.remove(); });
+    document.getElementById('assess-submit').addEventListener('click', function(){ gradeAssessment(course, answers, backdrop); });
+  }
+  buildForm();
+  document.body.appendChild(backdrop);
+}
+
+function gradeAssessment(course, answers, backdrop){
+  let score = 0;
+  course.quiz.forEach(function(q,i){ if(answers[i]===q.a) score++; });
+  const pct = Math.round((score/course.quiz.length)*100);
+  const pass = pct >= 70;
+  const p = progress[course.id];
+  p.quizScore = score;
+  if(pass && !p.completed){
+    p.completed = true;
+    p.points += 30;
+    saveProgress();
+    toast(course.title+' completed! +30 points.', '🏆');
+  } else {
+    saveProgress();
+  }
+  updateGamificationPills();
+  updatePlayerHeader(course);
+  renderSidebar(course);
+
+  backdrop.innerHTML = '<div class="modal-card">'+
+    '<div class="score-hero">'+
+      '<div class="big">'+score+' / '+course.quiz.length+'</div>'+
+      '<div class="verdict '+(pass?'pass':'fail')+'">'+(pass ? '✓ Passed — course complete' : 'Not yet — 70% needed to pass') +'</div>'+
+    '</div>'+
+    '<div class="modal-actions">'+
+      (pass
+        ? '<button class="btn-secondary" id="assess-close">Close</button><button class="btn-complete" id="assess-cert">View certificate 🎓</button>'
+        : '<button class="btn-secondary" id="assess-close">Close</button><button class="btn-complete" id="assess-retry">Retake assessment</button>')+
+    '</div></div>';
+  document.getElementById('assess-close').addEventListener('click', function(){ backdrop.remove(); renderCourseGrid(); });
+  if(pass){
+    document.getElementById('assess-cert').addEventListener('click', function(){ backdrop.remove(); showCertificate(course); });
+  } else {
+    document.getElementById('assess-retry').addEventListener('click', function(){ backdrop.remove(); openAssessment(course); });
+  }
+}
+
+/* ---------------------------------------------------------------------
+   10. CERTIFICATE GENERATION
+   --------------------------------------------------------------------- */
+function showCertificate(course){
+  const backdrop = document.createElement('div');
+  backdrop.className = 'modal-backdrop';
+  backdrop.innerHTML = '<div class="modal-card" style="max-width:720px;">'+
+    '<h2>Certificate of Completion</h2>'+
+    '<div class="sub">Right-click or use the button below to save your certificate.</div>'+
+    '<canvas id="cert-canvas" width="1000" height="620"></canvas>'+
+    '<div class="modal-actions"><button class="btn-secondary" id="cert-close">Close</button>'+
+    '<button class="btn-complete" id="cert-download">Download PNG</button></div></div>';
+  document.body.appendChild(backdrop);
+
+  const canvas = document.getElementById('cert-canvas');
+  const ctx = canvas.getContext('2d');
+  const accent = ACCENTS[course.accent];
+
+  ctx.fillStyle = '#0c121a';
+  ctx.fillRect(0,0,1000,620);
+  const grad = ctx.createLinearGradient(0,0,1000,620);
+  grad.addColorStop(0,'#5EEAD4'); grad.addColorStop(0.55,'#f472b6'); grad.addColorStop(1,'#a78bfa');
+  ctx.strokeStyle = grad; ctx.lineWidth = 6;
+  ctx.strokeRect(18,18,964,584);
+  ctx.strokeStyle = 'rgba(255,255,255,.25)'; ctx.lineWidth = 1;
+  ctx.strokeRect(34,34,932,552);
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#eef6f4';
+  ctx.font = '600 22px "Space Grotesk", sans-serif';
+  ctx.fillText('E X C E L R A', 500, 100);
+  ctx.font = '400 13px "IBM Plex Mono", monospace';
+  ctx.fillStyle = '#8fa39f';
+  ctx.fillText('LIFE SCIENCES LEARNING REPOSITORY · FRESHER EDITION', 500, 126);
+
+  ctx.font = '400 15px "IBM Plex Mono", monospace';
+  ctx.fillStyle = accent;
+  ctx.fillText('CERTIFICATE OF COMPLETION', 500, 210);
+
+  ctx.font = '700 42px "Space Grotesk", sans-serif';
+  ctx.fillStyle = '#ffffff';
+  ctx.fillText(session.name || 'Guest Learner', 500, 280);
+
+  ctx.font = '400 16px "IBM Plex Sans", sans-serif';
+  ctx.fillStyle = '#c3d0cd';
+  ctx.fillText('has successfully completed', 500, 320);
+
+  ctx.font = '600 28px "Space Grotesk", sans-serif';
+  ctx.fillStyle = accent;
+  ctx.fillText(course.title, 500, 365);
+
+  ctx.font = '400 14px "IBM Plex Sans", sans-serif';
+  ctx.fillStyle = '#8fa39f';
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+  ctx.fillText('Score: '+ (progress[course.id].quizScore) +' / 10   ·   Issued '+dateStr, 500, 400);
+
+  ctx.font = '400 12px "IBM Plex Mono", monospace';
+  ctx.fillStyle = '#5a6f6b';
+  ctx.fillText('Where data means more.', 500, 560);
+
+  document.getElementById('cert-close').addEventListener('click', function(){ backdrop.remove(); });
+  document.getElementById('cert-download').addEventListener('click', function(){
+    const link = document.createElement('a');
+    link.download = 'excelra-certificate-'+course.id+'.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+}
+
+/* ---------------------------------------------------------------------
+   11. ROUTING
+   --------------------------------------------------------------------- */
+function route(){
+  if(document.getElementById('app-shell').classList.contains('hidden')) return; // still on login, ignore hash routes
+
+  const h = location.hash;
+  if(h.indexOf('#/course/') === 0){
+    const id = h.replace('#/course/','');
+    if(findCourse(id)){
+      document.getElementById('course-player').classList.remove('hidden');
+      openCourse(id, false);
+      return;
+    }
+  }
+  document.getElementById('course-player').classList.add('hidden');
+  currentCourseId = null;
+
+  let viewId = h.replace('#/','');
+  if(VIEW_IDS.indexOf(viewId) === -1) viewId = 'home';
+  showView(viewId);
+}
+window.addEventListener('hashchange', route);
+
+/* ---------------------------------------------------------------------
+   12. INIT
+   --------------------------------------------------------------------- */
+initDNA();
+</script>
 </body>
 </html>

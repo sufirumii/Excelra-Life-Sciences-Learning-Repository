@@ -35,6 +35,7 @@
 }
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}
+html{ font-size:18.5px; }
 body{
   background:var(--void);
   color:var(--ink);
@@ -42,6 +43,7 @@ body{
   min-height:100vh;
   overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
+  line-height:1.5;
 }
 h1,h2,h3,h4{font-family:var(--font-display); margin:0; letter-spacing:-0.01em;}
 p{margin:0;}
@@ -82,6 +84,7 @@ button{font-family:var(--font-body); cursor:pointer;}
 /* ============ LOGIN ============ */
 .login-card{
   position:relative;
+  z-index:2;
   width:100%; max-width:460px;
   background:linear-gradient(180deg, rgba(17,25,37,.72), rgba(12,18,26,.82));
   border:1px solid var(--line);
@@ -133,11 +136,9 @@ button{font-family:var(--font-body); cursor:pointer;}
   font-size:.8rem; color:var(--danger); margin:-6px 0 14px; display:flex; align-items:center; gap:6px;
 }
 .login-side-art{
-  position:fixed; left:0; top:50%; transform:translateY(-50%);
-  width:min(30vw, 380px); max-height:78vh; z-index:1; pointer-events:none;
-  opacity:.9;
-  -webkit-mask-image:linear-gradient(to right, black 60%, transparent 100%);
-  mask-image:linear-gradient(to right, black 60%, transparent 100%);
+  position:fixed; left:-70px; top:50%; transform:translateY(-50%);
+  width:min(46vw, 620px); max-height:88vh; z-index:1; pointer-events:none;
+  filter: drop-shadow(0 0 70px rgba(94,234,212,.22));
 }
 .login-side-art img{ width:100%; height:auto; display:block; }
 
@@ -213,11 +214,10 @@ button{font-family:var(--font-body); cursor:pointer;}
 /* HOME — WHAT'S INSIDE */
 .home-course-list{ display:flex; flex-direction:column; gap:2px; margin-top:20px; }
 .home-course-row{
-  display:flex; align-items:center; gap:20px; padding:20px 18px; border-radius:14px; cursor:pointer;
-  border:1px solid transparent; transition:background .18s, border-color .18s;
+  display:flex; align-items:flex-start; gap:20px; padding:20px 18px; border-radius:14px;
+  border:1px solid var(--line); background:rgba(255,255,255,.02);
 }
-.home-course-row:hover{ background:rgba(255,255,255,.035); border-color:var(--line); }
-.home-course-row .hnum{ font-family:var(--font-mono); font-size:.78rem; color:var(--muted); width:26px; flex-shrink:0; }
+.home-course-row .hnum{ font-family:var(--font-mono); font-size:.78rem; color:var(--muted); width:26px; flex-shrink:0; margin-top:2px; }
 .home-course-row .hicon{
   width:44px; height:44px; border-radius:11px; display:flex; align-items:center; justify-content:center;
   flex-shrink:0; background:color-mix(in srgb, var(--accent-color, var(--mint)) 16%, transparent);
@@ -225,10 +225,8 @@ button{font-family:var(--font-body); cursor:pointer;}
 }
 .home-course-row .hicon svg{ width:22px; height:22px; }
 .home-course-row .htext{ flex-grow:1; }
-.home-course-row .htext h4{ font-size:1rem; margin-bottom:4px; }
-.home-course-row .htext p{ font-size:.85rem; color:var(--ink-dim); line-height:1.5; margin:0; }
-.home-course-row .harrow{ color:var(--ink-dim); flex-shrink:0; transition:transform .18s; }
-.home-course-row:hover .harrow{ transform:translateX(4px); color:var(--mint); }
+.home-course-row .htext h4{ font-size:1.05rem; margin-bottom:5px; }
+.home-course-row .htext p{ font-size:.92rem; color:var(--ink-dim); line-height:1.6; margin:0; }
 
 /* COURSE GRID */
 .course-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:20px; }
@@ -265,6 +263,11 @@ button{font-family:var(--font-body); cursor:pointer;}
 }
 
 /* ABOUT */
+.about-logo-card{
+  display:inline-flex; align-items:center; background:#ffffff; border-radius:14px;
+  padding:16px 28px; margin-bottom:28px;
+}
+.about-logo-card img{ height:34px; width:auto; display:block; }
 .about-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:48px; align-items:start; }
 .about-grid p{ color:var(--ink-dim); line-height:1.75; font-size:.98rem; margin-bottom:16px; }
 .about-stats{ display:flex; flex-direction:column; gap:16px; }
@@ -578,9 +581,9 @@ footer{ text-align:center; padding:40px 20px 60px; color:var(--muted); font-size
       </div>
 
       <div class="section-head" style="margin-top:80px;">
-        <div class="eyebrow-row"><span class="line"></span><span class="eyebrow" style="margin:0;">What's inside</span></div>
-        <h2>Seven courses, one value chain.</h2>
-        <p>Every course follows the same 12-module flow — introduction, process, terminology, stakeholders, standards, technology, challenges, and more — applied to a different part of the life sciences pipeline. Tap any of them to open it.</p>
+        <div class="eyebrow-row"><span class="line"></span><span class="eyebrow" style="margin:0;">Orientation</span></div>
+        <h2>Get to know the course themes.</h2>
+        <p>Before you dive into a course, here's what each of these seven life sciences terms actually means — general background on the domains themselves, not the course content. Head to Courses when you're ready to start learning.</p>
       </div>
       <div class="home-course-list" id="home-course-list"></div>
     </section>
@@ -597,6 +600,7 @@ footer{ text-align:center; padding:40px 20px 60px; color:var(--muted); font-size
 
     <section id="about" class="section view">
       <div class="page-back-row" style="padding-left:0; padding-top:0; margin-bottom:12px;"><button class="page-back-btn" data-route="home">← Back to Home</button></div>
+      <div class="about-logo-card"><img src="About%20Logo.jpg" alt="Excelra"></div>
       <div class="section-head">
         <div class="eyebrow-row"><span class="line"></span><span class="eyebrow" style="margin:0;">About Excelra</span></div>
         <h2>Where data means more.</h2>
@@ -2434,7 +2438,17 @@ function updateGamificationPills(){
   document.getElementById('stat-completed').textContent = completed;
 }
 
-/* -------- home page: what's inside list -------- */
+/* -------- home page: general orientation on what each domain means -------- */
+const DOMAIN_EXPLAINERS = {
+  'drug-discovery': "The earliest stage of medicine-making — scientists search for and test molecules that might act on a disease target, long before anything is tried in humans.",
+  'drug-lifecycle': "The long regulatory and clinical journey a molecule goes through — from early safety testing to full approval — before it can be sold as a medicine.",
+  'clinical-trials': "Structured, ethical studies in real patients that generate the evidence regulators need to decide whether a treatment is safe and effective.",
+  'clinical-data-management': "The behind-the-scenes discipline of cleaning, checking and standardizing everything a clinical trial collects, so the data can be trusted for analysis.",
+  'pharmacovigilance': "Ongoing monitoring of a medicine's safety after it reaches the market — catching rare side effects that a trial of a few thousand patients could never reveal.",
+  'healthcare-data-standards': "The shared formats and terminologies — like HL7, CDISC, and SNOMED CT — that let different health systems and databases understand each other's data.",
+  'data-integrity': "The practice of keeping data trustworthy end-to-end, while modernizing the legacy tools and manual processes life sciences organizations still rely on."
+};
+
 function renderHomeCourseList(){
   const list = document.getElementById('home-course-list');
   list.innerHTML = '';
@@ -2445,9 +2459,7 @@ function renderHomeCourseList(){
     row.innerHTML =
       '<span class="hnum mono">'+course.num+'</span>'+
       '<div class="hicon">'+course.icon+'</div>'+
-      '<div class="htext"><h4>'+course.title+'</h4><p>'+course.tagline+'</p></div>'+
-      '<span class="harrow">→</span>';
-    row.addEventListener('click', function(){ location.hash = '#/course/'+course.id; });
+      '<div class="htext"><h4>'+course.title+'</h4><p>'+DOMAIN_EXPLAINERS[course.id]+'</p></div>';
     list.appendChild(row);
   });
 }
